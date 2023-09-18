@@ -1,30 +1,7 @@
-import {IScene} from "common/types/scene.interface";
 import {IEngine} from "@engine/custom/types/engine.interface";
-import * as Phaser from 'phaser';
 import {EGraphicsEngine} from "@engine/custom/enums/graphics-engine.enum";
 
-class Scene extends Phaser.Scene {
-
-}
-
-let config = {
-    type: Phaser.AUTO,
-    width: 1280,
-    height: 720,
-    // scene: [],
-    physics: {
-        default: 'arcade',
-        arcade: {
-            debug: false
-        }
-    }
-};
-
-let game = new Phaser.Game(config);
-
-
 export class Engine {
-
     private root$: HTMLElement;
     private ctx: CanvasRenderingContext2D;
 
