@@ -11,6 +11,7 @@ export const createConfig = (options: ConfigOptions): Configuration => {
     return {
         entry: paths.entry,
         mode,
+        devServer: isDev ? devServer(options) : undefined,
         devtool: isDev ? 'inline-source-map' : undefined,
         output: {
             filename: '[name].[contenthash].js',
@@ -22,7 +23,6 @@ export const createConfig = (options: ConfigOptions): Configuration => {
             rules: loaders(options)
         },
         resolve: resolvers(options),
-        devServer: isDev ? devServer(options) : undefined
     }
 
 }

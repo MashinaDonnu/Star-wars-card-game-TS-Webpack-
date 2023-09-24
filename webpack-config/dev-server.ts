@@ -5,12 +5,15 @@ export const devServer = (options: ConfigOptions): DevServerConfiguration => {
     const { port, paths } = options;
 
     return {
-        historyApiFallback: true,
+        // historyApiFallback: true,
         open: true,
         compress: true,
         hot: true,
-        liveReload: true,
-        watchFiles: paths.src,
+        // liveReload: true,
+        static: {
+            directory: paths.src
+            // watch: true
+        },
         port,
     }
 }

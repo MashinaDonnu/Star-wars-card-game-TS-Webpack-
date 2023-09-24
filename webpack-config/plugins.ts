@@ -15,9 +15,6 @@ export const plugins = (options: ConfigOptions) => {
             template: paths.html,
         }),
         new webpack.ProgressPlugin(),
-        new webpack.DefinePlugin({
-            __IS_DEV__: JSON.stringify(isDev),
-        }),
         new webpack.HotModuleReplacementPlugin(),
     ];
 }
