@@ -1,11 +1,12 @@
-import { IGameConfig } from '@modules/Game/types/game-config.interface';
+import { IGameConfig } from '@modules/game/types/game-config.interface';
 import { IEngine } from '@engine';
 import { IAbstractScene } from '@engine/types/scene.interface';
+import { EventEmitter } from '@engine/emitter/EventEmitter';
 
 export class Game {
   private _engine: IEngine;
   private _store: any;
-  private emitter: any;
+  private emitter = new EventEmitter();
   constructor(private config: IGameConfig) {
     this._engine = config.engine;
   }

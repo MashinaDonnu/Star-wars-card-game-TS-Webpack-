@@ -2,9 +2,15 @@ import { EGraphicsEngine } from '@engine/enums/graphics-engine.enum';
 import { IEngine } from '@engine/types/engine.interface';
 import { IEngineConfig } from '@engine/types/engine-config.interface';
 import { IAbstractScene } from '@engine/types/scene.interface';
+import { AbstractScene } from '@engine/scenes/abstract.scene';
+import { EngineLoaders } from '@engine/engine-loaders';
+import { EngineSprites } from '@engine/engine-sprites';
+import { engineData } from '@engine/engine-data';
+
+export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
 export class Engine implements IEngine {
-  context: CanvasRenderingContext2D | WebGLRenderingContext;
+  context: TEngineContext;
   scenes: IAbstractScene[] = [];
   onPreload: Function;
   onRender: Function;
@@ -12,12 +18,20 @@ export class Engine implements IEngine {
   private _isDrawing: boolean = false;
   private _currentScene: IAbstractScene;
 
+  static Scene = AbstractScene;
+  static sys: Engine;
+  static load: (namespace: string) => EngineLoaders;
+  static sprites: (namespace: string) => EngineSprites;
+
   constructor(public config: IEngineConfig) {
     this.scenes = config.scenes;
+    Engine.load = (namespace: string) => new EngineLoaders(namespace, this);
+    Engine.sprites = (namespace: string) => new EngineSprites(namespace, this);
+    Engine.sys = this;
   }
 
   setScenes(scenes: IAbstractScene[]): void {
-    this.scenes = scenes;
+    this.scenes = [...this.scenes, ...scenes];
   }
 
   registerScene(scene: IAbstractScene): void {
@@ -41,7 +55,10 @@ export class Engine implements IEngine {
     this.scenes.forEach((scene) => {
       scene.init();
       scene.preload();
-      scene.render();
+      const imageLoaders = engineData.loadersPromises.get(scene.name);
+      Promise.all(imageLoaders ?? []).then(() => {
+        scene.render();
+      });
     });
 
     this.start();
@@ -86,6 +103,7 @@ export class Engine implements IEngine {
       return;
     }
     this._root$ = document.createElement('div');
+    document.body.append(this._root$);
 
     switch (this.config.graphicEngine) {
       case EGraphicsEngine.Canvas: {

@@ -1,5 +1,5 @@
-import { IAbstractEventEmitter } from 'common/types/abstract-event-emitter.interface';
-import { TAbstractEventEmitterRecord } from 'common/types/event-record.type';
+import { IAbstractEventEmitter } from '@engine/emitter/types/abstract-event-emitter.interface';
+import { TAbstractEventEmitterRecord } from '@engine/emitter/types/event-record.type';
 
 export class EventEmitter<T extends TAbstractEventEmitterRecord> implements IAbstractEventEmitter {
   protected listeners = new Map<keyof T, Set<Function>>();

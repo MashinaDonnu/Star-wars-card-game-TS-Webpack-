@@ -1,19 +1,30 @@
 import { IAbstractScene } from '@engine/types/scene.interface';
-import { ISceneConfig } from '@engine';
+import { EventEmitter } from '@engine/emitter/EventEmitter';
+import { Engine } from '@engine';
+import { EngineLoaders } from '@engine/engine-loaders';
+import { EngineSprites } from '@engine/engine-sprites';
 
 export abstract class AbstractScene implements IAbstractScene {
-  private _name: string;
+  emitter = new EventEmitter();
+  readonly name: string;
+
+  load: EngineLoaders;
+  sprites: EngineSprites;
+  sys: Engine;
 
   protected constructor(name: string) {
-    this._name = name;
+    this.name = name;
+    this.load = Engine.load(name);
+    this.sprites = Engine.sprites(name);
+    this.sys = Engine.sys;
   }
   destroy(): void {}
 
   init(): void {}
 
-  preload(): void {}
+  abstract preload(): void;
 
-  render(): void {}
+  abstract render(): void;
 
-  update(): void {}
+  abstract update(): void;
 }

@@ -1,4 +1,4 @@
-import { TAbstractEventEmitterRecord } from 'common/types/event-record.type';
+import { TAbstractEventEmitterRecord } from '@engine/emitter/types/event-record.type';
 
 export interface IAbstractObserver<T extends TAbstractEventEmitterRecord = TAbstractEventEmitterRecord> {
   on<E extends keyof T>(event: E, callback: T[E]): void;
