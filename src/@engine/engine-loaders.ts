@@ -23,11 +23,11 @@ export class EngineLoaders {
       });
     });
 
-    if (!engineData.loadersPromises.has(this.namespace)) {
-      engineData.loadersPromises.set(this.namespace, new Set());
+    if (!engineData.loadersImagePromises.has(this.namespace)) {
+      engineData.loadersImagePromises.set(this.namespace, new Set());
     }
-    const loadersPromises = engineData.loadersPromises.get(this.namespace);
-    loadersPromises.add(promise);
-    console.log('loadersPromises', engineData.loadersPromises);
+    const loadersImagePromises = engineData.loadersImagePromises.get(this.namespace);
+    loadersImagePromises.add(promise);
+    console.log('loadersImagePromises', engineData.loadersImagePromises);
   }
 }

@@ -6,6 +6,7 @@ import { AbstractScene } from '@engine/scenes/abstract.scene';
 import { EngineLoaders } from '@engine/engine-loaders';
 import { EngineSprites } from '@engine/engine-sprites';
 import { engineData } from '@engine/engine-data';
+import { EngineObjects } from '@engine/engine-objects';
 
 export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
@@ -22,6 +23,7 @@ export class Engine implements IEngine {
   static sys: Engine;
   static load: (namespace: string) => EngineLoaders;
   static sprites: (namespace: string) => EngineSprites;
+  static Objects = EngineObjects;
 
   constructor(public config: IEngineConfig) {
     this.scenes = config.scenes;
@@ -55,7 +57,7 @@ export class Engine implements IEngine {
     this.scenes.forEach((scene) => {
       scene.init();
       scene.preload();
-      const imageLoaders = engineData.loadersPromises.get(scene.name);
+      const imageLoaders = engineData.loadersImagePromises.get(scene.name);
       Promise.all(imageLoaders ?? []).then(() => {
         scene.render();
       });
