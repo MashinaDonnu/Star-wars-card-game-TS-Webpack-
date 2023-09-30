@@ -1,14 +1,14 @@
 import { IEngineObject } from '@engine/types/engine-object.interface';
-import { AbstractObject, IAbstractObjectParams } from '@engine/objects/abstract-object';
-import { IScene } from '@engine/types/scene.interface';
+import { EngineObject, IAbstractObjectParams } from '@engine/objects/engine-object';
+import { EngineScene } from '@engine/scenes/engine-scene';
 
 export interface SpriteObjectParams extends IAbstractObjectParams {
   name: string;
 }
 
-export class SpriteObject extends AbstractObject {
+export class SpriteObject extends EngineObject {
   name: string;
-  constructor(scene: IScene, params: SpriteObjectParams) {
+  constructor(scene: EngineScene, params: SpriteObjectParams) {
     super(scene, params);
     this.name = params.name;
   }

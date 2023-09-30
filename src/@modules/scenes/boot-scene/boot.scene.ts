@@ -24,6 +24,9 @@ export class BootScene extends Engine.Scene {
     });
 
     const card = new TestCard(this);
+    card.events.mouseDown((data) => {
+      console.log('data: ', data);
+    });
     console.log('scene render', this.sprites.get('card'));
   }
 }

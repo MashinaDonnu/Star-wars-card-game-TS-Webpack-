@@ -1,8 +1,6 @@
 import { EGraphicsEngine } from '@engine/enums/graphics-engine.enum';
-import { IEngine } from '@engine/types/engine.interface';
 import { IEngineConfig } from '@engine/types/engine-config.interface';
-import { IScene } from '@engine/types/scene.interface';
-import { AbstractScene } from '@engine/scenes/abstract.scene';
+import { EngineScene } from '@engine/scenes/engine-scene';
 import { EngineLoaders } from '@engine/engine-loaders';
 import { EngineSprites } from '@engine/engine-sprites';
 import { engineData } from '@engine/engine-data';
@@ -10,16 +8,16 @@ import { EngineObjects } from '@engine/engine-objects';
 
 export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
-export class Engine implements IEngine {
+export class Engine {
   context: TEngineContext;
-  scenes: IScene[] = [];
+  scenes: EngineScene[] = [];
   onPreload: Function;
   onRender: Function;
   private _root$: HTMLElement;
   private _isDrawing: boolean = false;
-  private _currentScene: IScene;
+  private _currentScene: EngineScene;
 
-  static Scene = AbstractScene;
+  static Scene = EngineScene;
   static sys: Engine;
   static load: (namespace: string) => EngineLoaders;
   static sprites: (namespace: string) => EngineSprites;
@@ -32,15 +30,15 @@ export class Engine implements IEngine {
     Engine.sys = this;
   }
 
-  setScenes(scenes: IScene[]): void {
+  setScenes(scenes: EngineScene[]): void {
     this.scenes = [...this.scenes, ...scenes];
   }
 
-  registerScene(scene: IScene): void {
+  registerScene(scene: EngineScene): void {
     this.scenes.push(scene);
   }
 
-  setCurrentScene(scene: IScene) {
+  setCurrentScene(scene: EngineScene) {
     this._currentScene = scene;
   }
 

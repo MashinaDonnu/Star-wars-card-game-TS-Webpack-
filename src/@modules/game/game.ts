@@ -1,10 +1,10 @@
 import { IGameConfig } from '@modules/game/types/game-config.interface';
-import { IEngine } from '@engine';
-import { IScene } from '@engine/types/scene.interface';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
+import { EngineScene } from '@engine/scenes/engine-scene';
+import { Engine } from '@engine';
 
 export class Game {
-  private _engine: IEngine;
+  private _engine: Engine;
   private _store: any;
   private emitter = new EventEmitter();
   constructor(private config: IGameConfig) {
@@ -20,7 +20,7 @@ export class Game {
       console.log('onRender');
     };
 
-    const engineScenes: IScene[] = [];
+    const engineScenes: EngineScene[] = [];
 
     for (const Scene of this.config.scenes) {
       const scene = new Scene({

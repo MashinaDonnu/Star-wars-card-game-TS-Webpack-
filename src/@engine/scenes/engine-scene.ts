@@ -1,11 +1,10 @@
-import { IScene } from '@engine/types/scene.interface';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
 import { Engine } from '@engine';
 import { EngineLoaders } from '@engine/engine-loaders';
 import { EngineSprites } from '@engine/engine-sprites';
 import { IEngineObject } from '@engine/types/engine-object.interface';
 
-export abstract class AbstractScene implements IScene {
+export abstract class EngineScene {
   readonly name: string;
   emitter = new EventEmitter();
   readonly objects = new Set<IEngineObject>();

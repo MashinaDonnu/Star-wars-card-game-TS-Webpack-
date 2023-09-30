@@ -1,7 +1,7 @@
-import { IEngine } from '@engine/types/engine.interface';
+import { Engine } from '@engine';
 
 export interface ISceneConfig {
-  engine: IEngine;
+  engine: Engine;
   store: any;
   eventEmitter: any;
 }

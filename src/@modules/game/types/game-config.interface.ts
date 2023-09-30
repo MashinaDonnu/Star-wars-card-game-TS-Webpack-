@@ -1,8 +1,8 @@
-import { IEngine, ISceneConfig } from '@engine';
-import { IScene } from '@engine/types/scene.interface';
+import { Engine, ISceneConfig } from '@engine';
+import { EngineScene } from '@engine/scenes/engine-scene';
 
 export interface IGameConfig {
   store: any;
-  engine: IEngine;
-  scenes: (new (...args: any[]) => IScene)[];
+  engine: Engine;
+  scenes: (new (...args: any[]) => EngineScene)[];
 }

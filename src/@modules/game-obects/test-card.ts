@@ -1,8 +1,8 @@
 import { AbstractCard } from '@modules/game-obects/abstract-card';
-import { IScene } from '@engine/types/scene.interface';
+import { EngineScene } from '@engine/scenes/engine-scene';
 
 export class TestCard extends AbstractCard {
-  constructor(scene: IScene) {
+  constructor(scene: EngineScene) {
     super(scene, {
       width: 196,
       height: 306,
