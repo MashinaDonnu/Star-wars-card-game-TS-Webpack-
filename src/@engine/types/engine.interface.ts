@@ -1,4 +1,4 @@
-import { IAbstractScene } from '@engine/types/scene.interface';
+import { IScene } from '@engine/types/scene.interface';
 import { TEngineContext } from '@engine';
 
 export interface IEngine {
@@ -6,8 +6,8 @@ export interface IEngine {
   onPreload: Function;
   onRender: Function;
   update(): void;
-  registerScene(scene: IAbstractScene): void;
-  setScenes(scenes: IAbstractScene[]): void;
+  registerScene(scene: IScene): void;
+  setScenes(scenes: IScene[]): void;
   draw(): void;
   run(): void;
   start(): void;

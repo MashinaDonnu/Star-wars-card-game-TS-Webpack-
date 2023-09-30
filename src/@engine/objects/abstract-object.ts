@@ -1,6 +1,7 @@
 import { IEngineObject } from '@engine/types/engine-object.interface';
 import { EngineDomEvents } from '@engine/engine-dom-events';
 import { Engine } from '@engine';
+import { IScene } from '@engine/types/scene.interface';
 
 export interface IAbstractObjectParams {
   width: number;
@@ -16,11 +17,23 @@ export abstract class AbstractObject implements IEngineObject {
   y: number;
   events = new EngineDomEvents(this);
   sys: Engine;
-  protected constructor(params: IAbstractObjectParams) {
+  scene: IScene;
+
+  protected constructor(scene: IScene, params: IAbstractObjectParams) {
     const { width, height, x, y } = params;
+    this.scene = scene;
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
+    this.sys = Engine.sys;
+
+    this.register();
+  }
+
+  abstract render(): void;
+
+  private register(): void {
+    this.scene.registerObject(this);
   }
 }

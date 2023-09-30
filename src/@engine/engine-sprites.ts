@@ -15,14 +15,14 @@ export class EngineSprites {
     private namespace: string,
     private engine: Engine
   ) {}
-  set(name: string, config: ISpriteConfig) {
+  render(name: string, config: ISpriteConfig) {
     const context = this.engine.context;
     const image = this.get(name);
 
     const { x, y, width, height } = config;
 
     if (context instanceof CanvasRenderingContext2D) {
-      context.clearRect(0, 0, 640, 360);
+      // context.clearRect(0, 0, 640, 360);
       context.drawImage(image, x, y);
     }
   }

@@ -1,6 +1,6 @@
 import { IGameConfig } from '@modules/game/types/game-config.interface';
 import { IEngine } from '@engine';
-import { IAbstractScene } from '@engine/types/scene.interface';
+import { IScene } from '@engine/types/scene.interface';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
 
 export class Game {
@@ -20,7 +20,7 @@ export class Game {
       console.log('onRender');
     };
 
-    const engineScenes: IAbstractScene[] = [];
+    const engineScenes: IScene[] = [];
 
     for (const Scene of this.config.scenes) {
       const scene = new Scene({

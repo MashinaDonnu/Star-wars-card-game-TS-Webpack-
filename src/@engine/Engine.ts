@@ -1,7 +1,7 @@
 import { EGraphicsEngine } from '@engine/enums/graphics-engine.enum';
 import { IEngine } from '@engine/types/engine.interface';
 import { IEngineConfig } from '@engine/types/engine-config.interface';
-import { IAbstractScene } from '@engine/types/scene.interface';
+import { IScene } from '@engine/types/scene.interface';
 import { AbstractScene } from '@engine/scenes/abstract.scene';
 import { EngineLoaders } from '@engine/engine-loaders';
 import { EngineSprites } from '@engine/engine-sprites';
@@ -12,12 +12,12 @@ export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
 export class Engine implements IEngine {
   context: TEngineContext;
-  scenes: IAbstractScene[] = [];
+  scenes: IScene[] = [];
   onPreload: Function;
   onRender: Function;
   private _root$: HTMLElement;
   private _isDrawing: boolean = false;
-  private _currentScene: IAbstractScene;
+  private _currentScene: IScene;
 
   static Scene = AbstractScene;
   static sys: Engine;
@@ -32,15 +32,15 @@ export class Engine implements IEngine {
     Engine.sys = this;
   }
 
-  setScenes(scenes: IAbstractScene[]): void {
+  setScenes(scenes: IScene[]): void {
     this.scenes = [...this.scenes, ...scenes];
   }
 
-  registerScene(scene: IAbstractScene): void {
+  registerScene(scene: IScene): void {
     this.scenes.push(scene);
   }
 
-  setCurrentScene(scene: IAbstractScene) {
+  setCurrentScene(scene: IScene) {
     this._currentScene = scene;
   }
 
@@ -60,6 +60,9 @@ export class Engine implements IEngine {
       const imageLoaders = engineData.loadersImagePromises.get(scene.name);
       Promise.all(imageLoaders ?? []).then(() => {
         scene.render();
+        scene.objects.forEach((obj) => {
+          obj.render();
+        });
       });
     });
 

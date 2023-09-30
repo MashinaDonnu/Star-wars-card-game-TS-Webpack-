@@ -1,12 +1,14 @@
-import { IAbstractScene } from '@engine/types/scene.interface';
+import { IScene } from '@engine/types/scene.interface';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
 import { Engine } from '@engine';
 import { EngineLoaders } from '@engine/engine-loaders';
 import { EngineSprites } from '@engine/engine-sprites';
+import { IEngineObject } from '@engine/types/engine-object.interface';
 
-export abstract class AbstractScene implements IAbstractScene {
-  emitter = new EventEmitter();
+export abstract class AbstractScene implements IScene {
   readonly name: string;
+  emitter = new EventEmitter();
+  readonly objects = new Set<IEngineObject>();
 
   load: EngineLoaders;
   sprites: EngineSprites;
@@ -21,6 +23,10 @@ export abstract class AbstractScene implements IAbstractScene {
   destroy(): void {}
 
   init(): void {}
+
+  registerObject(object: IEngineObject): void {
+    this.objects.add(object);
+  }
 
   abstract preload(): void;
 

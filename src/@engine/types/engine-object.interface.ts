@@ -6,4 +6,5 @@ export interface IEngineObject {
   height: number;
   x: number;
   y: number;
+  render(): void;
 }

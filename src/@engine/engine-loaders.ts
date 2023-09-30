@@ -2,7 +2,7 @@ import { Engine } from '@engine/Engine';
 import { engineData } from '@engine/engine-data';
 
 export class EngineLoaders {
-  private _path = '../assets';
+  private _src = '../assets';
 
   constructor(
     private namespace: string,
@@ -16,7 +16,7 @@ export class EngineLoaders {
       const images = engineData.loaders.image.get(this.namespace);
 
       const image = new Image();
-      image.src = `${this._path}${path}`;
+      image.src = `${this._src}${path}`;
       image.addEventListener('load', () => {
         images.set(name, image);
         resolve(image);

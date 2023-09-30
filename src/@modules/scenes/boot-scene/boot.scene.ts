@@ -1,4 +1,5 @@
 import { Engine } from '@engine';
+import { TestCard } from '@modules/game-obects/test-card';
 
 export class BootScene extends Engine.Scene {
   constructor() {
@@ -10,16 +11,19 @@ export class BootScene extends Engine.Scene {
 
   preload(): void {
     this.load.image('/images/star-wars-bg.png', 'name');
+    this.load.image('/images/card.png', 'card');
     console.log('scene preload');
   }
 
   render(): void {
-    this.sprites.set('name', {
+    this.sprites.render('name', {
       width: this.sys.config.width,
       height: this.sys.config.height,
       x: 0,
       y: 0,
     });
-    console.log('scene render', this.sprites.get('name'));
+
+    const card = new TestCard(this);
+    console.log('scene render', this.sprites.get('card'));
   }
 }
