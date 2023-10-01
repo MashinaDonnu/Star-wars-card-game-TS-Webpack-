@@ -38,32 +38,41 @@ export class Engine {
     this.scenes.push(scene);
   }
 
-  setCurrentScene(scene: EngineScene) {
-    this._currentScene = scene;
+  setCurrentScene(name: string) {
+    const context = this.context;
+    if (context instanceof CanvasRenderingContext2D) {
+      context.clearRect(0, 0, 640, 360);
+    }
+    if (this._currentScene) {
+      this._currentScene.destroy();
+    }
+    const scene = this.scenes.find((s) => s.name === name);
+    console.log('setCurrentScene', scene);
+    if (scene) {
+      this._currentScene = scene;
+    }
+    this.render();
   }
 
   update(): void {
     this.scenes.forEach((scene) => {
-      scene.update();
+      if (this._currentScene.name === scene.name) {
+        scene.update();
+      }
     });
   }
 
   run() {
     this.initPlayground();
-    this.preload();
-    this.render();
-    this.scenes.forEach((scene) => {
-      scene.init();
-      scene.preload();
-      const imageLoaders = engineData.loadersImagePromises.get(scene.name);
-      Promise.all(imageLoaders ?? []).then(() => {
-        scene.render();
-        scene.objects.forEach((obj) => {
-          obj.render();
-        });
-      });
-    });
 
+    if (this.onPreload && typeof this.onPreload === 'function') {
+      this.onPreload();
+    }
+    if (this.onRender && typeof this.onRender === 'function') {
+      this.onRender();
+    }
+
+    this.setCurrentScene(this.scenes[0].name);
     this.start();
     this.draw();
   }
@@ -85,19 +94,29 @@ export class Engine {
     this._isDrawing = false;
   }
 
-  private preload(): void {
-    if (this.onPreload && typeof this.onPreload === 'function') {
-      this.onPreload();
-    }
-  }
-
+  a = true;
   private render(): void {
-    if (this.onRender && typeof this.onRender === 'function') {
-      this.onRender();
-    }
+    // if (!this.a) {
+    //   return;
+    // }
+    console.log('RENDER: ', this._currentScene.name);
+    this.a = false;
+    this.scenes.forEach((scene) => {
+      scene.preload();
+      const imageLoaders = engineData.loadersImagePromises.get(scene.name);
+      Promise.all(imageLoaders ?? []).then(() => {
+        if (this._currentScene.name === scene.name) {
+          scene.init();
+          scene.render();
+          scene.objects.forEach((obj) => {
+            obj.render();
+          });
+        }
+      });
+    });
   }
 
-  private requestAnimationFrame(callback: FrameRequestCallback) {
+  private requestAnimationFrame(callback: FrameRequestCallback): void {
     window.requestAnimationFrame(callback);
   }
 

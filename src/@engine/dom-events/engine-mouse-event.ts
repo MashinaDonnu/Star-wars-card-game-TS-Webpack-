@@ -11,31 +11,31 @@ export class EngineMouseEvent extends AbstractEngineEvent {
     this.mouseEvent('mousedown', callback);
   }
 
-  mouseUp(callback: (evt?: IEngineDomMouseEvent) => void) {
+  mouseUp(callback: (evt?: IEngineDomMouseEvent) => void): void {
     this.mouseEvent('mouseup', callback);
   }
 
-  mouseMove(callback: (evt?: IEngineDomMouseEvent) => void) {
+  mouseMove(callback: (evt?: IEngineDomMouseEvent) => void): void {
     this.mouseEvent('mousemove', callback);
   }
 
-  mouseEnter(callback: (evt?: IEngineDomMouseEvent) => void) {
+  mouseEnter(callback: (evt?: IEngineDomMouseEvent) => void): void {
     this.mouseEvent('mouseenter', callback);
   }
 
-  mouseLeave(callback: (evt?: IEngineDomMouseEvent) => void) {
+  mouseLeave(callback: (evt?: IEngineDomMouseEvent) => void): void {
     this.mouseEvent('mouseleave', callback);
   }
 
-  mouseOver(callback: (evt?: IEngineDomMouseEvent) => void) {
+  mouseOver(callback: (evt?: IEngineDomMouseEvent) => void): void {
     this.mouseEvent('mouseover', callback);
   }
 
-  mouseOut(callback: (evt?: IEngineDomMouseEvent) => void) {
+  mouseOut(callback: (evt?: IEngineDomMouseEvent) => void): void {
     this.mouseEvent('mouseout', callback);
   }
 
-  private mouseEvent(mouseEvent: string, callback: (evt?: IEngineDomMouseEvent) => void) {
+  private mouseEvent(mouseEvent: string, callback: (evt?: IEngineDomMouseEvent) => void): void {
     const eventListenerCallback = (e: MouseEvent) => {
       const context = this.object.sys.context;
 
@@ -52,7 +52,7 @@ export class EngineMouseEvent extends AbstractEngineEvent {
     this.on(mouseEvent, eventListenerCallback);
   }
 
-  private isEntered(mouseX: number, mouseY: number) {
+  protected isEntered(mouseX: number, mouseY: number): boolean {
     const object = this.object;
     return mouseX >= object.x && mouseX <= object.x + object.width && mouseY >= object.y && mouseY <= object.y + object.height;
   }

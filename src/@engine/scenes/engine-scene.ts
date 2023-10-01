@@ -19,7 +19,14 @@ export abstract class EngineScene {
     this.sprites = Engine.sprites(name);
     this.sys = Engine.sys;
   }
-  destroy(): void {}
+  destroy(): void {
+    console.log('destroy', this.name);
+    const context = this.sys.context;
+    this.objects.forEach((object) => {
+      object.destroy();
+    });
+    this.objects.clear();
+  }
 
   init(): void {}
 

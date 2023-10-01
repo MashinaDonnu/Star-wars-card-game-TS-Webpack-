@@ -1,4 +1,6 @@
-export abstract class AbstractEngineEvent {
+import { IAbstractObserver } from '@engine/emitter/types/abstract-observer.interface';
+
+export abstract class AbstractEngineEvent implements IAbstractObserver {
   domListeners = new Map<string, Set<EventListenerOrEventListenerObject>>();
 
   on(eventName: string, callback: EventListenerOrEventListenerObject) {

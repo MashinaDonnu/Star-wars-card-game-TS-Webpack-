@@ -1,34 +1,31 @@
 import { Engine } from '@engine';
 import { TestCard } from '@modules/game-obects/test-card';
 
-export class BootScene extends Engine.Scene {
+export class TestScene extends Engine.Scene {
   constructor() {
-    super('Boot');
+    super('Test');
   }
 
-  update() {}
-
   preload(): void {
-    this.load.image('/images/star-wars-bg.png', 'name');
+    this.load.image('/images/star-wars-bg-2.jpeg', 'bg2');
     this.load.image('/images/card.png', 'card');
-    console.log('scene preload');
+    console.log('TestScene preload');
   }
 
   render(): void {
-    this.sprites.render('name', {
+    this.sprites.render('bg2', {
       width: this.sys.config.width,
       height: this.sys.config.height,
       x: 0,
       y: 0,
     });
-
     const card = new TestCard(this);
     card.events.mouse.mouseDown((data) => {
-      this.sys.setCurrentScene('Test');
+      this.sys.setCurrentScene('Boot');
       console.log('data: ', data);
     });
-    card.events.mouse.mouseUp((data) => {
-      console.log('data: UP', data);
-    });
+    console.log('TestScene render');
   }
+
+  update(): void {}
 }
