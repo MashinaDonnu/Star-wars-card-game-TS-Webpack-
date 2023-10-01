@@ -24,14 +24,14 @@ export class BootScene extends Engine.Scene {
     });
 
     const card = new TestCard(this);
-    card.events.mouseDown((data) => {
+    card.events.mouse.mouseDown((data) => {
       console.log('data: ', data);
     });
-    card.events.mouseUp((data) => {
+    card.events.mouse.mouseUp((data) => {
       console.log('data: UP', data);
     });
 
-    card.events.mouseMove((data) => {
+    card.events.mouse.mouseMove((data) => {
       console.log('data: mouseMove', data);
     });
 

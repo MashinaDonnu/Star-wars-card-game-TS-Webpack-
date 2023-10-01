@@ -38,7 +38,7 @@ export abstract class EngineObject {
 
   destroy(): void {
     this.onDestroy();
-    this.events.off();
+    this.events.mouse.off();
     this.emitter.off();
   }
 

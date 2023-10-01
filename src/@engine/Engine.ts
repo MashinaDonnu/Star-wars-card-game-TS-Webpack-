@@ -1,8 +1,8 @@
 import { EGraphicsEngine } from '@engine/enums/graphics-engine.enum';
 import { IEngineConfig } from '@engine/types/engine-config.interface';
 import { EngineScene } from '@engine/scenes/engine-scene';
-import { EngineLoaders } from '@engine/engine-loaders';
-import { EngineSprites } from '@engine/engine-sprites';
+import { EngineLoader } from '@engine/engine-loader';
+import { EngineSprite } from '@engine/engine-sprite';
 import { engineData } from '@engine/engine-data';
 import { EngineObjects } from '@engine/engine-objects';
 
@@ -19,14 +19,14 @@ export class Engine {
 
   static Scene = EngineScene;
   static sys: Engine;
-  static load: (namespace: string) => EngineLoaders;
-  static sprites: (namespace: string) => EngineSprites;
+  static load: (namespace: string) => EngineLoader;
+  static sprites: (namespace: string) => EngineSprite;
   static Objects = EngineObjects;
 
   constructor(public config: IEngineConfig) {
     this.scenes = config.scenes;
-    Engine.load = (namespace: string) => new EngineLoaders(namespace, this);
-    Engine.sprites = (namespace: string) => new EngineSprites(namespace, this);
+    Engine.load = (namespace: string) => new EngineLoader(namespace, this);
+    Engine.sprites = (namespace: string) => new EngineSprite(namespace, this);
     Engine.sys = this;
   }
 

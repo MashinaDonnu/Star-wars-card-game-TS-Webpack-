@@ -1,7 +1,7 @@
 import { Engine } from '@engine/Engine';
 import { engineData } from '@engine/engine-data';
 
-export class EngineLoaders {
+export class EngineLoader {
   private _src = '../assets';
 
   constructor(

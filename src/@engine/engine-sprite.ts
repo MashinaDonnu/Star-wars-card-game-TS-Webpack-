@@ -9,7 +9,7 @@ export interface ISpriteConfig {
   // ....
 }
 
-export class EngineSprites {
+export class EngineSprite {
   constructor(
     private namespace: string,
     private engine: Engine

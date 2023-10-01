@@ -1,7 +1,7 @@
 import { EventEmitter } from '@engine/emitter/EventEmitter';
 import { Engine } from '@engine';
-import { EngineLoaders } from '@engine/engine-loaders';
-import { EngineSprites } from '@engine/engine-sprites';
+import { EngineLoader } from '@engine/engine-loader';
+import { EngineSprite } from '@engine/engine-sprite';
 import { EngineObject } from '@engine/objects/engine-object';
 
 export abstract class EngineScene {
@@ -9,8 +9,8 @@ export abstract class EngineScene {
   emitter = new EventEmitter();
   readonly objects = new Set<EngineObject>();
 
-  load: EngineLoaders;
-  sprites: EngineSprites;
+  load: EngineLoader;
+  sprites: EngineSprite;
   sys: Engine;
 
   protected constructor(name: string) {
