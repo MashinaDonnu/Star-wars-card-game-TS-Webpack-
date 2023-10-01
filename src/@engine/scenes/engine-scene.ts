@@ -2,12 +2,12 @@ import { EventEmitter } from '@engine/emitter/EventEmitter';
 import { Engine } from '@engine';
 import { EngineLoaders } from '@engine/engine-loaders';
 import { EngineSprites } from '@engine/engine-sprites';
-import { IEngineObject } from '@engine/types/engine-object.interface';
+import { EngineObject } from '@engine/objects/engine-object';
 
 export abstract class EngineScene {
   readonly name: string;
   emitter = new EventEmitter();
-  readonly objects = new Set<IEngineObject>();
+  readonly objects = new Set<EngineObject>();
 
   load: EngineLoaders;
   sprites: EngineSprites;
@@ -23,7 +23,7 @@ export abstract class EngineScene {
 
   init(): void {}
 
-  registerObject(object: IEngineObject): void {
+  registerObject(object: EngineObject): void {
     this.objects.add(object);
   }
 

@@ -1,4 +1,3 @@
-import { IEngineObject } from '@engine/types/engine-object.interface';
 import { EngineObject, IAbstractObjectParams } from '@engine/objects/engine-object';
 import { EngineScene } from '@engine/scenes/engine-scene';
 

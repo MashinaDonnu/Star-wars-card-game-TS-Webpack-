@@ -11,4 +11,8 @@ export class TestCard extends AbstractCard {
       name: 'card',
     });
   }
+
+  onDestroy() {
+    console.log('TestCard onDestroy');
+  }
 }

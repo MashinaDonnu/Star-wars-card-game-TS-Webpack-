@@ -1,7 +1,7 @@
-import { IEngineObject } from '@engine/types/engine-object.interface';
 import { EngineDomEvents } from '@engine/engine-dom-events';
 import { Engine } from '@engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
+import { EventEmitter } from '@engine/emitter/EventEmitter';
 
 export interface IAbstractObjectParams {
   width: number;
@@ -10,12 +10,13 @@ export interface IAbstractObjectParams {
   y: number;
 }
 
-export abstract class EngineObject implements IEngineObject {
+export abstract class EngineObject {
   width: number;
   height: number;
   x: number;
   y: number;
   events = new EngineDomEvents(this);
+  emitter = new EventEmitter();
   sys: Engine;
   scene: EngineScene;
 
@@ -32,6 +33,14 @@ export abstract class EngineObject implements IEngineObject {
   }
 
   abstract render(): void;
+
+  onDestroy(): void {}
+
+  destroy(): void {
+    this.onDestroy();
+    this.events.off();
+    this.emitter.off();
+  }
 
   private register(): void {
     this.scene.registerObject(this);

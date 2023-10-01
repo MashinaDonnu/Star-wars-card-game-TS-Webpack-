@@ -27,6 +27,14 @@ export class BootScene extends Engine.Scene {
     card.events.mouseDown((data) => {
       console.log('data: ', data);
     });
+    card.events.mouseUp((data) => {
+      console.log('data: UP', data);
+    });
+
+    card.events.mouseMove((data) => {
+      console.log('data: mouseMove', data);
+    });
+
     console.log('scene render', this.sprites.get('card'));
   }
 }
