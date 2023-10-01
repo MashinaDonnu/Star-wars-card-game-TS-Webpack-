@@ -1,11 +1,13 @@
 import { engineData } from '@engine/engine-data';
 import { Engine } from '@engine/Engine';
+import { GLOBAL_NAMESPACE } from '@engine/const';
 
 export interface ISpriteConfig {
   width: number;
   height: number;
   x: number;
   y: number;
+  isPrivate?: boolean;
   // ....
 }
 
@@ -16,7 +18,8 @@ export class EngineSprite {
   ) {}
   render(name: string, config: ISpriteConfig) {
     const context = this.engine.context;
-    const image = this.get(name);
+    const image = this.get(name, !!config.isPrivate);
+    console.log('image', image);
 
     const { x, y, width, height } = config;
 
@@ -26,7 +29,9 @@ export class EngineSprite {
     }
   }
 
-  get(name: string) {
-    return engineData.loaders.image.get(this.namespace).get(name);
+  get(name: string, isPrivate: boolean = false) {
+    const namespace = isPrivate ? this.namespace : GLOBAL_NAMESPACE;
+    console.log('namespace', namespace);
+    return engineData.loaders.image.get(namespace).get(name);
   }
 }

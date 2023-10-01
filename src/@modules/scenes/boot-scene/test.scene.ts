@@ -1,9 +1,12 @@
 import { Engine } from '@engine';
 import { TestCard } from '@modules/game-obects/test-card';
+import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 
 export class TestScene extends Engine.Scene {
   constructor() {
-    super('Test');
+    super('Test', {
+      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
+    });
   }
 
   preload(): void {

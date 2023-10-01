@@ -5,6 +5,7 @@ import { EngineLoader } from '@engine/engine-loader';
 import { EngineSprite } from '@engine/engine-sprite';
 import { engineData } from '@engine/engine-data';
 import { EngineObjects } from '@engine/engine-objects';
+import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 
 export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
@@ -94,26 +95,41 @@ export class Engine {
     this._isDrawing = false;
   }
 
-  a = true;
   private render(): void {
-    // if (!this.a) {
-    //   return;
-    // }
     console.log('RENDER: ', this._currentScene.name);
-    this.a = false;
     this.scenes.forEach((scene) => {
-      scene.preload();
-      const imageLoaders = engineData.loadersImagePromises.get(scene.name);
-      Promise.all(imageLoaders ?? []).then(() => {
+      if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Default) {
+        scene.preload();
+      }
+      const imageLoaders = engineData.loadersImagePromises;
+      console.log('imageLoaders', engineData);
+      Promise.all(imageLoaders).then(() => {
         if (this._currentScene.name === scene.name) {
-          scene.init();
-          scene.render();
-          scene.objects.forEach((obj) => {
-            obj.render();
-          });
+          if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Lazy) {
+            scene.preload();
+            Promise.all(imageLoaders).then(() => {
+              scene.init();
+              scene.render();
+              scene.objects.forEach((obj) => {
+                obj.render();
+              });
+            });
+          } else {
+            scene.init();
+            scene.render();
+            scene.objects.forEach((obj) => {
+              obj.render();
+            });
+          }
         }
+        engineData.loadersImagePromises.clear();
       });
     });
+  }
+
+  private preloadScene(scene: EngineScene): void {
+    scene.preload();
+    Promise.all(engineData.loadersImagePromises).then(() => {});
   }
 
   private requestAnimationFrame(callback: FrameRequestCallback): void {

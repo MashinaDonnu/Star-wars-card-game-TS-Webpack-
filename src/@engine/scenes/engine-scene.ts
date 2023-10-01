@@ -3,25 +3,46 @@ import { Engine } from '@engine';
 import { EngineLoader } from '@engine/engine-loader';
 import { EngineSprite } from '@engine/engine-sprite';
 import { EngineObject } from '@engine/objects/engine-object';
+import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
+
+function withStrategy(target: EngineScene, propertyKey: string, descriptor: PropertyDescriptor) {
+  const instance = target;
+  const originalMethod = descriptor.value;
+  descriptor.value = function (...args: any[]) {
+    console.log(`this внутри метода:`, this);
+
+    return originalMethod.apply(this, args);
+  };
+}
+
+export interface IEngineSceneOptions {
+  imageLoadStrategy?: EngineImageLoaderStrategy;
+}
 
 export abstract class EngineScene {
   readonly name: string;
   emitter = new EventEmitter();
   readonly objects = new Set<EngineObject>();
+  readonly imageLoadStrategy: EngineImageLoaderStrategy = EngineImageLoaderStrategy.Default;
 
   load: EngineLoader;
   sprites: EngineSprite;
   sys: Engine;
 
-  protected constructor(name: string) {
+  protected constructor(name: string, options?: IEngineSceneOptions) {
     this.name = name;
     this.load = Engine.load(name);
     this.sprites = Engine.sprites(name);
     this.sys = Engine.sys;
+
+    if (options) {
+      if (options.imageLoadStrategy) {
+        this.imageLoadStrategy = options.imageLoadStrategy;
+      }
+    }
   }
+
   destroy(): void {
-    console.log('destroy', this.name);
-    const context = this.sys.context;
     this.objects.forEach((object) => {
       object.destroy();
     });
