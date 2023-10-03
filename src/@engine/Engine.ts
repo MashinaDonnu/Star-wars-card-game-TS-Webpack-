@@ -48,11 +48,15 @@ export class Engine {
       this._currentScene.destroy();
     }
     const scene = this.scenes.find((s) => s.name === name);
-    console.log('setCurrentScene', scene);
+
     if (scene) {
       this._currentScene = scene;
     }
-    this.render();
+
+    if (this._currentScene.imageLoadStrategy === EngineImageLoaderStrategy.Lazy) {
+      this._currentScene.preload();
+    }
+    this.renderScene();
   }
 
   update(): void {
@@ -73,7 +77,7 @@ export class Engine {
       this.onRender();
     }
 
-    this.setCurrentScene(this.scenes[0].name);
+    this.render();
     this.start();
     this.draw();
   }
@@ -96,40 +100,59 @@ export class Engine {
   }
 
   private render(): void {
-    console.log('RENDER: ', this._currentScene.name);
+    console.log('Render =>');
     this.scenes.forEach((scene) => {
       if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Default) {
         scene.preload();
       }
-      const imageLoaders = engineData.loadersImagePromises;
-      console.log('imageLoaders', engineData);
-      Promise.all(imageLoaders).then(() => {
-        if (this._currentScene.name === scene.name) {
-          if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Lazy) {
-            scene.preload();
-            Promise.all(imageLoaders).then(() => {
-              scene.init();
-              scene.render();
-              scene.objects.forEach((obj) => {
-                obj.render();
-              });
-            });
-          } else {
-            scene.init();
-            scene.render();
-            scene.objects.forEach((obj) => {
-              obj.render();
-            });
-          }
-        }
-        engineData.loadersImagePromises.clear();
-      });
     });
+
+    this.setCurrentScene(this.scenes[0].name);
   }
 
-  private preloadScene(scene: EngineScene): void {
-    scene.preload();
-    Promise.all(engineData.loadersImagePromises).then(() => {});
+  // private render(): void {
+  //   console.log('RENDER: ', this._currentScene.name);
+  //
+  //
+  //   // this.scenes.forEach((scene) => {
+  //   //   if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Default) {
+  //   //     scene.preload();
+  //   //   }
+  //   //   const imageLoaders = engineData.loadersImagePromises;
+  //   //   console.log('imageLoaders', engineData);
+  //   //   Promise.all(imageLoaders).then(() => {
+  //   //     if (this._currentScene.name === scene.name) {
+  //   //       if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Lazy) {
+  //   //         scene.preload();
+  //   //         Promise.all(imageLoaders).then(() => {
+  //   //           scene.init();
+  //   //           scene.render();
+  //   //           scene.objects.forEach((obj) => {
+  //   //             obj.render();
+  //   //           });
+  //   //         });
+  //   //       } else {
+  //   //         scene.init();
+  //   //         scene.render();
+  //   //         scene.objects.forEach((obj) => {
+  //   //           obj.render();
+  //   //         });
+  //   //       }
+  //   //     }
+  //   //     engineData.loadersImagePromises.clear();
+  //   //   });
+  //   // });
+  // }
+
+  private renderScene(): void {
+    Promise.all(engineData.loadersImagePromises).then(() => {
+      this._currentScene.init();
+      this._currentScene.render();
+      this._currentScene.objects.forEach((obj) => {
+        obj.render();
+      });
+      engineData.loadersImagePromises.clear();
+    });
   }
 
   private requestAnimationFrame(callback: FrameRequestCallback): void {
