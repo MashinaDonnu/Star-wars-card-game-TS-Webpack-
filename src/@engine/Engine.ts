@@ -6,6 +6,9 @@ import { EngineSprite } from '@engine/engine-sprite';
 import { engineData } from '@engine/engine-data';
 import { EngineObjects } from '@engine/engine-objects';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
+import { EngineSceneRenderer } from '@engine/engine-scene-renderer';
+import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
+import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 
 export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
@@ -24,6 +27,8 @@ export class Engine {
   static sprites: (namespace: string) => EngineSprite;
   static Objects = EngineObjects;
 
+  private sceneRenderer = new EngineSceneRenderer(this);
+
   constructor(public config: IEngineConfig) {
     this.scenes = config.scenes;
     Engine.load = (namespace: string) => new EngineLoader(namespace, this);
@@ -39,13 +44,29 @@ export class Engine {
     this.scenes.push(scene);
   }
 
-  setCurrentScene(name: string) {
+  setCurrentScene(name: string, options?: IEngineSceneRendererOptions) {
+    let prevScene: EngineScene;
     const context = this.context;
     if (context instanceof CanvasRenderingContext2D) {
       context.clearRect(0, 0, 640, 360);
     }
+    //
+    // if (this._currentScene) {
+    //   let y = 0;
+    //   setInterval(() => {
+    //     const img = this._currentScene.sprites.get('bg2');
+    //     if (context instanceof CanvasRenderingContext2D) {
+    //       context.clearRect(0, 0, 640, 360);
+    //       context.drawImage(img, 0, y);
+    //     }
+    //
+    //     y += 2;
+    //   }, 50);
+    // }
+
     if (this._currentScene) {
-      this._currentScene.destroy();
+      prevScene = this._currentScene;
+      // this._currentScene.destroy();
     }
     const scene = this.scenes.find((s) => s.name === name);
 
@@ -56,12 +77,20 @@ export class Engine {
     if (this._currentScene.imageLoadStrategy === EngineImageLoaderStrategy.Lazy) {
       this._currentScene.preload();
     }
-    this.renderScene();
+
+    if (scene.name === 'Boot') {
+      console.log('prevScene', prevScene);
+      this.sceneRenderer.render(prevScene, {
+        animation: EngineSceneRendererAnimations.Slide,
+      });
+    } else {
+      this.sceneRenderer.render(this._currentScene);
+    }
   }
 
   update(): void {
     this.scenes.forEach((scene) => {
-      if (this._currentScene.name === scene.name) {
+      if (this._currentScene?.name === scene.name) {
         scene.update();
       }
     });

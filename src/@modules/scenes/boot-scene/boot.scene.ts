@@ -18,7 +18,7 @@ export class BootScene extends Engine.Scene {
   }
 
   render(): void {
-    this.sprites.render('name', {
+    this.renderSceneSprite('name', {
       width: this.sys.config.width,
       height: this.sys.config.height,
       x: 0,

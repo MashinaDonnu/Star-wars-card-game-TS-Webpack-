@@ -16,7 +16,7 @@ function startGame() {
   const game = new Game({
     engine,
     store: {},
-    scenes: [BootScene, TestScene],
+    scenes: [TestScene, BootScene],
   });
 
   game.start().then(() => {

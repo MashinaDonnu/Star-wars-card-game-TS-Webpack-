@@ -1,11 +1,12 @@
 import { Engine } from '@engine';
 import { TestCard } from '@modules/game-obects/test-card';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
+import { engineData } from '@engine/engine-data';
 
 export class TestScene extends Engine.Scene {
   constructor() {
     super('Test', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
+      imageLoadStrategy: EngineImageLoaderStrategy.Default,
     });
   }
 
@@ -16,7 +17,7 @@ export class TestScene extends Engine.Scene {
   }
 
   render(): void {
-    this.sprites.render('bg2', {
+    this.renderSceneSprite('bg2', {
       width: this.sys.config.width,
       height: this.sys.config.height,
       x: 0,
@@ -27,6 +28,10 @@ export class TestScene extends Engine.Scene {
       this.sys.setCurrentScene('Boot');
       console.log('data: ', data);
     });
+    setTimeout(() => {
+      console.log('7777', this);
+      console.log(engineData);
+    }, 2000);
     console.log('TestScene render');
   }
 
