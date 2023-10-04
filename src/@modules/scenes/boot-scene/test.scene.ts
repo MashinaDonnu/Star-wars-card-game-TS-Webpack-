@@ -13,7 +13,6 @@ export class TestScene extends Engine.Scene {
   preload(): void {
     this.load.image('/images/star-wars-bg-2.jpeg', 'bg2');
     this.load.image('/images/card.png', 'card');
-    console.log('TestScene preload');
   }
 
   render(): void {
@@ -29,8 +28,8 @@ export class TestScene extends Engine.Scene {
       console.log('data: ', data);
     });
     setTimeout(() => {
-      console.log('7777', this);
-      console.log(engineData);
+      // console.log('7777', this);
+      // console.log(engineData);
     }, 2000);
     console.log('TestScene render');
   }

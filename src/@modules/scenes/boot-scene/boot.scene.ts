@@ -5,7 +5,7 @@ import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-str
 export class BootScene extends Engine.Scene {
   constructor() {
     super('Boot', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Default,
+      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
     });
   }
 
@@ -14,7 +14,6 @@ export class BootScene extends Engine.Scene {
   preload(): void {
     this.load.image('/images/star-wars-bg.png', 'name');
     this.load.image('/images/card.png', 'card');
-    console.log('scene preload');
   }
 
   render(): void {
@@ -28,10 +27,7 @@ export class BootScene extends Engine.Scene {
     const card = new TestCard(this);
     card.events.mouse.mouseDown((data) => {
       this.sys.setCurrentScene('Test');
-      console.log('data: ', data);
     });
-    card.events.mouse.mouseUp((data) => {
-      console.log('data: UP', data);
-    });
+    card.events.mouse.mouseUp((data) => {});
   }
 }

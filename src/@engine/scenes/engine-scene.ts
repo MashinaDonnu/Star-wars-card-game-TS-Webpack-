@@ -5,16 +5,6 @@ import { EngineSprite, ISpriteConfig } from '@engine/engine-sprite';
 import { EngineObject } from '@engine/objects/engine-object';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 
-function withStrategy(target: EngineScene, propertyKey: string, descriptor: PropertyDescriptor) {
-  const instance = target;
-  const originalMethod = descriptor.value;
-  descriptor.value = function (...args: any[]) {
-    console.log(`this внутри метода:`, this);
-
-    return originalMethod.apply(this, args);
-  };
-}
-
 export interface IEngineSceneOptions {
   imageLoadStrategy?: EngineImageLoaderStrategy;
 }
@@ -58,6 +48,10 @@ export abstract class EngineScene {
   renderSceneSprite(name: string, config: ISpriteConfig) {
     this.spritesMap.set(name, config);
     this.sprites.render(name, config);
+  }
+
+  clone(): EngineScene {
+    return JSON.parse(JSON.stringify(this));
   }
 
   abstract preload(): void;

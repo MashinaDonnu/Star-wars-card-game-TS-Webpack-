@@ -8,9 +8,7 @@ export class EngineSceneRenderer {
   constructor(private engine: Engine) {}
 
   render(scene: EngineScene, options?: IEngineSceneRendererOptions): void {
-    console.log('OPTS:', options);
     if (options?.animation) {
-      console.log('DAAAAA');
       switch (options.animation) {
         case EngineSceneRendererAnimations.Slide: {
           return this.slide(scene);
@@ -34,21 +32,38 @@ export class EngineSceneRenderer {
   }
 
   protected slide(scene: EngineScene): void {
-    console.log('SLIDE');
+    console.log('SLIDE', scene);
     const context = scene.sys.context;
     let y: number;
-    setInterval(() => {
-      for (const [sprite, config] of scene.spritesMap) {
-        if (context instanceof CanvasRenderingContext2D) {
-          if (!y) {
-            y = config.y;
-          }
-          context.clearRect(0, 0, 640, 360);
-          const image = scene.sprites.get(sprite);
+    console.log('scene.spritesMap', scene.spritesMap);
+
+    const prev = this.engine.scenesHistory.prev();
+
+    const intervalId = setInterval(() => {
+      if (context instanceof CanvasRenderingContext2D) {
+        context.clearRect(0, 0, 640, 360);
+      }
+      for (const [sprite, config] of prev.spritesMap) {
+        if (!y) {
+          y = config.y;
+        }
+        const image = scene.sprites.get(sprite);
+
+        if (y < -360) {
+          console.log('VSO');
+          clearInterval(intervalId);
+          prev.destroy();
+          this.finalizeRender(scene);
+          return;
+        } else {
+          console.log(y);
           y -= 2;
-          context.drawImage(image, config.x, y - 2);
+          if (context instanceof CanvasRenderingContext2D) {
+            context.drawImage(image, config.x, y - 2);
+          }
         }
       }
+
       // const img = this._currentScene.sprites.get('bg2');
       // if (context instanceof CanvasRenderingContext2D) {
       //   context.clearRect(0, 0, 640, 360);

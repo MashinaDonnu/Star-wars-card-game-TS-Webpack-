@@ -19,7 +19,6 @@ export class EngineSprite {
   render(name: string, config: ISpriteConfig) {
     const context = this.engine.context;
     const image = this.get(name, !!config.isPrivate);
-    console.log('image', image);
 
     const { x, y, width, height } = config;
 
@@ -31,7 +30,6 @@ export class EngineSprite {
 
   get(name: string, isPrivate: boolean = false) {
     const namespace = isPrivate ? this.namespace : GLOBAL_NAMESPACE;
-    console.log('namespace', namespace);
     return engineData.loaders.image.get(namespace).get(name);
   }
 }
