@@ -3,6 +3,7 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "target": "es6",
+    "experimentalDecorators": true,
     "jsx": "react-jsx",
     "module": "esnext",
     "allowJs": true,

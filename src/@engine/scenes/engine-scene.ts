@@ -11,11 +11,13 @@ export interface IEngineSceneOptions {
 
 export abstract class EngineScene {
   readonly name: string;
-  emitter = new EventEmitter();
-  readonly objects = new Set<EngineObject>();
-  readonly imageLoadStrategy: EngineImageLoaderStrategy = EngineImageLoaderStrategy.Default;
-  readonly spritesMap = new Map<string, ISpriteConfig>();
+  emitter: EventEmitter;
+  objects = new Set<EngineObject>();
+  imageLoadStrategy: EngineImageLoaderStrategy = EngineImageLoaderStrategy.Default;
+  spritesMap = new Map<string, ISpriteConfig>();
 
+  destroyed = false;
+  disabled = false;
   load: EngineLoader;
   sprites: EngineSprite;
   sys: Engine;
@@ -34,20 +36,43 @@ export abstract class EngineScene {
   }
 
   destroy(): void {
+    console.log('this.objects', this.objects);
     this.objects.forEach((object) => object.destroy());
     this.objects.clear();
     this.spritesMap.clear();
+    this.destroyed = true;
   }
 
-  init(): void {}
+  abstract init(): void;
+
+  preInit() {
+    this.destroyed = false;
+    this.emitter = new EventEmitter();
+    // this.objects = new Set<EngineObject>();
+    // this.spritesMap = new Map<string, ISpriteConfig>();
+  }
 
   registerObject(object: EngineObject): void {
     this.objects.add(object);
   }
 
-  renderSceneSprite(name: string, config: ISpriteConfig) {
+  renderSceneSprite(name: string, config: ISpriteConfig): void {
     this.spritesMap.set(name, config);
     this.sprites.render(name, config);
+  }
+
+  removeEvents(): void {
+    this.objects.forEach((object) => {
+      object.events.mouse.off();
+    });
+  }
+
+  disable(): void {
+    this.disabled = true;
+  }
+
+  enable(): void {
+    this.disabled = false;
   }
 
   clone(): EngineScene {
@@ -57,6 +82,8 @@ export abstract class EngineScene {
   abstract preload(): void;
 
   abstract render(): void;
+
+  // abstract create(): void;
 
   abstract update(): void;
 }

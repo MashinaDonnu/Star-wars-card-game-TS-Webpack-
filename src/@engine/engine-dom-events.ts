@@ -15,6 +15,6 @@ export class EngineDomEvents {
   mouse: EngineMouseEvent;
 
   constructor(private object: EngineObject) {
-    this.mouse = new EngineMouseEvent(object);
+    this.mouse = new EngineMouseEvent(this.object);
   }
 }

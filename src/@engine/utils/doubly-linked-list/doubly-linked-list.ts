@@ -1,114 +1,5 @@
 import { DoublyLink } from '@engine/utils/doubly-linked-list/doubly-link';
 
-// export class DoublyLink<T>edList<T> {
-//   first: DoublyLink<T><T> = null;
-//   last: DoublyLink<T><T> = null;
-//
-//   constructor() {}
-//
-//   addFirst(value: T): DoublyLink<T><T> {
-//     const link = new DoublyLink<T>(value);
-//     if (this.isEmpty()) {
-//       this.last = link;
-//     } else {
-//       this.first.prev = link;
-//       link.next = this.first;
-//     }
-//
-//     this.first = link;
-//     return link;
-//   }
-//
-//   addLast(value: T): DoublyLink<T><T> {
-//     const link = new DoublyLink<T>(value);
-//     if (this.isEmpty()) {
-//       this.first = link;
-//     } else {
-//       this.last.next = link;
-//       link.prev = this.last;
-//     }
-//
-//     this.last = link;
-//     return link;
-//   }
-//
-//   removeFirst(): DoublyLink<T><T> {
-//     if (this.isEmpty()) {
-//       throw new Error('List is empty');
-//     }
-//     const first = this.first;
-//
-//     if (this.first.next === null) {
-//       this.last = null;
-//     } else {
-//       this.first.next.prev = null;
-//     }
-//     this.first = first.next;
-//
-//     return first;
-//   }
-//
-//   removeLast(): DoublyLink<T><T> {
-//     if (this.isEmpty()) {
-//       throw new Error('List is empty');
-//     }
-//
-//     const last = this.last;
-//
-//     if (!last && this.first) {
-//       return this.removeFirst();
-//     }
-//
-//     if (this.first.next === null) {
-//       this.last = null;
-//     } else {
-//       this.first.next.prev = null;
-//     }
-//     this.last = last.prev;
-//     return last;
-//   }
-//
-//   insertAfter(value: T, key: keyof T): DoublyLink<T><T> {
-//     if (this.isEmpty()) {
-//       throw new Error('List is empty');
-//     }
-//     let current = this.first;
-//     while (current.value[key] !== key) {
-//       current = current.next;
-//       if (!current) {
-//         return null;
-//       }
-//     }
-//
-//     const link = new DoublyLink<T>(value);
-//
-//     if (current === this.last) {
-//       link.next = null;
-//       this.last = link;
-//     } else {
-//       link.next = current.next;
-//       current.next.prev = link;
-//     }
-//
-//     current.next = link;
-//     link.prev = current;
-//
-//     return link;
-//   }
-//
-//   isEmpty(): boolean {
-//     return this.first === null;
-//   }
-//
-//   *[Symbol.iterator]() {
-//     let current = this.first;
-//     while (current) {
-//       yield current.value;
-//       current = current.next;
-//     }
-//   }
-// }
-
 export class DoublyLinkedList<T> {
   private first: DoublyLink<T> | null;
   private last: DoublyLink<T> | null;
@@ -203,8 +94,6 @@ export class DoublyLinkedList<T> {
     const link = new DoublyLink<T>(data);
 
     if (current === this.last) {
-      // link.prev = this.last;
-      // this.last!.next = link
       link.next = null;
       this.last = link;
     } else {

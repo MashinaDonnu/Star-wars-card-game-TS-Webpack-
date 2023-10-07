@@ -6,6 +6,8 @@ import { EventEmitter } from '@engine/emitter/EventEmitter';
 export interface IAbstractObjectParams {
   width: number;
   height: number;
+  name: string;
+  spriteName: string;
   x: number;
   y: number;
 }
@@ -15,22 +17,28 @@ export abstract class EngineObject {
   height: number;
   x: number;
   y: number;
-  events = new EngineDomEvents(this);
-  emitter = new EventEmitter();
+  events: EngineDomEvents;
+  emitter: EventEmitter;
   sys: Engine;
   scene: EngineScene;
+  name: string;
+  spriteName: string;
 
   protected constructor(scene: EngineScene, params: IAbstractObjectParams) {
-    const { width, height, x, y } = params;
+    const { width, height, x, y, name, spriteName } = params;
     this.scene = scene;
     this.width = width;
     this.height = height;
     this.x = x;
     this.y = y;
+    this.name = name;
+    this.spriteName = spriteName;
     this.sys = Engine.sys;
 
     this.register();
   }
+
+  abstract init(): void;
 
   abstract render(): void;
 
@@ -40,6 +48,11 @@ export abstract class EngineObject {
     this.onDestroy();
     this.events.mouse.off();
     this.emitter.off();
+  }
+
+  preInit() {
+    this.events = new EngineDomEvents(this);
+    this.emitter = new EventEmitter();
   }
 
   private register(): void {

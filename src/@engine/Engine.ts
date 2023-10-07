@@ -16,10 +16,11 @@ export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 export class Engine {
   context: TEngineContext;
   scenes: EngineScene[] = [];
+  disabledEvents = false;
   onPreload: Function;
   onRender: Function;
   private _root$: HTMLElement;
-  private _isDrawing: boolean = false;
+  private _isDrawing = false;
   private _currentScene: EngineScene;
 
   static Scene = EngineScene;
@@ -70,6 +71,8 @@ export class Engine {
 
     const prev = this.scenesHistory.prev();
     console.log('PREV', prev);
+
+    // this.sceneRenderer.render(this._currentScene);
 
     if (prev) {
       this.sceneRenderer.render(this._currentScene, {
@@ -130,40 +133,6 @@ export class Engine {
 
     this.setCurrentScene(this.scenes[0].name);
   }
-
-  // private render(): void {
-  //   console.log('RENDER: ', this._currentScene.name);
-  //
-  //
-  //   // this.scenes.forEach((scene) => {
-  //   //   if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Default) {
-  //   //     scene.preload();
-  //   //   }
-  //   //   const imageLoaders = engineData.loadersImagePromises;
-  //   //   console.log('imageLoaders', engineData);
-  //   //   Promise.all(imageLoaders).then(() => {
-  //   //     if (this._currentScene.name === scene.name) {
-  //   //       if (scene.imageLoadStrategy === EngineImageLoaderStrategy.Lazy) {
-  //   //         scene.preload();
-  //   //         Promise.all(imageLoaders).then(() => {
-  //   //           scene.init();
-  //   //           scene.render();
-  //   //           scene.objects.forEach((obj) => {
-  //   //             obj.render();
-  //   //           });
-  //   //         });
-  //   //       } else {
-  //   //         scene.init();
-  //   //         scene.render();
-  //   //         scene.objects.forEach((obj) => {
-  //   //           obj.render();
-  //   //         });
-  //   //       }
-  //   //     }
-  //   //     engineData.loadersImagePromises.clear();
-  //   //   });
-  //   // });
-  // }
 
   private renderScene(): void {
     Promise.all(engineData.loadersImagePromises).then(() => {

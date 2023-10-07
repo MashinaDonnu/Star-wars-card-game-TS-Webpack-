@@ -29,6 +29,7 @@ export abstract class AbstractEngineEvent implements IAbstractObserver {
 
     this.domListeners.forEach((listeners, key) => {
       listeners.forEach((callback) => {
+        console.log('REMOVEEEEE:', key, callback);
         document.removeEventListener(key, callback);
       });
 
