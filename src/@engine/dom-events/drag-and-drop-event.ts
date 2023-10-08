@@ -1,6 +1,6 @@
 import { EngineMouseEvent } from '@engine/dom-events/engine-mouse-event';
 import { EngineObject } from '@engine/objects/engine-object';
-import { IEngineDomMouseEvent } from '@engine/engine-dom-events';
+import { IEngineDomMouseEvent } from '@engine/dom-events/engine-dom-events';
 
 export class DragAndDropEvent extends EngineMouseEvent {
   isDragging = false;

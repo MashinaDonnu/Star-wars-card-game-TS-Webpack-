@@ -6,7 +6,7 @@ import { EngineSprite } from '@engine/engine-sprite';
 import { engineData } from '@engine/engine-data';
 import { EngineObjects } from '@engine/engine-objects';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
-import { EngineSceneRenderer } from '@engine/engine-scene-renderer';
+import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 import { EngineSceneHistory } from '@engine/engine-scene-history';
@@ -50,11 +50,8 @@ export class Engine {
   setCurrentScene(name: string, options?: IEngineSceneRendererOptions) {
     const scene = this.scenes.find((s) => s.name === name);
     const context = this.context;
+
     if (scene) {
-      // this._currentScene?.destroy();
-      // if (context instanceof CanvasRenderingContext2D) {
-      //   context.clearRect(0, 0, 640, 360);
-      // }
       this.scenesHistory.push(scene);
       this._currentScene = scene;
     }
@@ -63,20 +60,11 @@ export class Engine {
       this._currentScene.preload();
     }
 
-    console.log('HISTORY: ', this.scenesHistory);
-    for (const el of this.scenesHistory.queue.list.links()) {
-      console.log('HISTORY ITEM: ', el.value);
-    }
-    // this.sceneRenderer.render(this._currentScene);
-
     const prev = this.scenesHistory.prev();
-    console.log('PREV', prev);
-
-    // this.sceneRenderer.render(this._currentScene);
 
     if (prev) {
       this.sceneRenderer.render(this._currentScene, {
-        animation: EngineSceneRendererAnimations.Slide,
+        animation: EngineSceneRendererAnimations.SlideTop,
       });
     } else {
       this.sceneRenderer.render(this._currentScene);
@@ -123,6 +111,14 @@ export class Engine {
     this._isDrawing = false;
   }
 
+  disableEvents(): void {
+    this.disabledEvents = true;
+  }
+
+  enableEvents(): void {
+    this.disabledEvents = false;
+  }
+
   private render(): void {
     console.log('Render =>');
     this.scenes.forEach((scene) => {
@@ -132,17 +128,6 @@ export class Engine {
     });
 
     this.setCurrentScene(this.scenes[0].name);
-  }
-
-  private renderScene(): void {
-    Promise.all(engineData.loadersImagePromises).then(() => {
-      this._currentScene.init();
-      this._currentScene.render();
-      this._currentScene.objects.forEach((obj) => {
-        obj.render();
-      });
-      engineData.loadersImagePromises.clear();
-    });
   }
 
   private requestAnimationFrame(callback: FrameRequestCallback): void {

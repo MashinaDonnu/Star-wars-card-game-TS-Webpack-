@@ -1,3 +1,6 @@
 export enum EngineSceneRendererAnimations {
-  Slide = 'Slide',
+  SlideLeft = 'SlideLeft',
+  SlideTop = 'SlideTop',
+  SlideRight = 'SlideRight',
+  SlideBottom = 'SlideTop',
 }

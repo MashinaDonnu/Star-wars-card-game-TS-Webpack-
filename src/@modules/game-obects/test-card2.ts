@@ -6,7 +6,7 @@ export class TestCard2 extends AbstractCard {
     super(scene, {
       width: 196,
       height: 306,
-      x: 300,
+      x: 0,
       y: 0,
       name: 'TestCard2 obj',
       spriteName: 'card',

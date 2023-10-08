@@ -1,5 +1,5 @@
 import { EngineObject } from '@engine/objects/engine-object';
-import { IEngineDomMouseEvent } from '@engine/engine-dom-events';
+import { IEngineDomMouseEvent } from '@engine/dom-events/engine-dom-events';
 import { AbstractEngineEvent } from '@engine/dom-events/abstract-engine-event';
 import { Engine } from '@engine';
 
@@ -57,9 +57,8 @@ export class EngineMouseEvent extends AbstractEngineEvent {
         const mouseX = e.clientX - context.canvas.getBoundingClientRect().left;
         const mouseY = e.clientY - context.canvas.getBoundingClientRect().top;
 
-        const f = this.isEntered(mouseX, mouseY);
-        console.log('BOOL:', f);
-        if (f) {
+        console.log('BOOL:', mouseX, mouseY);
+        if (this.isEntered(mouseX, mouseY)) {
           callback({ event: e, mouseX, mouseY });
         }
       }

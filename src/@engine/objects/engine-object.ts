@@ -1,4 +1,4 @@
-import { EngineDomEvents } from '@engine/engine-dom-events';
+import { EngineDomEvents } from '@engine/dom-events/engine-dom-events';
 import { Engine } from '@engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
