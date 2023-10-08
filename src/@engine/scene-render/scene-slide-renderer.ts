@@ -3,6 +3,7 @@ import { EngineScene } from '@engine/scenes/engine-scene';
 import { Engine, TEngineContext } from '@engine';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 import { ISpriteConfig } from '@engine/engine-sprite';
+import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
 
 interface ISlideParams {
   context: TEngineContext;
@@ -22,23 +23,25 @@ interface IDrawSceneSpritesParams {
 
 export class SceneSlideRenderer {
   engine: Engine;
+  private readonly defaultVelocityOffset = 10;
+
   constructor(public engineSceneRenderer: EngineSceneRenderer) {
     this.engine = engineSceneRenderer.engine;
   }
 
-  render(type: EngineSceneRendererAnimations, scene: EngineScene) {
-    switch (type) {
+  render(options: IEngineSceneRendererOptions, scene: EngineScene) {
+    switch (options.animation.type) {
       case EngineSceneRendererAnimations.SlideTop:
-        this.slideTop(scene);
+        this.slideTop(scene, options);
         break;
       case EngineSceneRendererAnimations.SlideRight:
-        this.slideRight(scene);
+        this.slideRight(scene, options);
         break;
       case EngineSceneRendererAnimations.SlideBottom:
-        this.slideBottom(scene);
+        this.slideBottom(scene, options);
         break;
       case EngineSceneRendererAnimations.SlideLeft:
-        this.slideLeft(scene);
+        this.slideLeft(scene, options);
     }
   }
 
@@ -64,7 +67,7 @@ export class SceneSlideRenderer {
     }
   }
 
-  private slideLeft(scene: EngineScene) {
+  private slideLeft(scene: EngineScene, options: IEngineSceneRendererOptions) {
     const { context, contextWidth, contextHeight, prevScene } = this.getSlideParams(scene);
     let prevSceneComplete = false;
     let currSceneComplete = false;
@@ -88,7 +91,7 @@ export class SceneSlideRenderer {
           prevSceneComplete = true;
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
-            prevSceneX -= 10;
+            prevSceneX -= options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene: prevScene, config, coord: 'x', coordValue: prevSceneX, name: sprite, context });
           }
         }
@@ -107,15 +110,15 @@ export class SceneSlideRenderer {
           clearInterval(intervalId);
         } else {
           for (const [sprite, config] of scene.spritesMap) {
-            currSceneX -= 10;
+            currSceneX -= options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene, config, coord: 'x', coordValue: currSceneX, name: sprite, context });
           }
         }
       }
-    }, 50);
+    }, 0);
   }
 
-  private slideRight(scene: EngineScene) {
+  private slideRight(scene: EngineScene, options: IEngineSceneRendererOptions) {
     const { context, contextWidth, contextHeight, prevScene } = this.getSlideParams(scene);
     let prevSceneComplete = false;
     let currSceneComplete = false;
@@ -139,7 +142,7 @@ export class SceneSlideRenderer {
           prevSceneComplete = true;
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
-            prevSceneX += 10;
+            prevSceneX += options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene: prevScene, config, coord: 'x', coordValue: prevSceneX, name: sprite, context });
           }
         }
@@ -158,15 +161,15 @@ export class SceneSlideRenderer {
           clearInterval(intervalId);
         } else {
           for (const [sprite, config] of scene.spritesMap) {
-            currSceneX += 10;
+            currSceneX += options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene, config, coord: 'x', coordValue: currSceneX, name: sprite, context });
           }
         }
       }
-    }, 50);
+    }, 0);
   }
 
-  private slideBottom(scene: EngineScene) {
+  private slideBottom(scene: EngineScene, options: IEngineSceneRendererOptions) {
     const { context, contextWidth, contextHeight, prevScene } = this.getSlideParams(scene);
     let prevSceneComplete = false;
     let currSceneComplete = false;
@@ -190,7 +193,7 @@ export class SceneSlideRenderer {
           prevSceneComplete = true;
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
-            prevSceneY += 10;
+            prevSceneY += options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene: prevScene, config, coord: 'y', coordValue: prevSceneY, name: sprite, context });
           }
         }
@@ -209,15 +212,15 @@ export class SceneSlideRenderer {
           clearInterval(intervalId);
         } else {
           for (const [sprite, config] of scene.spritesMap) {
-            currSceneY += 10;
+            currSceneY += options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene, config, coord: 'y', coordValue: currSceneY, name: sprite, context });
           }
         }
       }
-    }, 50);
+    }, 0);
   }
 
-  private slideTop(scene: EngineScene): void {
+  private slideTop(scene: EngineScene, options: IEngineSceneRendererOptions): void {
     const { context, contextWidth, contextHeight, prevScene } = this.getSlideParams(scene);
     let prevSceneComplete = false;
     let currSceneComplete = false;
@@ -241,7 +244,7 @@ export class SceneSlideRenderer {
           prevSceneComplete = true;
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
-            prevSceneY -= 10;
+            prevSceneY -= options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene: prevScene, config, coord: 'y', coordValue: prevSceneY, name: sprite, context });
           }
         }
@@ -260,11 +263,11 @@ export class SceneSlideRenderer {
           clearInterval(intervalId);
         } else {
           for (const [sprite, config] of scene.spritesMap) {
-            currSceneY -= 10;
+            currSceneY -= options.animation.velocity ?? this.defaultVelocityOffset;
             this.drawSceneSprites({ scene, config, coord: 'y', coordValue: currSceneY, name: sprite, context });
           }
         }
       }
-    }, 50);
+    }, 0);
   }
 }

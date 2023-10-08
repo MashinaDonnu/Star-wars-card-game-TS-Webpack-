@@ -3,7 +3,6 @@ import { IEngineConfig } from '@engine/types/engine-config.interface';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { EngineLoader } from '@engine/engine-loader';
 import { EngineSprite } from '@engine/engine-sprite';
-import { engineData } from '@engine/engine-data';
 import { EngineObjects } from '@engine/engine-objects';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer';
@@ -49,7 +48,6 @@ export class Engine {
 
   setCurrentScene(name: string, options?: IEngineSceneRendererOptions) {
     const scene = this.scenes.find((s) => s.name === name);
-    const context = this.context;
 
     if (scene) {
       this.scenesHistory.push(scene);
@@ -60,12 +58,10 @@ export class Engine {
       this._currentScene.preload();
     }
 
-    const prev = this.scenesHistory.prev();
+    const prevScene = this.scenesHistory.prev();
 
-    if (prev) {
-      this.sceneRenderer.render(this._currentScene, {
-        animation: EngineSceneRendererAnimations.SlideTop,
-      });
+    if (options?.animation && prevScene) {
+      this.sceneRenderer.render(this._currentScene, options);
     } else {
       this.sceneRenderer.render(this._currentScene);
     }

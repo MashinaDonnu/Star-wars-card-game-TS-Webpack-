@@ -19,19 +19,20 @@ export class EngineSceneRenderer {
 
   constructor(public engine: Engine) {}
 
+  render(scene: EngineScene): void;
   render(scene: EngineScene, options?: IEngineSceneRendererOptions): void {
     if (options?.animation) {
-      if (this.isSlide(options.animation)) {
-        return this.slideRenderer.render(options.animation, scene);
+      if (this.isSlide(options.animation.type)) {
+        return this.slideRenderer.render(options, scene);
       }
     }
 
-    this.finalizeRender(scene);
+    this.default(scene);
   }
 
   prerender(scene: EngineScene, coords?: ICoords) {
     const sceneProxy = new Proxy(scene, {
-      get(target: EngineScene, p: keyof EngineScene, receiver: any): any {
+      get(target: EngineScene, p: keyof EngineScene): unknown {
         if (p === 'renderSceneSprite' && typeof target[p] === 'function') {
           return function (name: string, config: ISpriteConfig) {
             config.x = coords.x || config.x;
@@ -44,6 +45,7 @@ export class EngineSceneRenderer {
         return target[p];
       },
     });
+
     Promise.all(engineData.loadersImagePromises).then(() => {
       sceneProxy.render();
       sceneProxy.objects.forEach((obj) => {
@@ -68,5 +70,17 @@ export class EngineSceneRenderer {
 
   private isSlide(animation: EngineSceneRendererAnimations): boolean {
     return slideAnimations.includes(animation);
+  }
+
+  private default(scene: EngineScene) {
+    const context = this.engine.context;
+    const contextWidth = this.engine.config.width;
+    const contextHeight = this.engine.config.height;
+    const prevScene = this.engine.scenesHistory.prev();
+    if (context instanceof CanvasRenderingContext2D) {
+      context.clearRect(0, 0, contextWidth, contextHeight);
+    }
+    prevScene?.destroy();
+    this.finalizeRender(scene);
   }
 }
