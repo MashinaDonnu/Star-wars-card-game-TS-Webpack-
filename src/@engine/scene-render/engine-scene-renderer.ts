@@ -19,7 +19,6 @@ export class EngineSceneRenderer {
 
   constructor(public engine: Engine) {}
 
-  render(scene: EngineScene): void;
   render(scene: EngineScene, options?: IEngineSceneRendererOptions): void {
     if (options?.animation) {
       if (this.isSlide(options.animation.type)) {
@@ -35,8 +34,13 @@ export class EngineSceneRenderer {
       get(target: EngineScene, p: keyof EngineScene): unknown {
         if (p === 'renderSceneSprite' && typeof target[p] === 'function') {
           return function (name: string, config: ISpriteConfig) {
-            config.x = coords.x || config.x;
-            config.y = coords.y || config.y;
+            // console.log('CONFIG: ', name, config);
+            // if (coords.x !== undefined) {
+            //   config.prerenderX = coords.x + config.x;
+            // }
+            // if (coords.y !== undefined) {
+            //   config.prerenderY = coords.y + config.y;
+            // }
 
             return target[p].apply(target, [name, config]);
           };
@@ -82,5 +86,14 @@ export class EngineSceneRenderer {
     }
     prevScene?.destroy();
     this.finalizeRender(scene);
+  }
+
+  clearRect(): void {
+    const context = this.engine.context;
+    const contextWidth = this.engine.config.width;
+    const contextHeight = this.engine.config.height;
+    if (context instanceof CanvasRenderingContext2D) {
+      context.clearRect(0, 0, contextWidth, contextHeight);
+    }
   }
 }

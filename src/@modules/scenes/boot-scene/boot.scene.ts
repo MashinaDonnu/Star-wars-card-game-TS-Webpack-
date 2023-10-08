@@ -2,6 +2,7 @@ import { Engine } from '@engine';
 import { TestCard } from '@modules/game-obects/test-card';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { TestCard2 } from '@modules/game-obects/test-card2';
+import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 
 export class BootScene extends Engine.Scene {
   card: TestCard2;
@@ -33,7 +34,12 @@ export class BootScene extends Engine.Scene {
   init() {
     this.card.events.mouse.mouseDown((data: any) => {
       console.log(11111);
-      this.sys.setCurrentScene('Test');
+      this.sys.setCurrentScene('Test', {
+        animation: {
+          type: EngineSceneRendererAnimations.SlideTop,
+          velocity: 10,
+        },
+      });
       // this.destroy();
     });
     this.card.events.mouse.mouseUp((data: any) => {});

@@ -78,9 +78,7 @@ export class SceneSlideRenderer {
     this.engine.disableEvents();
 
     const intervalId = setInterval(() => {
-      if (context instanceof CanvasRenderingContext2D) {
-        context.clearRect(0, 0, contextWidth, contextHeight);
-      }
+      this.engineSceneRenderer.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneX <= -contextWidth) {
@@ -92,7 +90,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
             prevSceneX -= options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene: prevScene, config, coord: 'x', coordValue: prevSceneX, name: sprite, context });
+            this.drawSceneSprites({ scene: prevScene, config, coord: 'x', coordValue: prevSceneX + config.x, name: sprite, context });
           }
         }
       }
@@ -104,6 +102,7 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
+          this.engineSceneRenderer.clearRect();
           this.engineSceneRenderer.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
@@ -111,7 +110,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of scene.spritesMap) {
             currSceneX -= options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene, config, coord: 'x', coordValue: currSceneX, name: sprite, context });
+            this.drawSceneSprites({ scene, config, coord: 'x', coordValue: currSceneX + config.x, name: sprite, context });
           }
         }
       }
@@ -129,9 +128,7 @@ export class SceneSlideRenderer {
     this.engine.disableEvents();
 
     const intervalId = setInterval(() => {
-      if (context instanceof CanvasRenderingContext2D) {
-        context.clearRect(0, 0, contextWidth, contextHeight);
-      }
+      this.engineSceneRenderer.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneX >= contextWidth) {
@@ -143,7 +140,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
             prevSceneX += options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene: prevScene, config, coord: 'x', coordValue: prevSceneX, name: sprite, context });
+            this.drawSceneSprites({ scene: prevScene, config, coord: 'x', coordValue: prevSceneX + config.x, name: sprite, context });
           }
         }
       }
@@ -155,6 +152,7 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
+          this.engineSceneRenderer.clearRect();
           this.engineSceneRenderer.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
@@ -162,7 +160,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of scene.spritesMap) {
             currSceneX += options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene, config, coord: 'x', coordValue: currSceneX, name: sprite, context });
+            this.drawSceneSprites({ scene, config, coord: 'x', coordValue: currSceneX + config.x, name: sprite, context });
           }
         }
       }
@@ -180,9 +178,7 @@ export class SceneSlideRenderer {
     this.engine.disableEvents();
 
     const intervalId = setInterval(() => {
-      if (context instanceof CanvasRenderingContext2D) {
-        context.clearRect(0, 0, contextWidth, contextHeight);
-      }
+      this.engineSceneRenderer.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneY >= contextHeight) {
@@ -194,7 +190,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
             prevSceneY += options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene: prevScene, config, coord: 'y', coordValue: prevSceneY, name: sprite, context });
+            this.drawSceneSprites({ scene: prevScene, config, coord: 'y', coordValue: prevSceneY + config.y, name: sprite, context });
           }
         }
       }
@@ -206,6 +202,7 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
+          this.engineSceneRenderer.clearRect();
           this.engineSceneRenderer.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
@@ -213,7 +210,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of scene.spritesMap) {
             currSceneY += options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene, config, coord: 'y', coordValue: currSceneY, name: sprite, context });
+            this.drawSceneSprites({ scene, config, coord: 'y', coordValue: currSceneY + config.y, name: sprite, context });
           }
         }
       }
@@ -231,9 +228,7 @@ export class SceneSlideRenderer {
 
     this.engine.disableEvents();
     const intervalId = setInterval(() => {
-      if (context instanceof CanvasRenderingContext2D) {
-        context.clearRect(0, 0, contextWidth, contextHeight);
-      }
+      this.engineSceneRenderer.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneY <= -contextHeight) {
@@ -245,7 +240,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of prevScene.spritesMap) {
             prevSceneY -= options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene: prevScene, config, coord: 'y', coordValue: prevSceneY, name: sprite, context });
+            this.drawSceneSprites({ scene: prevScene, config, coord: 'y', coordValue: prevSceneY + config.y, name: sprite, context });
           }
         }
       }
@@ -257,6 +252,7 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
+          this.engineSceneRenderer.clearRect();
           this.engineSceneRenderer.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
@@ -264,7 +260,7 @@ export class SceneSlideRenderer {
         } else {
           for (const [sprite, config] of scene.spritesMap) {
             currSceneY -= options.animation.velocity ?? this.defaultVelocityOffset;
-            this.drawSceneSprites({ scene, config, coord: 'y', coordValue: currSceneY, name: sprite, context });
+            this.drawSceneSprites({ scene, config, coord: 'y', coordValue: currSceneY + config.y, name: sprite, context });
           }
         }
       }

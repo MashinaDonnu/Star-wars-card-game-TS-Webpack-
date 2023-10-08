@@ -7,6 +7,8 @@ export interface ISpriteConfig {
   height: number;
   x: number;
   y: number;
+  prerenderX?: number;
+  prerenderY?: number;
   isPrivate?: boolean;
   // ....
 }
