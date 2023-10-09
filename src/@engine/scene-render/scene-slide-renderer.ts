@@ -1,4 +1,3 @@
-import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { Engine } from '@engine';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';

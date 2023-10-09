@@ -7,8 +7,8 @@ import { EngineObjects } from '@engine/engine-objects';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
-import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 import { EngineSceneHistory } from '@engine/engine-scene-history';
+import { EngineAudio } from '@engine/engine-audio';
 
 export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 
@@ -26,6 +26,7 @@ export class Engine {
   static sys: Engine;
   static load: (namespace: string) => EngineLoader;
   static sprites: (namespace: string) => EngineSprite;
+  static audio: (namespace: string) => EngineAudio;
   static Objects = EngineObjects;
 
   scenesHistory = new EngineSceneHistory(this);
@@ -35,6 +36,7 @@ export class Engine {
     this.scenes = config.scenes;
     Engine.load = (namespace: string) => new EngineLoader(namespace, this);
     Engine.sprites = (namespace: string) => new EngineSprite(namespace, this);
+    Engine.audio = (namespace: string) => new EngineAudio(namespace, this);
     Engine.sys = this;
   }
 

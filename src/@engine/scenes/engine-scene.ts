@@ -4,6 +4,7 @@ import { EngineLoader } from '@engine/engine-loader';
 import { EngineSprite, ISpriteConfig } from '@engine/engine-sprite';
 import { EngineObject } from '@engine/objects/engine-object';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
+import { EngineAudio } from '@engine/engine-audio';
 
 export interface IEngineSceneOptions {
   imageLoadStrategy?: EngineImageLoaderStrategy;
@@ -20,12 +21,14 @@ export abstract class EngineScene {
   disabled = false;
   load: EngineLoader;
   sprites: EngineSprite;
+  audio: EngineAudio;
   sys: Engine;
 
   protected constructor(name: string, options?: IEngineSceneOptions) {
     this.name = name;
     this.load = Engine.load(name);
     this.sprites = Engine.sprites(name);
+    this.audio = Engine.audio(name);
     this.sys = Engine.sys;
 
     if (options) {

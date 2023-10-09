@@ -7,7 +7,7 @@ export class TestScene extends Engine.Scene {
   card: TestCard;
   constructor() {
     super('Test', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Default,
+      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
     });
   }
 

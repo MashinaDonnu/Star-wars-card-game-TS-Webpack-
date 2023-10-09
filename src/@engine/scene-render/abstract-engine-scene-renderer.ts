@@ -3,6 +3,7 @@ import { IPrerenderParams } from '@engine/scene-render/types';
 import { ISpriteConfig } from '@engine/engine-sprite';
 import { engineData } from '@engine/engine-data';
 import { Engine } from '@engine';
+import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
 
 export abstract class AbstractEngineSceneRenderer {
   protected constructor(protected readonly engine: Engine) {}
@@ -38,7 +39,8 @@ export abstract class AbstractEngineSceneRenderer {
   }
 
   protected finalizeRender(scene: EngineScene) {
-    Promise.all(engineData.loadersImagePromises).then(() => {
+    const promises = [...engineData.loadersImagePromises, ...engineData.loadersAudioPromises];
+    Promise.all(promises).then(() => {
       scene.render();
       scene.preInit();
       scene.objects.forEach((obj) => {
@@ -48,6 +50,7 @@ export abstract class AbstractEngineSceneRenderer {
       });
       scene.init();
       engineData.loadersImagePromises.clear();
+      engineData.loadersAudioPromises.clear();
     });
   }
 
@@ -59,4 +62,6 @@ export abstract class AbstractEngineSceneRenderer {
       context.clearRect(0, 0, contextWidth, contextHeight);
     }
   }
+
+  abstract render(scene: EngineScene, options?: IEngineSceneRendererOptions): void;
 }

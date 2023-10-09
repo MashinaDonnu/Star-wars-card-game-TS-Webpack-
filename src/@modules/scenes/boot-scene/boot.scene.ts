@@ -8,7 +8,7 @@ export class BootScene extends Engine.Scene {
   card: TestCard2;
   constructor() {
     super('Boot', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Default,
+      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
     });
   }
 
@@ -17,6 +17,8 @@ export class BootScene extends Engine.Scene {
   preload(): void {
     this.load.image('/images/star-wars-bg.jpeg', 'name');
     this.load.image('/images/card.png', 'card');
+
+    this.load.audio('/audio/bump.mp3', 'bump');
   }
 
   render(): void {
@@ -32,14 +34,14 @@ export class BootScene extends Engine.Scene {
   }
 
   init() {
+    this.audio.play('bump', {});
+
     this.card.events.mouse.mouseDown((data: any) => {
       this.sys.setCurrentScene('Test', {
         animation: {
-          type: EngineSceneRendererAnimations.SlideTop,
-          velocity: 1,
+          type: EngineSceneRendererAnimations.SlideLeft,
         },
       });
-      // this.destroy();
     });
     this.card.events.mouse.mouseUp((data: any) => {});
   }

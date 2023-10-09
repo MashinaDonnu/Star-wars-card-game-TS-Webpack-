@@ -1,5 +1,4 @@
 import { Engine } from '@engine';
-import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
@@ -26,9 +25,9 @@ export class SceneFadeRenderer extends AbstractEngineSceneRenderer {
 
   fadeIn(scene: EngineScene, options?: IEngineSceneRendererOptions) {
     const context = scene.sys.context;
+    const prevScene = this.engine.scenesHistory.prev();
     let alpha = 0;
     this.engine.disableEvents();
-    const prevScene = this.engine.scenesHistory.prev();
     this.prerender(scene, { fade: { alpha: 0.1 } });
     const intervalId = setInterval(() => {
       this.clearRect();

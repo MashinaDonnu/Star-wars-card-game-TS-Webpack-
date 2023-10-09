@@ -1,14 +1,11 @@
 import { Engine } from '@engine/Engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
-import { engineData } from '@engine/engine-data';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
-import { ISpriteConfig } from '@engine/engine-sprite';
 import { SceneSlideRenderer } from '@engine/scene-render/scene-slide-renderer';
 import { SceneFadeRenderer } from '@engine/scene-render/scene-fade-renderer';
 import { fadeAnimations, slideAnimations } from '@engine/scene-render/animations';
 import { TEngineSceneRendererAnimation } from '@engine/types/engine-scene-renderer-animation-types';
-import { IPrerenderParams } from '@engine/scene-render/types';
 import { AbstractEngineSceneRenderer } from '@engine/scene-render/abstract-engine-scene-renderer';
 
 export class EngineSceneRenderer extends AbstractEngineSceneRenderer {
