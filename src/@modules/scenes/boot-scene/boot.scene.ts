@@ -33,11 +33,10 @@ export class BootScene extends Engine.Scene {
 
   init() {
     this.card.events.mouse.mouseDown((data: any) => {
-      console.log(11111);
       this.sys.setCurrentScene('Test', {
         animation: {
           type: EngineSceneRendererAnimations.SlideTop,
-          velocity: 10,
+          velocity: 1,
         },
       });
       // this.destroy();

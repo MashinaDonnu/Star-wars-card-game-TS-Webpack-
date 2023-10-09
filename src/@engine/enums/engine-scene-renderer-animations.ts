@@ -3,4 +3,7 @@ export enum EngineSceneRendererAnimations {
   SlideTop = 'SlideTop',
   SlideRight = 'SlideRight',
   SlideBottom = 'SlideTop',
+
+  FadeIn = 'FadeIn',
+  FadeOutFadeIn = 'FadeOutFadeIn',
 }

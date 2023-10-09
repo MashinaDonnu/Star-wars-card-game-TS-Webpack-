@@ -40,8 +40,7 @@ export class TestScene extends Engine.Scene {
       // if (f) {
       this.sys.setCurrentScene('Boot', {
         animation: {
-          type: EngineSceneRendererAnimations.SlideLeft,
-          velocity: 10,
+          type: EngineSceneRendererAnimations.FadeOutFadeIn,
         },
       });
       console.log('data: ', data);

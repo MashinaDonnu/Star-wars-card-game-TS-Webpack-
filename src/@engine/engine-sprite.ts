@@ -7,9 +7,8 @@ export interface ISpriteConfig {
   height: number;
   x: number;
   y: number;
-  prerenderX?: number;
-  prerenderY?: number;
   isPrivate?: boolean;
+  alpha?: number;
   // ....
 }
 
@@ -22,10 +21,16 @@ export class EngineSprite {
     const context = this.engine.context;
     const image = this.get(name, !!config.isPrivate);
 
-    const { x, y, width, height } = config;
+    const { x, y, width, height, alpha } = config;
+    console.log('CONFIG111: ', config);
 
     if (context instanceof CanvasRenderingContext2D) {
       // context.clearRect(0, 0, 640, 360);
+      if (alpha) {
+        context.globalAlpha = alpha;
+      } else {
+        context.globalAlpha = 1;
+      }
       context.drawImage(image, x, y);
     }
   }

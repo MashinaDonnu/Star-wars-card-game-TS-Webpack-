@@ -6,41 +6,49 @@ import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer
 import { ICoords } from '@engine/types/coords.interface';
 import { ISpriteConfig } from '@engine/engine-sprite';
 import { SceneSlideRenderer } from '@engine/scene-render/scene-slide-renderer';
+import { SceneFadeRenderer } from '@engine/scene-render/scene-fade-renderer';
+import { fadeAnimations, slideAnimations } from '@engine/scene-render/animations';
+import { TEngineSceneRendererAnimation } from '@engine/types/engine-scene-renderer-animation-types';
 
-const slideAnimations: EngineSceneRendererAnimations[] = [
-  EngineSceneRendererAnimations.SlideTop,
-  EngineSceneRendererAnimations.SlideRight,
-  EngineSceneRendererAnimations.SlideBottom,
-  EngineSceneRendererAnimations.SlideLeft,
-];
+export interface IPrerenderParams {
+  fade?: {
+    alpha?: number;
+  };
+  coords?: ICoords;
+}
 
 export class EngineSceneRenderer {
   slideRenderer = new SceneSlideRenderer(this);
+  fadeRenderer = new SceneFadeRenderer(this);
 
   constructor(public engine: Engine) {}
 
   render(scene: EngineScene, options?: IEngineSceneRendererOptions): void {
     if (options?.animation) {
-      if (this.isSlide(options.animation.type)) {
-        return this.slideRenderer.render(options, scene);
+      switch (this.getAnimationType(options.animation.type)) {
+        case 'slide':
+          return this.slideRenderer.render(scene, options);
+        case 'fade':
+          return this.fadeRenderer.render(scene, options);
       }
     }
 
     this.default(scene);
   }
 
-  prerender(scene: EngineScene, coords?: ICoords) {
+  prerender(scene: EngineScene, params?: IPrerenderParams) {
     const sceneProxy = new Proxy(scene, {
       get(target: EngineScene, p: keyof EngineScene): unknown {
         if (p === 'renderSceneSprite' && typeof target[p] === 'function') {
           return function (name: string, config: ISpriteConfig) {
-            // console.log('CONFIG: ', name, config);
-            // if (coords.x !== undefined) {
-            //   config.prerenderX = coords.x + config.x;
-            // }
-            // if (coords.y !== undefined) {
-            //   config.prerenderY = coords.y + config.y;
-            // }
+            if (params?.coords) {
+              config.x = params.coords.x ?? config.x;
+              config.y = params.coords.y ?? config.y;
+            }
+
+            if (params?.fade) {
+              config.alpha = params.fade.alpha ?? config.alpha;
+            }
 
             return target[p].apply(target, [name, config]);
           };
@@ -72,8 +80,13 @@ export class EngineSceneRenderer {
     });
   }
 
-  private isSlide(animation: EngineSceneRendererAnimations): boolean {
-    return slideAnimations.includes(animation);
+  private getAnimationType(animation: EngineSceneRendererAnimations): TEngineSceneRendererAnimation {
+    if (slideAnimations.includes(animation)) {
+      return 'slide';
+    }
+    if (fadeAnimations.includes(animation)) {
+      return 'fade';
+    }
   }
 
   private default(scene: EngineScene) {
