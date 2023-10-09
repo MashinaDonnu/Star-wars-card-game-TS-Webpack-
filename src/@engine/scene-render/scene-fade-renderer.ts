@@ -3,14 +3,14 @@ import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer'
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
+import { AbstractEngineSceneRenderer } from '@engine/scene-render/abstract-engine-scene-renderer';
 
-export class SceneFadeRenderer {
-  engine: Engine;
+export class SceneFadeRenderer extends AbstractEngineSceneRenderer {
   private readonly defaultVelocityOffset = 0.02;
   private readonly intervalValue = 10;
 
-  constructor(public engineSceneRenderer: EngineSceneRenderer) {
-    this.engine = engineSceneRenderer.engine;
+  constructor(protected readonly engine: Engine) {
+    super(engine);
   }
 
   render(scene: EngineScene, options?: IEngineSceneRendererOptions) {
@@ -29,13 +29,13 @@ export class SceneFadeRenderer {
     let alpha = 0;
     this.engine.disableEvents();
     const prevScene = this.engine.scenesHistory.prev();
-    this.engineSceneRenderer.prerender(scene, { fade: { alpha: 0.1 } });
+    this.prerender(scene, { fade: { alpha: 0.1 } });
     const intervalId = setInterval(() => {
-      this.engineSceneRenderer.clearRect();
+      this.clearRect();
       if (alpha >= 1) {
         prevScene.destroy();
         this.engine.enableEvents();
-        this.engineSceneRenderer.finalizeRender(scene);
+        this.finalizeRender(scene);
         clearInterval(intervalId);
       } else {
         alpha += options.animation?.velocity ?? this.defaultVelocityOffset;
@@ -56,7 +56,7 @@ export class SceneFadeRenderer {
     let alpha = 1;
     this.engine.disableEvents();
     const intervalId = setInterval(() => {
-      this.engineSceneRenderer.clearRect();
+      this.clearRect();
       if (alpha <= 0) {
         this.fadeIn(scene, options);
         clearInterval(intervalId);

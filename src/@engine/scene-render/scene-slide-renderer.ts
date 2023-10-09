@@ -1,32 +1,16 @@
 import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer';
 import { EngineScene } from '@engine/scenes/engine-scene';
-import { Engine, TEngineContext } from '@engine';
+import { Engine } from '@engine';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
-import { ISpriteConfig } from '@engine/engine-sprite';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
+import { IDrawSceneSpritesParams, ISlideParams } from '@engine/scene-render/types';
+import { AbstractEngineSceneRenderer } from '@engine/scene-render/abstract-engine-scene-renderer';
 
-interface ISlideParams {
-  context: TEngineContext;
-  contextWidth: number;
-  contextHeight: number;
-  prevScene: EngineScene;
-}
-
-interface IDrawSceneSpritesParams {
-  context: TEngineContext;
-  scene: EngineScene;
-  name: string;
-  config: ISpriteConfig;
-  coordValue: number;
-  coord: 'x' | 'y';
-}
-
-export class SceneSlideRenderer {
-  engine: Engine;
+export class SceneSlideRenderer extends AbstractEngineSceneRenderer {
   private readonly defaultVelocityOffset = 10;
 
-  constructor(public engineSceneRenderer: EngineSceneRenderer) {
-    this.engine = engineSceneRenderer.engine;
+  constructor(protected readonly engine: Engine) {
+    super(engine);
   }
 
   render(scene: EngineScene, options: IEngineSceneRendererOptions) {
@@ -74,11 +58,11 @@ export class SceneSlideRenderer {
     let prevSceneX = 0;
     let currSceneX = contextWidth;
 
-    this.engineSceneRenderer.prerender(scene);
+    this.prerender(scene);
     this.engine.disableEvents();
 
     const intervalId = setInterval(() => {
-      this.engineSceneRenderer.clearRect();
+      this.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneX <= -contextWidth) {
@@ -102,8 +86,8 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
-          this.engineSceneRenderer.clearRect();
-          this.engineSceneRenderer.finalizeRender(scene);
+          this.clearRect();
+          this.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
           clearInterval(intervalId);
@@ -124,11 +108,11 @@ export class SceneSlideRenderer {
     let prevSceneX = 0;
     let currSceneX = -contextWidth;
 
-    this.engineSceneRenderer.prerender(scene);
+    this.prerender(scene);
     this.engine.disableEvents();
 
     const intervalId = setInterval(() => {
-      this.engineSceneRenderer.clearRect();
+      this.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneX >= contextWidth) {
@@ -152,8 +136,8 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
-          this.engineSceneRenderer.clearRect();
-          this.engineSceneRenderer.finalizeRender(scene);
+          this.clearRect();
+          this.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
           clearInterval(intervalId);
@@ -174,11 +158,11 @@ export class SceneSlideRenderer {
     let prevSceneY = 0;
     let currSceneY = -contextHeight;
 
-    this.engineSceneRenderer.prerender(scene);
+    this.prerender(scene);
     this.engine.disableEvents();
 
     const intervalId = setInterval(() => {
-      this.engineSceneRenderer.clearRect();
+      this.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneY >= contextHeight) {
@@ -202,8 +186,8 @@ export class SceneSlideRenderer {
           }
 
           currSceneComplete = true;
-          this.engineSceneRenderer.clearRect();
-          this.engineSceneRenderer.finalizeRender(scene);
+          this.clearRect();
+          this.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
           clearInterval(intervalId);
@@ -224,11 +208,11 @@ export class SceneSlideRenderer {
     let prevSceneY = 0;
     let currSceneY = contextHeight;
 
-    this.engineSceneRenderer.prerender(scene);
+    this.prerender(scene);
 
     this.engine.disableEvents();
     const intervalId = setInterval(() => {
-      this.engineSceneRenderer.clearRect();
+      this.clearRect();
 
       if (!prevSceneComplete) {
         if (prevSceneY <= -contextHeight) {
@@ -255,8 +239,8 @@ export class SceneSlideRenderer {
           if (context instanceof CanvasRenderingContext2D) {
             context.globalAlpha = 1;
           }
-          this.engineSceneRenderer.clearRect();
-          this.engineSceneRenderer.finalizeRender(scene);
+          this.clearRect();
+          this.finalizeRender(scene);
           prevScene.destroy();
           this.engine.enableEvents();
           clearInterval(intervalId);
