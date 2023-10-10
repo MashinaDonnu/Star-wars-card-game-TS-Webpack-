@@ -3,11 +3,10 @@ import { IEngineDomMouseEvent } from '@engine/dom-events/engine-dom-events';
 import { AbstractEngineEvent } from '@engine/dom-events/abstract-engine-event';
 import { Engine } from '@engine';
 
-function disableIfDisabledFunction(fn: Function, engine: Engine) {
+function isDisabled(fn: Function, engine: Engine) {
   return function (...args: any[]) {
     if (engine.disabledEvents) {
-      console.log('Функция недоступна, так как disabled === true');
-      return; // Если disabled === true, то не вызывать функцию
+      return;
     }
 
     return fn(...args);
@@ -57,21 +56,21 @@ export class EngineMouseEvent extends AbstractEngineEvent {
         const mouseX = e.clientX - context.canvas.getBoundingClientRect().left;
         const mouseY = e.clientY - context.canvas.getBoundingClientRect().top;
 
-        console.log('BOOL:', mouseX, mouseY);
         if (this.isEntered(mouseX, mouseY)) {
           callback({ event: e, mouseX, mouseY });
         }
       }
     };
 
-    console.log('this.object.scene.disabled', this.object.sys.disabledEvents, this.object.scene.name, this.object.name);
     if (!this.object.sys.disabledEvents) {
-      this.on(mouseEvent, disableIfDisabledFunction(eventListenerCallback, this.object.sys));
+      this.on(mouseEvent, isDisabled(eventListenerCallback, this.object.sys));
     }
   }
 
   protected isEntered(mouseX: number, mouseY: number): boolean {
     const object = this.object;
-    return mouseX >= object.x && mouseX <= object.x + object.width && mouseY >= object.y && mouseY <= object.y + object.height;
+    const { x, y } = this.calculateCoords(object.sys.context, object);
+    const { width, height } = this.calculateSize(object.sys.context, object);
+    return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
   }
 }

@@ -1,4 +1,6 @@
 import { IAbstractObserver } from '@engine/emitter/types/abstract-observer.interface';
+import { TEngineContext } from '@engine';
+import { EngineObject } from '@engine/objects/engine-object';
 
 export abstract class AbstractEngineEvent implements IAbstractObserver {
   domListeners = new Map<string, Set<EventListenerOrEventListenerObject>>();
@@ -29,11 +31,46 @@ export abstract class AbstractEngineEvent implements IAbstractObserver {
 
     this.domListeners.forEach((listeners, key) => {
       listeners.forEach((callback) => {
-        console.log('REMOVEEEEE:', key, callback);
         document.removeEventListener(key, callback);
       });
 
       listeners.clear();
     });
+  }
+
+  calculateCoords(context: TEngineContext, object: EngineObject): { x: number; y: number } {
+    if (context instanceof CanvasRenderingContext2D) {
+      const { widthPercent, heightPercent } = this.getSizePercent(context);
+      return {
+        x: object.x + (object.x * widthPercent) / 100,
+        y: object.y + (object.y * heightPercent) / 100,
+      };
+    }
+  }
+
+  calculateSize(context: TEngineContext, object: EngineObject): { width: number; height: number } {
+    if (context instanceof CanvasRenderingContext2D) {
+      const { widthPercent, heightPercent } = this.getSizePercent(context);
+      return {
+        width: object.width + (object.width * widthPercent) / 100,
+        height: object.height + (object.height * heightPercent) / 100,
+      };
+    }
+  }
+
+  private getSizePercent(context: TEngineContext): { widthPercent: number; heightPercent: number } {
+    if (context instanceof CanvasRenderingContext2D) {
+      const canvas = context.canvas;
+      const originalWidth = canvas.width;
+      const currentWidth = canvas.clientWidth;
+
+      const originalHeight = canvas.height;
+      const currentHeight = canvas.clientHeight;
+
+      return {
+        widthPercent: ((currentWidth - originalWidth) / originalWidth) * 100,
+        heightPercent: ((currentHeight - originalHeight) / originalHeight) * 100,
+      };
+    }
   }
 }

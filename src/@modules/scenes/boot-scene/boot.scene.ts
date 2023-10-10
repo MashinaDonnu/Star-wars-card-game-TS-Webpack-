@@ -8,7 +8,7 @@ export class BootScene extends Engine.Scene {
   card: TestCard2;
   constructor() {
     super('Boot', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
+      imageLoadStrategy: EngineImageLoaderStrategy.Default,
     });
   }
 
@@ -19,6 +19,7 @@ export class BootScene extends Engine.Scene {
     this.load.image('/images/card.png', 'card');
 
     this.load.audio('/audio/bump.mp3', 'bump');
+    this.load.audio('/audio/theme.mp3', 'theme');
   }
 
   render(): void {
@@ -34,8 +35,6 @@ export class BootScene extends Engine.Scene {
   }
 
   init() {
-    this.audio.play('bump', {});
-
     this.card.events.mouse.mouseDown((data: any) => {
       this.sys.setCurrentScene('Test', {
         animation: {

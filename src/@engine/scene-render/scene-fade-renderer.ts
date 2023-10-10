@@ -41,7 +41,7 @@ export class SceneFadeRenderer extends AbstractEngineSceneRenderer {
         for (const [sprite, config] of scene.spritesMap) {
           if (context instanceof CanvasRenderingContext2D) {
             const image = scene.sprites.get(sprite);
-            context.drawImage(image, config.x, config.y);
+            context.drawImage(image, config.x, config.y, config.width, config.height);
             context.globalAlpha = alpha;
           }
         }
@@ -64,7 +64,7 @@ export class SceneFadeRenderer extends AbstractEngineSceneRenderer {
         for (const [sprite, config] of prevScene.spritesMap) {
           if (context instanceof CanvasRenderingContext2D) {
             const image = prevScene.sprites.get(sprite);
-            context.drawImage(image, config.x, config.y);
+            context.drawImage(image, config.x, config.y, config.width, config.height);
             context.globalAlpha = alpha;
           }
         }

@@ -1,6 +1,6 @@
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { LinkedListQueue } from '@engine/utils/linked-list-queue/linked-list-queue';
-import { Engine } from '@engine/Engine';
+import { Engine } from '@engine/engine';
 import { DoublyLink } from '@engine/utils/doubly-linked-list/doubly-link';
 
 export class EngineSceneHistory {

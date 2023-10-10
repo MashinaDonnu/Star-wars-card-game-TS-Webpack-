@@ -15,10 +15,5 @@ export class TestCard2 extends AbstractCard {
 
   init() {}
 
-  onDestroy() {
-    console.log('TestCard2 onDestroy');
-    setTimeout(() => {
-      console.log(55555, this.events.mouse.domListeners);
-    }, 2000);
-  }
+  onDestroy() {}
 }

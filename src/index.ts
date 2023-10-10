@@ -1,6 +1,6 @@
 import './index.scss';
 import { Game } from '@modules/game/game';
-import { Engine } from '@engine/Engine';
+import { Engine } from '@engine/engine';
 import { EGraphicsEngine } from '@engine/enums/graphics-engine.enum';
 import { BootScene } from '@modules/scenes/boot-scene/boot.scene';
 import { TestScene } from '@modules/scenes/boot-scene/test.scene';
