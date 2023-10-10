@@ -8,6 +8,193 @@
     <title>Document</title>
 </head>
 <body>
-    <div style="height: 2px; background: black; margin-bottom: 10px"></div>
+
+<!--<!doctype html>-->
+<!--<html>-->
+<!--<head>-->
+<!--    <script type="application/javascript">-->
+<!--        function draw() {-->
+<!--            const canvas = document.getElementById("canvas");-->
+<!--            if (canvas.getContext) {-->
+<!--                const ctx = canvas.getContext("2d");-->
+
+<!--                ctx.fillStyle = "rgb(200,0,0)";-->
+<!--                ctx.fillRect(10, 10, 55, 50);-->
+
+<!--                ctx.fillStyle = "rgba(0, 0, 200, 0.5)";-->
+<!--                ctx.fillRect(30, 30, 55, 50);-->
+<!--            }-->
+<!--        }-->
+<!--    </script>-->
+<!--</head>-->
+<!--<body onload="draw();">-->
+<!--<canvas id="canvas" width="150" height="150"></canvas>-->
+<!--</body>-->
+<!--</html>-->
+
+<script>
+    const p1 = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(1)
+        }, 3000)
+    })
+    const p2 = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(2)
+        }, 1500)
+    })
+
+    const p3 = new Promise((resolve) => {
+        setTimeout(() => {
+            resolve(3)
+        }, 2000)
+    })
+    const promises = [p1, p2, p3];
+
+    function yourFunction(res) {
+        console.log('Res: ', res)
+    }
+
+    Promise.all(promises.map((promise) => {
+        return promise.then((result) => {
+            // Вызывайте вашу функцию здесь на каждом выполнении промиса
+            // и возвращайте результат, если это необходимо
+            return yourFunction(result);
+        });
+    })).then((results) => {
+        // Здесь results будет массивом результатов, если вы что-то возвращали из yourFunction
+        console.log(results);
+    }).catch((error) => {
+        // Обработка ошибок
+        console.error(error);
+    });
+
+
+
+
+
+    setTimeout(() => {
+
+        return
+        var particle_no = 0
+        window.requestAnimFrame = (function() {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function(callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                };
+        })();
+
+        var canvas = document.querySelector("canvas");
+        var ctx = canvas.getContext("2d");
+
+        var counter = 0;
+        var particles = [];
+        var w = 400,
+            h = 200;
+        canvas.width = w;
+        canvas.height = h;
+
+        function reset() {
+            ctx.fillStyle = "#272822";
+            ctx.fillRect(0, 0, w, h);
+
+            // ctx.fillStyle = "#171814";
+            // ctx.fillRect(25, 80, 350, 25);
+        }
+
+        function progressbar() {
+            this.widths = 0;
+            this.hue = 0;
+
+            this.draw = function() {
+                ctx.fillStyle = 'hsla(' + this.hue + ', 100%, 40%, 1)';
+                ctx.fillRect(25, 80, this.widths, 25);
+                var grad = ctx.createLinearGradient(0, 0, 0, 130);
+                grad.addColorStop(0, "transparent");
+                grad.addColorStop(1, "rgba(0,0,0,0.5)");
+                ctx.fillStyle = grad;
+                ctx.fillRect(25, 80, this.widths, 25);
+            }
+        }
+
+        function particle() {
+            this.x = 23 + bar.widths;
+            this.y = 82;
+
+            this.vx = 0.8 + Math.random() * 1;
+            this.v = Math.random() * 5;
+            this.g = 1 + Math.random() * 3;
+            this.down = false;
+
+            this.draw = function() {
+                ctx.fillStyle = 'hsla(' + (bar.hue + 0.3) + ', 100%, 40%, 1)';
+                var size = Math.random() * 2;
+                ctx.fillRect(this.x, this.y, size, size);
+            }
+        }
+
+        bar = new progressbar();
+
+        function draw() {
+            reset();
+            counter++
+
+            bar.hue += 0.8;
+
+            bar.widths += 2;
+            if (bar.widths > 350) {
+                if (counter > 215) {
+                    reset();
+                    bar.hue = 0;
+                    bar.widths = 0;
+                    counter = 0;
+                    particles = [];
+                } else {
+                    bar.hue = 126;
+                    bar.widths = 351;
+                    bar.draw();
+                }
+            } else {
+                bar.draw();
+                for (var i = 0; i < particle_no; i += 10) {
+                    particles.push(new particle());
+                }
+            }
+            update();
+        }
+
+        function update() {
+            for (var i = 0; i < particles.length; i++) {
+                var p = particles[i];
+                p.x -= p.vx;
+                if (p.down == true) {
+                    p.g += 0.1;
+                    p.y += p.g;
+                } else {
+                    if (p.g < 0) {
+                        p.down = true;
+                        p.g += 0.1;
+                        p.y += p.g;
+                    } else {
+                        p.y -= p.g;
+                        p.g -= 0.1;
+                    }
+                }
+                p.draw();
+            }
+        }
+
+        function animloop() {
+            draw();
+            requestAnimFrame(animloop);
+        }
+
+        animloop();
+    }, 3000)
+</script>
 </body>
 </html>

@@ -9,8 +9,10 @@ import { EngineSceneRenderer } from '@engine/scene-render/engine-scene-renderer'
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
 import { EngineSceneHistory } from '@engine/engine-scene-history';
 import { EngineAudio } from '@engine/engine-audio';
+import { EngineTemplate } from '@engine/engine-template';
 
-export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
+// export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
+export type TEngineContext = CanvasRenderingContext2D;
 
 export class Engine {
   context: TEngineContext;
@@ -26,6 +28,7 @@ export class Engine {
   static sys: Engine;
   static load: (namespace: string) => EngineLoader;
   static sprites: (namespace: string) => EngineSprite;
+  static template: () => EngineTemplate;
   static audio: (namespace: string) => EngineAudio;
   static Objects = EngineObjects;
 
@@ -36,6 +39,7 @@ export class Engine {
     this.scenes = config.scenes;
     Engine.load = (namespace: string) => new EngineLoader(namespace, this);
     Engine.sprites = (namespace: string) => new EngineSprite(namespace, this);
+    Engine.template = () => new EngineTemplate(this);
     Engine.audio = (namespace: string) => new EngineAudio(namespace, this);
     Engine.sys = this;
   }

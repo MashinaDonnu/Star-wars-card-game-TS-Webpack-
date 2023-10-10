@@ -5,6 +5,8 @@ import { EngineSprite, ISpriteConfig } from '@engine/engine-sprite';
 import { EngineObject } from '@engine/objects/engine-object';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { EngineAudio } from '@engine/engine-audio';
+import { EngineTemplate } from '@engine/engine-template';
+import { ITemplateObjectParams } from '@engine/objects/template-object';
 
 export interface IEngineSceneOptions {
   imageLoadStrategy?: EngineImageLoaderStrategy;
@@ -16,11 +18,13 @@ export abstract class EngineScene {
   objects = new Set<EngineObject>();
   imageLoadStrategy: EngineImageLoaderStrategy = EngineImageLoaderStrategy.Default;
   spritesMap = new Map<string, ISpriteConfig>();
+  templatesMap = new Map<string, ITemplateObjectParams>();
 
   destroyed = false;
   disabled = false;
   load: EngineLoader;
   sprites: EngineSprite;
+  templates: EngineTemplate;
   audio: EngineAudio;
   sys: Engine;
 
@@ -28,6 +32,7 @@ export abstract class EngineScene {
     this.name = name;
     this.load = Engine.load(name);
     this.sprites = Engine.sprites(name);
+    this.templates = Engine.template();
     this.audio = Engine.audio(name);
     this.sys = Engine.sys;
 
@@ -61,6 +66,11 @@ export abstract class EngineScene {
   renderSceneSprite(name: string, config: ISpriteConfig): void {
     this.spritesMap.set(name, config);
     this.sprites.render(name, config);
+  }
+
+  renderSceneTemplate(name: string, config: ITemplateObjectParams): void {
+    this.templatesMap.set(name, config);
+    this.templates.render(config);
   }
 
   removeEvents(): void {

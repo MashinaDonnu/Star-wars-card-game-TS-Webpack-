@@ -3,9 +3,11 @@ import { TestCard } from '@modules/game-obects/test-card';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { TestCard2 } from '@modules/game-obects/test-card2';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
+import { ProgressBar } from '@modules/game-obects/progress-bar';
 
 export class BootScene extends Engine.Scene {
   card: TestCard2;
+  progressBar: any;
   constructor() {
     super('Boot', {
       imageLoadStrategy: EngineImageLoaderStrategy.Default,
@@ -15,33 +17,38 @@ export class BootScene extends Engine.Scene {
   update() {}
 
   preload(): void {
-    this.load.image('/images/star-wars-bg.jpeg', 'name');
-    this.load.image('/images/card.png', 'card');
-
-    this.load.audio('/audio/bump.mp3', 'bump');
-    this.load.audio('/audio/theme.mp3', 'theme');
+    this.load.image('/images/boot-background.jpeg', 'boot-background');
   }
 
   render(): void {
     console.log('BootScene render');
-    this.renderSceneSprite('name', {
+    this.renderSceneSprite('boot-background', {
       width: this.sys.config.width,
       height: this.sys.config.height,
       x: 0,
       y: 0,
     });
-
-    this.card = new TestCard2(this);
   }
 
   init() {
-    this.card.events.mouse.mouseDown((data: any) => {
-      this.sys.setCurrentScene('Test', {
-        animation: {
-          type: EngineSceneRendererAnimations.SlideLeft,
-        },
-      });
-    });
-    this.card.events.mouse.mouseUp((data: any) => {});
+    console.log('init');
+    this.loading();
+  }
+
+  loading() {
+    const context = this.sys.context;
+    const progress = new ProgressBar(this);
+
+    progress.render();
+    // context.fillStyle = 'rgb(200,0,0)';
+    // context.fillRect(200, 290, 155, 50);
+    // let val = 0;
+
+    // setInterval(() => {
+    //   context.fillStyle = 'rgba(0, 0, 200, 0.5)';
+    //
+    //   context.fillRect(10, 10, val, 50);
+    //   val++;
+    // });
   }
 }

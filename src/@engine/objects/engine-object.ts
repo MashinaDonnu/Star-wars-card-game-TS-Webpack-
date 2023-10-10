@@ -6,8 +6,8 @@ import { EventEmitter } from '@engine/emitter/EventEmitter';
 export interface IAbstractObjectParams {
   width: number;
   height: number;
-  name: string;
-  spriteName: string;
+  name?: string;
+  spriteName?: string;
   x: number;
   y: number;
 }
