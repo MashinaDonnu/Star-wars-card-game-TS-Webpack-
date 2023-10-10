@@ -7,13 +7,15 @@ export class TestScene extends Engine.Scene {
   card: TestCard;
   constructor() {
     super('Test', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
+      imageLoadStrategy: EngineImageLoaderStrategy.Default,
     });
   }
 
   preload(): void {
     this.load.image('/images/star-wars-bg-2.jpeg', 'bg2');
     this.load.image('/images/card.png', 'card');
+
+    this.load.audio('/audio/theme.mp3', 'theme');
   }
 
   render(): void {
@@ -25,27 +27,17 @@ export class TestScene extends Engine.Scene {
       y: 0,
     });
     this.card = new TestCard(this);
-
-    setTimeout(() => {
-      // console.log('7777', this);
-      // console.log(engineData);
-    }, 2000);
   }
 
   update(): void {}
 
   init() {
     this.card.events.mouse.mouseDown((data) => {
-      console.log(2222222);
-      // if (f) {
       this.sys.setCurrentScene('Boot', {
         animation: {
           type: EngineSceneRendererAnimations.FadeOutFadeIn,
         },
       });
-      console.log('data: ', data);
-      // f = false;
-      // }
     });
   }
 }

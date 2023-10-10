@@ -15,7 +15,5 @@ export class TestCard extends AbstractCard {
 
   init() {}
 
-  onDestroy() {
-    console.log('TestCard onDestroy');
-  }
+  onDestroy() {}
 }

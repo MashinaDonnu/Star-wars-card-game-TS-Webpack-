@@ -12,12 +12,6 @@ export class SpriteObject extends EngineObject {
     const context = this.sys.context;
 
     if (context instanceof CanvasRenderingContext2D) {
-      console.log(777777777755555, {
-        width: this.width,
-        height: this.height,
-        x: this.x,
-        y: this.y,
-      });
       this.scene.renderSceneSprite(this.spriteName, {
         width: this.width,
         height: this.height,

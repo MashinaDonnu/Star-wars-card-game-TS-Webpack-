@@ -43,9 +43,9 @@ export class SceneSlideRenderer extends AbstractEngineSceneRenderer {
 
     if (context instanceof CanvasRenderingContext2D) {
       if (coord === 'x') {
-        context.drawImage(image, coordValue, config.y);
+        context.drawImage(image, coordValue, config.y, config.width, config.height);
       } else {
-        context.drawImage(image, config.x, coordValue);
+        context.drawImage(image, config.x, coordValue, config.width, config.height);
       }
     }
   }

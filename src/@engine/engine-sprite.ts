@@ -22,16 +22,15 @@ export class EngineSprite {
     const image = this.get(name, !!config.isPrivate);
 
     const { x, y, width, height, alpha } = config;
-    console.log('CONFIG111: ', config);
 
     if (context instanceof CanvasRenderingContext2D) {
-      // context.clearRect(0, 0, 640, 360);
       if (alpha) {
         context.globalAlpha = alpha;
       } else {
         context.globalAlpha = 1;
       }
-      context.drawImage(image, x, y);
+
+      context.drawImage(image, x, y, width, height);
     }
   }
 

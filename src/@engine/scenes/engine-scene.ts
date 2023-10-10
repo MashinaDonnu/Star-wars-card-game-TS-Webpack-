@@ -39,7 +39,6 @@ export abstract class EngineScene {
   }
 
   destroy(): void {
-    console.log('this.objects', this.objects);
     this.objects.forEach((object) => object.destroy());
     this.objects.clear();
     this.spritesMap.clear();
