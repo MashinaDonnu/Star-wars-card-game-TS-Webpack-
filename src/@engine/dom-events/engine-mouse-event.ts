@@ -69,8 +69,8 @@ export class EngineMouseEvent extends AbstractEngineEvent {
 
   protected isEntered(mouseX: number, mouseY: number): boolean {
     const object = this.object;
-    const { x, y } = this.calculateCoords(object.sys.context, object);
-    const { width, height } = this.calculateSize(object.sys.context, object);
+    const { x, y } = object.getCoords();
+    const { width, height } = object.getSize();
     return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
   }
 }

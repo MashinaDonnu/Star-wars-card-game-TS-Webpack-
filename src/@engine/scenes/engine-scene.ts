@@ -47,6 +47,7 @@ export abstract class EngineScene {
     this.objects.forEach((object) => object.destroy());
     this.objects.clear();
     this.spritesMap.clear();
+    this.templatesMap.clear();
     this.destroyed = true;
   }
 
@@ -89,6 +90,12 @@ export abstract class EngineScene {
 
   clone(): EngineScene {
     return JSON.parse(JSON.stringify(this));
+  }
+
+  draw(params: any) {
+    this.templatesMap.forEach((val, key) => {
+      this.renderSceneTemplate(key, params);
+    });
   }
 
   abstract preload(): void;

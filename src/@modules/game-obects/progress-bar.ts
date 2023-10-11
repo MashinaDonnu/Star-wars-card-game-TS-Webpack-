@@ -18,6 +18,7 @@ export class ProgressBar extends Engine.Objects.Template {
 
   init(): void {
     this.fillBar();
+    this.layout.justify.center();
   }
 
   fillBar(): void {
