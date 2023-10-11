@@ -2,14 +2,11 @@ import { EngineDomEvents } from '@engine/dom-events/engine-dom-events';
 import { Engine } from '@engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
+import { IRect } from '@engine/types/rect';
 
-export interface IAbstractObjectParams {
-  width: number;
-  height: number;
+export interface IAbstractObjectParams extends IRect {
   name?: string;
   spriteName?: string;
-  x: number;
-  y: number;
 }
 
 export abstract class EngineObject {
@@ -56,6 +53,7 @@ export abstract class EngineObject {
   }
 
   private register(): void {
+    console.log('register', this);
     this.scene.registerObject(this);
   }
 }

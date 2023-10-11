@@ -10,9 +10,14 @@ import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer
 import { EngineSceneHistory } from '@engine/engine-scene-history';
 import { EngineAudio } from '@engine/engine-audio';
 import { EngineTemplate } from '@engine/engine-template';
+import { EventEmitter } from '@engine/emitter/EventEmitter';
 
 // export type TEngineContext = CanvasRenderingContext2D | WebGLRenderingContext;
 export type TEngineContext = CanvasRenderingContext2D;
+
+type IEngineEvents = {
+  load: (el: HTMLElement) => void;
+};
 
 export class Engine {
   context: TEngineContext;
@@ -20,6 +25,9 @@ export class Engine {
   disabledEvents = false;
   onPreload: Function;
   onRender: Function;
+  onLoadEach: Function;
+  emitter = new EventEmitter<IEngineEvents>();
+  elemsInLoading = 0;
   private _root$: HTMLElement;
   private _isDrawing = false;
   private _currentScene: EngineScene;
@@ -52,8 +60,12 @@ export class Engine {
     this.scenes.push(scene);
   }
 
+  getScene(name: string): EngineScene {
+    return this.scenes.find((s) => s.name === name);
+  }
+
   setCurrentScene(name: string, options?: IEngineSceneRendererOptions) {
-    const scene = this.scenes.find((s) => s.name === name);
+    const scene = this.getScene(name);
 
     if (scene) {
       this.scenesHistory.push(scene);

@@ -5,7 +5,6 @@ export class EngineTemplate {
   constructor(private engine: Engine) {}
 
   render(config: ITemplateObjectParams) {
-    console.log('EngineTemplate');
     const context = this.engine.context;
     if (context instanceof CanvasRenderingContext2D) {
       const { fill, width, height, x, y } = config;
@@ -17,6 +16,7 @@ export class EngineTemplate {
       if (x && y && width && height) {
         context.fillRect(x, y, width, height);
       }
+      console.log('EngineTemplate render end', fill);
     }
   }
 }

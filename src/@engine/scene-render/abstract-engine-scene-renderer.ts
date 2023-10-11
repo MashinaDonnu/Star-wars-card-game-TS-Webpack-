@@ -40,18 +40,31 @@ export abstract class AbstractEngineSceneRenderer {
 
   protected finalizeRender(scene: EngineScene) {
     const promises = [...engineData.loadersImagePromises, ...engineData.loadersAudioPromises];
-    Promise.all(promises).then(() => {
-      scene.render();
-      scene.preInit();
-      scene.objects.forEach((obj) => {
-        obj.render();
-        obj.preInit();
-        obj.init();
+    Promise.all(
+      promises.map((p) => {
+        return p.then((data) => {
+          console.log('DATA:', data);
+        });
+      })
+    )
+      .then(() => {
+        console.log('THEN');
+      })
+      .then(() => {
+        scene.render();
+        scene.preInit();
+        scene.objects.forEach((obj) => {
+          obj.render();
+          obj.preInit();
+          obj.init();
+        });
+        scene.init();
+        engineData.loadersImagePromises.clear();
+        engineData.loadersAudioPromises.clear();
+      })
+      .catch((error) => {
+        console.log('finalizeRender error', error);
       });
-      scene.init();
-      engineData.loadersImagePromises.clear();
-      engineData.loadersAudioPromises.clear();
-    });
   }
 
   protected clearRect(): void {

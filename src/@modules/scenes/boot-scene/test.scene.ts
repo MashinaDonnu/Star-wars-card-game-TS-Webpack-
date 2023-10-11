@@ -7,7 +7,7 @@ export class TestScene extends Engine.Scene {
   card: TestCard;
   constructor() {
     super('Test', {
-      imageLoadStrategy: EngineImageLoaderStrategy.Default,
+      imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
     });
   }
 
@@ -19,7 +19,6 @@ export class TestScene extends Engine.Scene {
   }
 
   render(): void {
-    console.log('TestScene render');
     this.renderSceneSprite('bg2', {
       width: this.sys.config.width,
       height: this.sys.config.height,
