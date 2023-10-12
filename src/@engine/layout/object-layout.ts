@@ -1,5 +1,4 @@
 import { EngineObject } from '@engine/objects/engine-object';
-import { TemplateObject } from '@engine/objects/template-object';
 
 export class ObjectLayout {
   justify = {
@@ -11,7 +10,7 @@ export class ObjectLayout {
       const currentWidth = canvas.clientWidth;
       const currentHeight = canvas.clientHeight;
 
-      this.object.x = currentHeight / 2 - width / 2;
+      this.object.x = currentWidth / 2 - width / 2;
     },
   };
 

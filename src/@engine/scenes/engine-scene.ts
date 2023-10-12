@@ -92,12 +92,6 @@ export abstract class EngineScene {
     return JSON.parse(JSON.stringify(this));
   }
 
-  draw(params: any) {
-    this.templatesMap.forEach((val, key) => {
-      this.renderSceneTemplate(key, params);
-    });
-  }
-
   abstract preload(): void;
 
   abstract render(): void;

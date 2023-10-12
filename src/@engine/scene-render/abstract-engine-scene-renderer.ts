@@ -48,9 +48,6 @@ export abstract class AbstractEngineSceneRenderer {
       })
     )
       .then(() => {
-        console.log('THEN');
-      })
-      .then(() => {
         scene.render();
         scene.preInit();
         scene.objects.forEach((obj) => {
@@ -74,6 +71,15 @@ export abstract class AbstractEngineSceneRenderer {
     if (context instanceof CanvasRenderingContext2D) {
       context.clearRect(0, 0, contextWidth, contextHeight);
     }
+  }
+
+  rerender(scene: EngineScene) {
+    Promise.all(engineData.loadersImagePromises).then(() => {
+      scene.render();
+      scene.objects.forEach((obj) => {
+        obj.render();
+      });
+    });
   }
 
   abstract render(scene: EngineScene, options?: IEngineSceneRendererOptions): void;

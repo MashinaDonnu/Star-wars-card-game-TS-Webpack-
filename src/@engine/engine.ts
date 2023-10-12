@@ -41,7 +41,7 @@ export class Engine {
   static Objects = EngineObjects;
 
   scenesHistory = new EngineSceneHistory(this);
-  private sceneRenderer = new EngineSceneRenderer(this);
+  sceneRenderer = new EngineSceneRenderer(this);
 
   constructor(public config: IEngineConfig) {
     this.scenes = config.scenes;

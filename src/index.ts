@@ -3,8 +3,8 @@ import { Game } from '@modules/game/game';
 import { Engine } from '@engine/engine';
 import { EGraphicsEngine } from '@engine/enums/graphics-engine.enum';
 import { BootScene } from '@modules/scenes/boot-scene/boot.scene';
-import { TestScene } from '@modules/scenes/boot-scene/test.scene';
-import { EventEmitter } from '@engine/emitter/EventEmitter';
+import { PreviewScene } from '@modules/scenes/preview-scene/preview.scene';
+import { MainMenuScene } from '@modules/scenes/main-menu-scene/main-menu.scene';
 
 function startGame() {
   const engine = new Engine({
@@ -17,7 +17,7 @@ function startGame() {
   const game = new Game({
     engine,
     store: {},
-    scenes: [BootScene, TestScene],
+    scenes: [PreviewScene, BootScene, MainMenuScene],
   });
 
   game.start().then(() => {
