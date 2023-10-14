@@ -16,29 +16,40 @@ export class MenuItemObject extends Engine.Objects.Template {
 
   init() {
     this.menuHoverAudio = this.scene.audio.get('menu-hover-audio');
-    const textWidth = this.sys.context.measureText(this.text);
-    this.setText({
-      color: 'red',
-      font: 'Arial',
-      size: 16,
-      text: this.text,
-      x: this.config.x + this.config.width / 2 - textWidth.width / 2,
-      y: this.config.y + this.config.height / 2 + 8 / 2,
+    this.initText();
+
+    this.events.mouse.mouseEnter((data) => {
+      toggleCursorType('pointer');
+      this.params.fill = '#000';
+      this.render();
+      this.initText();
+      this.menuHoverAudio.play().catch(console.log);
     });
 
     this.events.mouse.mouseLeave((data) => {
       toggleCursorType('default');
       this.menuHoverAudio.pause();
       this.menuHoverAudio.currentTime = 0;
-    });
-
-    this.events.mouse.mouseEnter((data) => {
-      toggleCursorType('pointer');
-      this.menuHoverAudio.play();
+      this.params.fill = '#ccc';
+      this.render();
+      this.initText();
     });
 
     this.events.mouse.mouseDown(() => {
       console.log('Down');
+    });
+  }
+
+  private initText() {
+    const textWidth = this.sys.context.measureText(this.text);
+
+    this.setText({
+      color: 'red',
+      font: 'Arial',
+      size: 24,
+      text: this.text,
+      x: Math.ceil(this.config.x + this.config.width / 2 - textWidth.width / 2),
+      y: Math.ceil(this.config.y + this.config.height / 2 + 8 / 2),
     });
   }
 }

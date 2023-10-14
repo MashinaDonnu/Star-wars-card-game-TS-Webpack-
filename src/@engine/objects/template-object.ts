@@ -4,6 +4,7 @@ import { IRect } from '@engine/types/rect';
 
 export interface ITemplateObjectParams extends IAbstractObjectParams {
   fill?: string;
+  radius?: number;
 }
 
 export class TemplateObject extends EngineObject {
@@ -14,9 +15,7 @@ export class TemplateObject extends EngineObject {
     super(scene, params);
   }
 
-  init() {
-    console.log('TemplateObject init');
-  }
+  init() {}
 
   render() {
     this.scene.renderSceneTemplate(this.name, this.params);

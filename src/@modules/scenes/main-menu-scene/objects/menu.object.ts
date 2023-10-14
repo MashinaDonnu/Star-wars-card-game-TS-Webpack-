@@ -9,7 +9,7 @@ export class MenuObject extends Engine.Objects.Template {
       height: 250,
       x: 50,
       y: 50,
-      fill: '#000',
+      fill: '#2b2f40',
       name: 'Menu',
     });
   }
@@ -26,6 +26,7 @@ export class MenuObject extends Engine.Objects.Template {
         y: this.y + offset,
         fill: '#ccc',
         name: 'item' + i,
+        radius: 8,
       });
       offset += 22;
     }
