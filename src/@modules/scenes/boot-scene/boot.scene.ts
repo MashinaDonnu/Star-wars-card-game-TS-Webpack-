@@ -2,7 +2,6 @@ import { Engine } from '@engine';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { ProgressBarObject } from '@modules/game-obects/progress-bar.object';
 import { IRect } from '@engine/types/rect';
-import { colors } from 'common/styles/colors';
 import { EngineScene } from '@engine/scenes/engine-scene';
 
 export class BootScene extends Engine.Scene {
@@ -46,7 +45,6 @@ export class BootScene extends Engine.Scene {
     const context = this.sys.context;
     const canvas = context.canvas;
     const currentWidth = canvas.width;
-    console.log('X', currentWidth / 2 - 290 / 2);
     const progressbarRect: IRect = {
       width: 290,
       height: 30,

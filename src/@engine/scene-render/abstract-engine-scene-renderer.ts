@@ -50,12 +50,12 @@ export abstract class AbstractEngineSceneRenderer {
       .then(() => {
         scene.render();
         scene.preInit();
+        scene.init();
         scene.objects.forEach((obj) => {
           obj.render();
           obj.preInit();
           obj.init();
         });
-        scene.init();
         engineData.loadersImagePromises.clear();
         engineData.loadersAudioPromises.clear();
       })

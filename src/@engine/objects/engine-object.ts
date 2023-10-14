@@ -4,6 +4,7 @@ import { EngineScene } from '@engine/scenes/engine-scene';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
 import { IRect } from '@engine/types/rect';
 import { ObjectLayout } from '@engine/layout/object-layout';
+import { IText } from '@engine/types/text.interface';
 
 export interface IAbstractObjectParams extends IRect {
   name?: string;
@@ -22,6 +23,7 @@ export abstract class EngineObject {
   name: string;
   spriteName: string;
   layout = new ObjectLayout(this);
+  isCursorEnter = false;
 
   protected constructor(scene: EngineScene, params: IAbstractObjectParams) {
     const { width, height, x, y, name, spriteName } = params;
@@ -93,7 +95,15 @@ export abstract class EngineObject {
     }
   }
 
-  rerender(): void {}
+  protected setText(config: IText): void {
+    const context = this.sys.context;
+    const { font, size = 16, color, text, x, y } = config;
+    if (context instanceof CanvasRenderingContext2D) {
+      context.font = `$${size}px ${font}`;
+      context.fillStyle = color;
+      context.fillText(text, x, y);
+    }
+  }
 
   private register(): void {
     console.log('register', this);
