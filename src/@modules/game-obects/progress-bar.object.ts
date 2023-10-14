@@ -45,7 +45,6 @@ export class ProgressBarObject extends Engine.Objects.Template {
         this.sys.setCurrentScene('MainMenu', {
           animation: {
             type: EngineSceneRendererAnimations.SlideBottom,
-            velocity: 1,
           },
         });
 

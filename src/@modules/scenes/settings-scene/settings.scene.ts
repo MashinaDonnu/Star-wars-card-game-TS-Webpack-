@@ -1,5 +1,6 @@
 import { Engine } from '@engine';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
+import { MenuObject } from '@modules/scenes/main-menu-scene/objects/menu.object';
 
 export class SettingsScene extends Engine.Scene {
   constructor() {
@@ -7,7 +8,9 @@ export class SettingsScene extends Engine.Scene {
       imageLoadStrategy: EngineImageLoaderStrategy.Lazy,
     });
   }
-  init(): void {}
+  init(): void {
+    new MenuObject(this);
+  }
 
   preload(): void {
     this.load.image('/images/main-menu-bg.webp', 'main-menu-bg');

@@ -21,8 +21,30 @@ function startGame() {
     scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene],
   });
 
-  game.start().then(() => {
-    console.log(game);
+  const openModalBtn = <HTMLElement>document.querySelector('.modal');
+  const closeModalBtn = <HTMLElement>document.querySelector('.modal__close');
+  const playModalBtn = <HTMLElement>document.querySelector('.modal__play');
+  const modal = <HTMLElement>document.querySelector('.modal');
+
+  modal.style.display = 'block';
+  const modalContent = modal.querySelector('.modal__content');
+  modalContent.classList.add('open');
+
+  closeModalBtn.addEventListener('click', () => {
+    modal.classList.remove('open');
+
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 200);
+  });
+
+  playModalBtn.addEventListener('click', () => {
+    modal.classList.remove('open');
+
+    game.start().catch(console.log);
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 200);
   });
 }
 
