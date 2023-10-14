@@ -41,11 +41,19 @@ export class MenuItemObject extends Engine.Objects.Template {
     this.events.mouse.mouseDown(() => {
       console.log('Down');
       this.menuSelectAudio.play();
-      this.sys.setCurrentScene('Settings', {
-        animation: {
-          type: EngineSceneRendererAnimations.SlideLeft,
-        },
-      });
+      if (this.text === 'Play') {
+        this.sys.setCurrentScene('PlayLoading', {
+          animation: {
+            type: EngineSceneRendererAnimations.SlideBottom,
+            velocity: 7,
+          },
+        });
+      }
+      // this.sys.setCurrentScene('Settings', {
+      //   animation: {
+      //     type: EngineSceneRendererAnimations.SlideLeft,
+      //   },
+      // });
     });
   }
 

@@ -6,6 +6,7 @@ import { BootScene } from '@modules/scenes/boot-scene/boot.scene';
 import { PreviewScene } from '@modules/scenes/preview-scene/preview.scene';
 import { MainMenuScene } from '@modules/scenes/main-menu-scene/main-menu.scene';
 import { SettingsScene } from '@modules/scenes/settings-scene/settings.scene';
+import { PlayLoadingScene } from '@modules/scenes/play-loading-scene/play-loading.scene';
 
 function startGame() {
   const engine = new Engine({
@@ -18,7 +19,7 @@ function startGame() {
   const game = new Game({
     engine,
     store: {},
-    scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene],
+    scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene, PlayLoadingScene],
   });
 
   const openModalBtn = <HTMLElement>document.querySelector('.modal');

@@ -16,7 +16,7 @@ export class MenuObject extends Engine.Objects.Template {
   }
 
   init() {
-    const itemsText = ['one', 'two', 'three', 'four'];
+    const itemsText = ['Play', 'Cards', 'Settings', 'Exit'];
 
     let offset = 5;
     for (let i = 0; i < itemsText.length; i++) {
