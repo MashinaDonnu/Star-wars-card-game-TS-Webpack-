@@ -22,10 +22,10 @@ export class MainMenuScene extends Engine.Scene {
     this.load.image('/images/main-menu-bg.webp', 'main-menu-bg');
     this.load.audio('/audio/menu-hover.mp3', 'menu-hover-audio');
     this.load.audio('/audio/main-menu-theme.mp3', 'menu-theme');
+    this.load.audio('/audio/menu-select.mp3', 'menu-select-audio');
   }
 
   render(): void {
-    console.log(7777777, 'MainMenuScene');
     this.renderSceneSprite('main-menu-bg', {
       width: this.sys.config.width,
       height: this.sys.config.height,

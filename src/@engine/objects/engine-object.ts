@@ -100,9 +100,7 @@ export abstract class EngineObject {
     const { font, size = 16, color, text, x, y } = config;
     if (context instanceof CanvasRenderingContext2D) {
       context.font = `$${size}px ${font}`;
-      context.fillStyle = '#000';
-      context.imageSmoothingQuality = 'high';
-      console.log('TEXT', x, y);
+      context.fillStyle = color;
       context.fillText(text, x, y);
     }
   }

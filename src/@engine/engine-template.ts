@@ -7,7 +7,7 @@ export class EngineTemplate {
   render(config: ITemplateObjectParams) {
     const context = this.engine.context;
     if (context instanceof CanvasRenderingContext2D) {
-      const { fill, width, height, x, y, radius } = config;
+      const { fill, width, height, x, y, radius = 0 } = config;
 
       if (fill) {
         context.fillStyle = fill;

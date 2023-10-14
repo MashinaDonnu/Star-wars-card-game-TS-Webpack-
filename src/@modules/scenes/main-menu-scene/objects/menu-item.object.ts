@@ -2,9 +2,11 @@ import { Engine } from '@engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { ITemplateObjectParams, TemplateObject } from '@engine/objects/template-object';
 import { toggleCursorType } from 'common/utils/toggle-cursor-type';
+import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 
 export class MenuItemObject extends Engine.Objects.Template {
   private menuHoverAudio: HTMLAudioElement;
+  private menuSelectAudio: HTMLAudioElement;
   constructor(
     scene: EngineScene,
     private parent: TemplateObject,
@@ -16,11 +18,12 @@ export class MenuItemObject extends Engine.Objects.Template {
 
   init() {
     this.menuHoverAudio = this.scene.audio.get('menu-hover-audio');
+    this.menuSelectAudio = this.scene.audio.get('menu-select-audio');
     this.initText();
 
     this.events.mouse.mouseEnter((data) => {
       toggleCursorType('pointer');
-      this.params.fill = '#000';
+      this.params.fill = '#16214d';
       this.render();
       this.initText();
       this.menuHoverAudio.play().catch(console.log);
@@ -30,13 +33,19 @@ export class MenuItemObject extends Engine.Objects.Template {
       toggleCursorType('default');
       this.menuHoverAudio.pause();
       this.menuHoverAudio.currentTime = 0;
-      this.params.fill = '#ccc';
+      this.params.fill = '#23378c';
       this.render();
       this.initText();
     });
 
     this.events.mouse.mouseDown(() => {
       console.log('Down');
+      this.menuSelectAudio.play();
+      this.sys.setCurrentScene('Settings', {
+        animation: {
+          type: EngineSceneRendererAnimations.SlideLeft,
+        },
+      });
     });
   }
 
@@ -44,7 +53,7 @@ export class MenuItemObject extends Engine.Objects.Template {
     const textWidth = this.sys.context.measureText(this.text);
 
     this.setText({
-      color: 'red',
+      color: '#fff',
       font: 'Arial',
       size: 24,
       text: this.text,
