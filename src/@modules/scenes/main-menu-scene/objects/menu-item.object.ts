@@ -1,8 +1,10 @@
 import { Engine } from '@engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { ITemplateObjectParams, TemplateObject } from '@engine/objects/template-object';
+import { toggleCursorType } from 'common/utils/toggle-cursor-type';
 
 export class MenuItemObject extends Engine.Objects.Template {
+  private menuHoverAudio: HTMLAudioElement;
   constructor(
     scene: EngineScene,
     private parent: TemplateObject,
@@ -13,7 +15,7 @@ export class MenuItemObject extends Engine.Objects.Template {
   }
 
   init() {
-    const { x, y } = this.layout.justify.center(this.parent);
+    this.menuHoverAudio = this.scene.audio.get('menu-hover-audio');
     const textWidth = this.sys.context.measureText(this.text);
     this.setText({
       color: 'red',
@@ -25,11 +27,14 @@ export class MenuItemObject extends Engine.Objects.Template {
     });
 
     this.events.mouse.mouseLeave((data) => {
-      console.log('Leave', this.name);
+      toggleCursorType('default');
+      this.menuHoverAudio.pause();
+      this.menuHoverAudio.currentTime = 0;
     });
 
     this.events.mouse.mouseEnter((data) => {
-      console.log('Enter', this.name);
+      toggleCursorType('pointer');
+      this.menuHoverAudio.play();
     });
 
     this.events.mouse.mouseDown(() => {
