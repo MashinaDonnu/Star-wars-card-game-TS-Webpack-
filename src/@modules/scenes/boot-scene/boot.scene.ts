@@ -36,7 +36,12 @@ export class BootScene extends Engine.Scene {
   }
 
   private preloadScenes() {
-    const scenes: EngineScene[] = [this.sys.getScene('MainMenu'), this.sys.getScene('PlayLoading')];
+    const scenes: EngineScene[] = [
+      this.sys.getScene('MainMenu'),
+      this.sys.getScene('PlayLoading'),
+      this.sys.getScene('PlayIntro'),
+      this.sys.getScene('Play'),
+    ];
 
     scenes.forEach((scene) => scene.preload());
   }
