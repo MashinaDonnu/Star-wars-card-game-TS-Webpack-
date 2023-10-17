@@ -18,10 +18,136 @@
     </div>
 </div>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<!--<canvas id="myCanvas"></canvas>-->
 
-<script>
+<!--<script>-->
+<!--    const canvas = document.getElementById("myCanvas");-->
+<!--    const ctx = canvas.getContext("2d");-->
+
+<!--    // Установите размеры canvas, чтобы он занимал всю ширину экрана и находился внизу экрана.-->
+<!--    // canvas.width = window.innerWidth;-->
+<!--    // canvas.height = window.innerHeight;-->
+
+<!--    // Установите цвет блока (например, синий).-->
+<!--    function one() {-->
+<!--        return-->
+<!--        const canvas = document.getElementById("myCanvas");-->
+<!--        const ctx = canvas.getContext("2d");-->
+
+<!--// Установите размеры канваса-->
+<!--        canvas.width = 800; // Ширина канваса-->
+<!--        canvas.height = 600; // Высота канваса-->
+
+<!--        ctx.fillStyle = "#000";-->
+
+<!--// Нарисуйте блок с округленной выпуклостью только в центре.-->
+<!--        const blockHeight = 200;-->
+<!--        const blockWidth = canvas.width;-->
+<!--        const centralConvexityHeight = 150; // Высота выпуклости-->
+<!--        const centralConvexityWidth = 0.15 * blockWidth; // 20% ширины блока-->
+
+<!--        ctx.beginPath();-->
+<!--        ctx.moveTo(0, canvas.height - blockHeight);-->
+
+<!--// Левая часть блока-->
+<!--        ctx.lineTo((blockWidth - centralConvexityWidth) / 2, canvas.height - blockHeight);-->
+<!--        ctx.quadraticCurveTo(-->
+<!--            blockWidth / 2,-->
+<!--            blockHeight + centralConvexityHeight,-->
+<!--            (blockWidth + centralConvexityWidth) / 2, canvas.height - blockHeight-->
+<!--        );-->
+<!--        ctx.lineTo(blockWidth, canvas.height - blockHeight);-->
+
+<!--// Угол блока-->
+<!--        ctx.lineTo(blockWidth, canvas.height);-->
+<!--        ctx.lineTo(0, canvas.height);-->
+<!--        ctx.closePath();-->
+<!--        ctx.fill();-->
+
+<!--    }-->
 
 
-</script>
+<!--    function two() {-->
+<!--        ctx.fillStyle = "#000";-->
+
+<!--// Нарисуйте блок с выпуклостью, выходящей за пределы блока, вниз.-->
+
+<!--// Нарисуйте блок с выпуклостью, начинающейся ближе к центру и выходящей за пределы блока вниз.-->
+<!--        const blockHeight = 200;-->
+<!--        const centralConvexityHeight = 150; // Высота выпуклости-->
+<!--        const blockWidth = canvas.width;-->
+<!--        const centralConvexityWidth = 0.2 * blockWidth; // 20% ширины блока-->
+
+<!--        ctx.beginPath();-->
+<!--        ctx.moveTo(0, 0);-->
+
+<!--// Верхний блок-->
+<!--//         ctx.lineTo(0, 0);-->
+<!--        ctx.lineTo(blockWidth, 0);-->
+<!--        // ctx.lineTo(blockWidth, 0);-->
+
+<!--// Выпуклость вниз, начиная ближе к центру и за пределы блока-->
+<!--        ctx.lineTo(blockWidth, blockHeight);-->
+<!--        ctx.lineTo(centralConvexityWidth + 320, blockHeight);-->
+<!--        ctx.quadraticCurveTo(-->
+<!--            blockWidth / 2,-->
+<!--            blockHeight + centralConvexityHeight,-->
+<!--            blockWidth - centralConvexityWidth - 320, blockHeight-->
+<!--        );-->
+<!--        ctx.lineTo(0, blockHeight);-->
+<!--        ctx.closePath();-->
+<!--        ctx.fill();-->
+
+
+<!--    }-->
+
+
+<!--    function three() {-->
+<!--        ctx.fillStyle = "#000";-->
+<!--        const blockHeight = 200;-->
+<!--        const blockWidth = canvas.width;-->
+<!--        const centralConvexityWidth = 0.2 * blockWidth-->
+
+<!--        ctx.beginPath();-->
+<!--        ctx.moveTo(0, 0);-->
+<!--        // ctx.lineTo((blockWidth - centralConvexityWidth) / 2, blockHeight);-->
+<!--        ctx.lineTo((blockWidth - centralConvexityWidth) / 2, blockHeight);-->
+<!--        ctx.quadraticCurveTo(-->
+<!--            blockWidth / 2,-->
+<!--            blockHeight + centralConvexityWidth / 2,-->
+<!--            (blockWidth + centralConvexityWidth) / 2, blockHeight-->
+<!--        );-->
+
+<!--        ctx.lineTo(0, blockHeight);-->
+
+<!--        // Угол блока-->
+<!--        ctx.lineTo(blockWidth, blockHeight);-->
+<!--        ctx.lineTo(0, blockHeight);-->
+<!--        ctx.closePath();-->
+<!--        ctx.fill();-->
+
+<!--        ctx.lineTo(0, canvas.height);-->
+<!--        ctx.fill();-->
+
+<!--    }-->
+
+<!--    // one()-->
+<!--    // two()-->
+
+<!--</script>-->
+</body>
+</html>
+
 </body>
 </html>
