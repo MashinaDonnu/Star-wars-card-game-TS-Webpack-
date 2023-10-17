@@ -1,4 +1,4 @@
-import { Engine } from '@engine/Engine';
+import { Engine } from '@engine/engine';
 import { GLOBAL_NAMESPACE } from '@engine/const';
 import { engineData } from '@engine/engine-data';
 

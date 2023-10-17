@@ -29,10 +29,11 @@ export class EventEmitter<T extends TAbstractEventEmitterRecord = {}> implements
   on<E extends keyof T>(event: E, callback: T[E]): void {
     const set = this.getSetOfCallbacks(event);
     set.add(callback);
+    this.listeners.set(event, set);
   }
 
   private getSetOfCallbacks(event: keyof T): Set<Function> {
     const set = this.listeners.get(event);
-    return set === null ? new Set() : set;
+    return set === undefined ? new Set() : set;
   }
 }

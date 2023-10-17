@@ -13,6 +13,28 @@ function isDisabled(fn: Function, engine: Engine) {
   };
 }
 
+function mouseenter(fn: Function, object: EngineObject) {
+  console.log('mouseenter');
+  return function (...args: any[]) {
+    if (object.isCursorEnter) {
+      return;
+    }
+
+    return fn(...args);
+  };
+}
+
+function mouseleave(fn: Function, object: EngineObject) {
+  console.log('mouseleave');
+  return function (...args: any[]) {
+    if (!object.isCursorEnter) {
+      return;
+    }
+
+    return fn(...args);
+  };
+}
+
 export class EngineMouseEvent extends AbstractEngineEvent {
   object: EngineObject;
   constructor(object: EngineObject) {
@@ -33,11 +55,11 @@ export class EngineMouseEvent extends AbstractEngineEvent {
   }
 
   mouseEnter(callback: (evt?: IEngineDomMouseEvent) => void): void {
-    this.mouseEvent('mouseenter', callback);
+    this.mouseEvent('mousemove', mouseenter(callback, this.object));
   }
 
   mouseLeave(callback: (evt?: IEngineDomMouseEvent) => void): void {
-    this.mouseEvent('mouseleave', callback);
+    this.mouseEvent('mousemove', mouseleave(callback, this.object), false);
   }
 
   mouseOver(callback: (evt?: IEngineDomMouseEvent) => void): void {
@@ -48,16 +70,24 @@ export class EngineMouseEvent extends AbstractEngineEvent {
     this.mouseEvent('mouseout', callback);
   }
 
-  private mouseEvent(mouseEvent: string, callback: (evt?: IEngineDomMouseEvent) => void): void {
+  mouseEvent(mouseEvent: string, callback: (evt?: IEngineDomMouseEvent) => void, forEnter: boolean = true): void {
     const eventListenerCallback = (e: MouseEvent) => {
       const context = this.object.sys.context;
 
       if (context instanceof CanvasRenderingContext2D) {
-        const mouseX = e.clientX - context.canvas.getBoundingClientRect().left;
-        const mouseY = e.clientY - context.canvas.getBoundingClientRect().top;
+        const rect = context.canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const isEntered = this.isEntered(mouseX, mouseY);
 
-        if (this.isEntered(mouseX, mouseY)) {
+        if (isEntered && forEnter) {
           callback({ event: e, mouseX, mouseY });
+          this.object.isCursorEnter = true;
+        }
+
+        if (!isEntered && !forEnter) {
+          callback({ event: e, mouseX, mouseY });
+          this.object.isCursorEnter = false;
         }
       }
     };
@@ -69,8 +99,8 @@ export class EngineMouseEvent extends AbstractEngineEvent {
 
   protected isEntered(mouseX: number, mouseY: number): boolean {
     const object = this.object;
-    const { x, y } = this.calculateCoords(object.sys.context, object);
-    const { width, height } = this.calculateSize(object.sys.context, object);
+    const { x, y } = object.getCoords();
+    const { width, height } = object.getSize();
     return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
   }
 }

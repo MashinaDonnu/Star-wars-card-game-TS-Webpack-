@@ -1,4 +1,4 @@
-import { Engine } from '@engine/Engine';
+import { Engine } from '@engine/engine';
 import { engineData } from '@engine/engine-data';
 import { GLOBAL_NAMESPACE } from '@engine/const';
 
@@ -14,22 +14,34 @@ export class EngineLoader {
     if (!engineData.loaders.image.has(namespace)) {
       engineData.loaders.image.set(namespace, new Map());
     }
-
     const images = engineData.loaders.image.get(namespace);
 
     if (!images.has(name)) {
       const promise: Promise<HTMLImageElement> = new Promise((resolve, reject) => {
+        this.engine.elemsInLoading++;
         const image = new Image();
         image.src = `${this._src}${path}`;
+
         image.addEventListener(
           'load',
           () => {
-            images.set(name, image);
-            setTimeout(() => {
+            if (name !== 'boot-background') {
+              setTimeout(() => {
+                this.engine.elemsInLoading--;
+                this.engine.emitter.emit('load', image);
+
+                images.set(name, image);
+
+                resolve(image);
+              }, 3000);
+            } else {
+              this.engine.elemsInLoading--;
+              this.engine.emitter.emit('load', image);
+              images.set(name, image);
               resolve(image);
-            }, 1000);
-          },
-          { once: true }
+            }
+          }
+          // { once: true }
         );
       });
 
@@ -46,17 +58,17 @@ export class EngineLoader {
 
     if (!audios.has(name)) {
       const promise: Promise<HTMLAudioElement> = new Promise((resolve, reject) => {
+        this.engine.elemsInLoading++;
+
         const audio = new Audio(`${this._src}${path}`);
-        audio.addEventListener(
-          'canplaythrough',
-          () => {
-            audios.set(name, audio);
-            setTimeout(() => {
-              resolve(audio);
-            }, 1000);
-          },
-          { once: true }
-        );
+
+        setTimeout(() => {
+          audios.set(name, audio);
+          this.engine.elemsInLoading--;
+          audios.set(name, audio);
+          this.engine.emitter.emit('load', audio);
+          resolve(audio);
+        }, 2000);
       });
 
       engineData.loadersAudioPromises.add(promise);

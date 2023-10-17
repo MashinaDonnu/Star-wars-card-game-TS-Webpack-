@@ -208,8 +208,8 @@ export class SceneSlideRenderer extends AbstractEngineSceneRenderer {
     let currSceneY = contextHeight;
 
     this.prerender(scene);
-
     this.engine.disableEvents();
+
     const intervalId = setInterval(() => {
       this.clearRect();
 

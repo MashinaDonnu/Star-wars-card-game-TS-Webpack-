@@ -1,4 +1,4 @@
-import { Engine } from '@engine/Engine';
+import { Engine } from '@engine/engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { EngineSceneRendererAnimations } from '@engine/enums/engine-scene-renderer-animations';
 import { IEngineSceneRendererOptions } from '@engine/types/engine-scene-renderer-options.interface';
