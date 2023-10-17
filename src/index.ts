@@ -21,8 +21,8 @@ function startGame() {
   const game = new Game({
     engine,
     store: {},
-    // scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene, PlayLoadingScene, PlayIntroScene, PlayScene],
-    scenes: [PlayScene],
+    scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene, PlayLoadingScene, PlayIntroScene, PlayScene],
+    // scenes: [PlayScene],
   });
 
   const openModalBtn = <HTMLElement>document.querySelector('.modal');

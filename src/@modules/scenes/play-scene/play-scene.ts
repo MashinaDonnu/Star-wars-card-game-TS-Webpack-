@@ -46,6 +46,7 @@ export class PlayScene extends Engine.Scene {
     const canvasWidth = canvas.width;
     const blockHeight = 95;
     const blockWidth = canvas.width * 0.12;
+    context.fillStyle = '#000';
 
     context.beginPath();
     context.moveTo(0, canvasHeight - blockHeight);
@@ -84,7 +85,7 @@ export class PlayScene extends Engine.Scene {
     const canvasWidth = canvas.width;
     const blockHeight = 95;
     const blockWidth = canvas.width * 0.12;
-    // context.fillStyle = '#000';
+    context.fillStyle = '#000';
     console.log(canvasHeight - blockHeight);
 
     context.beginPath();
