@@ -9,6 +9,8 @@ export class PlayScene extends Engine.Scene {
   }
   init(): void {
     this.drawPlayersBlocks();
+    this.cardPlaces();
+    this.cardPlaces2();
   }
 
   preload(): void {
@@ -44,7 +46,7 @@ export class PlayScene extends Engine.Scene {
     const canvas = context.canvas;
     const canvasHeight = canvas.height;
     const canvasWidth = canvas.width;
-    const blockHeight = 95;
+    const blockHeight = 70;
     const blockWidth = canvas.width * 0.12;
     context.fillStyle = '#000';
 
@@ -56,6 +58,8 @@ export class PlayScene extends Engine.Scene {
     context.lineTo(canvasWidth, canvasHeight - blockHeight);
     context.lineTo(canvasWidth, canvasHeight);
     context.lineTo(0, canvasHeight);
+    context.strokeStyle = 'red';
+    context.stroke();
     context.fill();
     context.closePath();
 
@@ -70,7 +74,7 @@ export class PlayScene extends Engine.Scene {
 
     new CardObject(this, {
       x: canvas.width - 55,
-      y: canvasHeight - blockHeight - 100,
+      y: canvasHeight - blockHeight - 80,
       width: 55,
       height: 70,
       name: 'card1',
@@ -83,7 +87,7 @@ export class PlayScene extends Engine.Scene {
     const canvas = context.canvas;
     const canvasHeight = canvas.height;
     const canvasWidth = canvas.width;
-    const blockHeight = 95;
+    const blockHeight = 80;
     const blockWidth = canvas.width * 0.12;
     context.fillStyle = '#000';
     console.log(canvasHeight - blockHeight);
@@ -104,10 +108,87 @@ export class PlayScene extends Engine.Scene {
       width: 50,
       height: 65,
       x: canvasWidth / 2 - blockWidth / 2 + 18,
-      y: 40,
+      y: 30,
       spriteName: 'obiwan',
       name: 'Obi',
     });
+  }
+
+  cardPlaces() {
+    const context = this.sys.context;
+    const canvas = context.canvas;
+    const canvasHeight = canvas.height;
+    const canvasWidth = canvas.width;
+    const blockHeight = 55;
+    const blockWidth = canvas.width * 0.52;
+    const offsetX = canvasWidth / 2 - blockWidth / 2;
+    const offsetY = 190;
+
+    context.beginPath();
+    context.moveTo(offsetX, offsetY);
+    context.lineTo(offsetX + blockWidth, offsetY);
+    context.lineTo(offsetX + blockWidth, offsetY + blockHeight);
+    context.lineTo(offsetX, offsetY + blockHeight);
+    // context.fill();
+    context.closePath();
+
+    for (let i = 0; i < 7; i++) {
+      new CardObject(this, {
+        x: offsetX + 55 * i + 4,
+        y: offsetY,
+        width: 40,
+        height: 55,
+        name: 'card1',
+        spriteName: 'card',
+      });
+    }
+
+    // context.beginPath();
+    // context.moveTo(100, 200);
+    // context.lineTo(150, 200);
+    // context.lineTo(150, 250);
+    // context.lineTo(100, 250);
+    // context.fill();
+    // context.closePath();
+  }
+
+  cardPlaces2() {
+    const context = this.sys.context;
+    const canvas = context.canvas;
+    const canvasHeight = canvas.height;
+    const canvasWidth = canvas.width;
+    const blockHeight = 55;
+    const blockWidth = canvas.width * 0.52;
+    const offsetX = canvasWidth / 2 - blockWidth / 2;
+    const offsetY = 120;
+
+    context.beginPath();
+    context.moveTo(offsetX, offsetY);
+    context.lineTo(offsetX + blockWidth, offsetY);
+    context.lineTo(offsetX + blockWidth, offsetY + blockHeight);
+    context.lineTo(offsetX, offsetY + blockHeight);
+    context.strokeStyle = 'red';
+    // context.fill();
+    context.closePath();
+
+    for (let i = 0; i < 7; i++) {
+      new CardObject(this, {
+        x: offsetX + 55 * i + 2.6,
+        y: offsetY,
+        width: 40,
+        height: 55,
+        name: 'card1',
+        spriteName: 'card',
+      });
+    }
+
+    // context.beginPath();
+    // context.moveTo(100, 200);
+    // context.lineTo(150, 200);
+    // context.lineTo(150, 250);
+    // context.lineTo(100, 250);
+    // context.fill();
+    // context.closePath();
   }
 
   update(): void {}
