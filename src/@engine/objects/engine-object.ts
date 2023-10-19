@@ -106,7 +106,7 @@ export abstract class EngineObject {
   }
 
   private register(): void {
-    console.log('register', this);
+    // console.log('register', this);
     this.scene.registerObject(this);
   }
 }

@@ -65,7 +65,10 @@ export abstract class EngineScene {
   }
 
   renderSceneSprite(name: string, config: ISpriteConfig): void {
-    this.spritesMap.set(name, config);
+    if (!this.spritesMap.has(name)) {
+      console.log(111111);
+      this.spritesMap.set(name, config);
+    }
     this.sprites.render(name, config);
   }
 

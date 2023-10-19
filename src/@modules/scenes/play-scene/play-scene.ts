@@ -4,13 +4,33 @@ import { CardObject } from '@modules/scenes/play-scene/objects/card.object';
 import { HeroObject2 } from '@modules/scenes/play-scene/objects/hero.object2';
 
 export class PlayScene extends Engine.Scene {
+  cards: CardObject[] = [];
   constructor() {
     super('Play');
   }
   init(): void {
-    this.drawPlayersBlocks();
-    this.cardPlaces();
-    this.cardPlaces2();
+    const context = this.sys.context;
+    const canvas = this.sys.context.canvas;
+    const contextWidth = this.sys.config.width;
+    const contextHeight = this.sys.config.height;
+    window.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX - canvas.getBoundingClientRect().left;
+      const mouseY = e.clientY - canvas.getBoundingClientRect().top;
+      for (const card of this.cards) {
+        if (card.isDragging) {
+          card.x = mouseX - card.dragOffsetX;
+          card.y = mouseY - card.dragOffsetY;
+          if (context instanceof CanvasRenderingContext2D) {
+            context.clearRect(0, 0, contextWidth, contextHeight);
+          }
+          // this.scene.render();
+          this.render();
+          this.objects.forEach((obj) => {
+            obj.render();
+          });
+        }
+      }
+    });
   }
 
   preload(): void {
@@ -33,6 +53,10 @@ export class PlayScene extends Engine.Scene {
       x: 0,
       y: 0,
     });
+
+    this.drawPlayersBlocks();
+    this.cardPlaces();
+    this.cardPlaces2();
   }
 
   drawPlayersBlocks() {
@@ -72,14 +96,14 @@ export class PlayScene extends Engine.Scene {
       name: 'Vader',
     });
 
-    new CardObject(this, {
-      x: canvas.width - 55,
-      y: canvasHeight - blockHeight - 80,
-      width: 55,
-      height: 70,
-      name: 'card1',
-      spriteName: 'card',
-    });
+    // new CardObject(this, {
+    //   x: canvas.width - 55,
+    //   y: canvasHeight - blockHeight - 80,
+    //   width: 55,
+    //   height: 70,
+    //   name: 'card1',
+    //   spriteName: 'card',
+    // });
   }
 
   drawOppositionPlayerBlock() {
@@ -90,7 +114,6 @@ export class PlayScene extends Engine.Scene {
     const blockHeight = 80;
     const blockWidth = canvas.width * 0.12;
     context.fillStyle = '#000';
-    console.log(canvasHeight - blockHeight);
 
     context.beginPath();
     context.moveTo(0, blockHeight);
@@ -132,24 +155,18 @@ export class PlayScene extends Engine.Scene {
     // context.fill();
     context.closePath();
 
-    for (let i = 0; i < 7; i++) {
-      new CardObject(this, {
+    for (let i = 0; i < 2; i++) {
+      const card = new CardObject(this, {
         x: offsetX + 55 * i + 4,
         y: offsetY,
         width: 40,
         height: 55,
-        name: 'card1',
+        name: 'card' + i,
         spriteName: 'card',
       });
-    }
 
-    // context.beginPath();
-    // context.moveTo(100, 200);
-    // context.lineTo(150, 200);
-    // context.lineTo(150, 250);
-    // context.lineTo(100, 250);
-    // context.fill();
-    // context.closePath();
+      this.cards.push(card);
+    }
   }
 
   cardPlaces2() {
@@ -171,24 +188,16 @@ export class PlayScene extends Engine.Scene {
     // context.fill();
     context.closePath();
 
-    for (let i = 0; i < 7; i++) {
-      new CardObject(this, {
-        x: offsetX + 55 * i + 2.6,
-        y: offsetY,
-        width: 40,
-        height: 55,
-        name: 'card1',
-        spriteName: 'card',
-      });
-    }
-
-    // context.beginPath();
-    // context.moveTo(100, 200);
-    // context.lineTo(150, 200);
-    // context.lineTo(150, 250);
-    // context.lineTo(100, 250);
-    // context.fill();
-    // context.closePath();
+    // for (let i = 0; i < 2; i++) {
+    //   const card = new CardObject(this, {
+    //     x: offsetX + 55 * i + 2.6,
+    //     y: offsetY,
+    //     width: 40,
+    //     height: 55,
+    //     name: 'card1' + i,
+    //     spriteName: 'card',
+    //   });
+    // }
   }
 
   update(): void {}
