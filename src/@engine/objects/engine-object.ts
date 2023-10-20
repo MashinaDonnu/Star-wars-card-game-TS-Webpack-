@@ -78,6 +78,12 @@ export abstract class EngineObject {
     }
   }
 
+  isEnterOnObject(object: EngineObject): boolean {
+    const { x, y } = object.getCoords();
+    const { width, height } = object.getSize();
+    return this.x < x + width && this.x + this.width > x && this.y < y + height && this.y + this.height > y;
+  }
+
   private getSizePercent(): { widthPercent: number; heightPercent: number } {
     const context = this.sys.context;
     if (context instanceof CanvasRenderingContext2D) {

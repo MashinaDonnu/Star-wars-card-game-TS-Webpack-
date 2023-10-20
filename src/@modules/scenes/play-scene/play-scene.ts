@@ -6,6 +6,7 @@ import { HeroesBlocks } from '@modules/scenes/play-scene/heroes-blocks';
 import { Heroes } from '@modules/scenes/play-scene/heroes';
 import { PlaygroundCards } from '@modules/scenes/play-scene/playground-cards';
 import { AbstractScene } from 'common/abstract.scene';
+import { CARD_HEIGHT, CARD_WIDTH } from '@modules/scenes/play-scene/const';
 
 export class PlayScene extends AbstractScene {
   cards: CardObject[] = [];
@@ -24,32 +25,27 @@ export class PlayScene extends AbstractScene {
 
     // this.cardPlaces();
     // this.cardPlaces2();
-    this.playgroundCards = new PlaygroundCards(this);
     const context = this.sys.context;
-    const canvas = this.sys.context.canvas;
     const contextWidth = this.sys.config.width;
     const contextHeight = this.sys.config.height;
-    const canvasHeight = context.canvas.height;
-    const canvasWidth = context.canvas.width;
-    const blockWidth = canvas.width * 0.52;
-    const offsetX = canvasWidth / 2 - blockWidth / 2;
-    const offsetY = 190;
 
     this.heroes = new Heroes(this);
+    this.playgroundCards = new PlaygroundCards(this);
 
-    // for (let i = 0; i < 2; i++) {
-    //   const card = new CardObject(this, {
-    //     x: offsetX + 55 * i + 4,
-    //     y: offsetY,
-    //     width: 40,
-    //     height: 55,
-    //     name: 'card' + i,
-    //     spriteName: 'card',
-    //   });
-    //
-    //   this.cards.push(card);
-    // }
+    // this.playgroundCards.initCards();
 
+    for (let i = 0; i < 1; i++) {
+      const card = new CardObject(this, {
+        x: 500,
+        y: 200,
+        width: CARD_WIDTH,
+        height: CARD_HEIGHT,
+        name: 'card' + i,
+        spriteName: 'card',
+      });
+
+      this.cards.push(card);
+    }
     this.events.mouse.mouseMove((e) => {
       const { mouseX, mouseY } = e;
       for (const card of this.cards) {
@@ -60,14 +56,15 @@ export class PlayScene extends AbstractScene {
             context.clearRect(0, 0, contextWidth, contextHeight);
           }
           // this.scene.render();
-          this.render();
-          this.playgroundCards.initWrappers();
           // this.drawPlayersBlocks();
           // this.cardPlaces();
           // this.cardPlaces2();
-          this.objects.forEach((obj) => {
-            obj.render();
-          });
+          // this.render();
+          //
+          // this.objects.forEach((obj) => {
+          //   obj.render();
+          // });
+          this.sys.sceneRenderer.rerender(this);
         }
       }
     });
@@ -103,56 +100,6 @@ export class PlayScene extends AbstractScene {
       topHeroBlockHeight: this.topHeroBlockHeight,
       bottomHeroBlockHeight: this.bottomHeroBlockHeight,
     });
-  }
-
-  cardPlaces() {
-    const context = this.sys.context;
-    const canvas = context.canvas;
-    const canvasHeight = canvas.height;
-    const canvasWidth = canvas.width;
-    const blockHeight = 55;
-    const blockWidth = canvas.width * 0.52;
-    const offsetX = canvasWidth / 2 - blockWidth / 2;
-    const offsetY = 190;
-
-    context.beginPath();
-    context.moveTo(offsetX, offsetY);
-    context.lineTo(offsetX + blockWidth, offsetY);
-    context.lineTo(offsetX + blockWidth, offsetY + blockHeight);
-    context.lineTo(offsetX, offsetY + blockHeight);
-    context.fill();
-    context.closePath();
-  }
-
-  cardPlaces2() {
-    const context = this.sys.context;
-    const canvas = context.canvas;
-    const canvasHeight = canvas.height;
-    const canvasWidth = canvas.width;
-    const blockHeight = 55;
-    const blockWidth = canvas.width * 0.52;
-    const offsetX = canvasWidth / 2 - blockWidth / 2;
-    const offsetY = 120;
-
-    context.beginPath();
-    context.moveTo(offsetX, offsetY);
-    context.lineTo(offsetX + blockWidth, offsetY);
-    context.lineTo(offsetX + blockWidth, offsetY + blockHeight);
-    context.lineTo(offsetX, offsetY + blockHeight);
-    context.strokeStyle = 'red';
-    context.fill();
-    context.closePath();
-
-    // for (let i = 0; i < 2; i++) {
-    //   const card = new CardObject(this, {
-    //     x: offsetX + 55 * i + 2.6,
-    //     y: offsetY,
-    //     width: 40,
-    //     height: 55,
-    //     name: 'card1' + i,
-    //     spriteName: 'card',
-    //   });
-    // }
   }
 
   update(): void {}
