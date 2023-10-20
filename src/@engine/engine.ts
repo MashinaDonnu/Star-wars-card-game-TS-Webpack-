@@ -25,7 +25,6 @@ export class Engine {
   disabledEvents = false;
   onPreload: Function;
   onRender: Function;
-  onLoadEach: Function;
   emitter = new EventEmitter<IEngineEvents>();
   elemsInLoading = 0;
   private _root$: HTMLElement;

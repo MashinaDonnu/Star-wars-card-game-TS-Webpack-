@@ -26,26 +26,6 @@ export class CardObject extends Engine.Objects.Sprite {
       this.isDragging = false;
     });
 
-    const context = this.sys.context;
-    const contextWidth = this.sys.config.width;
-    const contextHeight = this.sys.config.height;
-    this.events.mouse.mouseMove(({ mouseX, mouseY }) => {
-      console.log(111);
-      if (this.isDragging) {
-        this.x = mouseX - this.dragOffsetX;
-        this.y = mouseY - this.dragOffsetY;
-        if (context instanceof CanvasRenderingContext2D) {
-          context.clearRect(0, 0, contextWidth, contextHeight);
-        }
-
-        this.render();
-        // this.scene.render();
-        // this.scene.objects.forEach((obj) => {
-        //   obj.render();
-        // });
-      }
-    });
-
     // this.events.mouse.mouseEnter(() => {
     //   console.log(this.params.name);
     //   toggleCursorType('pointer');

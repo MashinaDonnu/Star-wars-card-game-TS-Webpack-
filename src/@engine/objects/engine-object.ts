@@ -1,10 +1,10 @@
-import { EngineDomEvents } from '@engine/dom-events/engine-dom-events';
 import { Engine, TEngineContext } from '@engine';
 import { EngineScene } from '@engine/scenes/engine-scene';
 import { EventEmitter } from '@engine/emitter/EventEmitter';
 import { IRect } from '@engine/types/rect';
 import { ObjectLayout } from '@engine/layout/object-layout';
 import { IText } from '@engine/types/text.interface';
+import { EngineObjectDomEvent } from '@engine/dom-events/object/engine-object-dom-event';
 
 export interface IAbstractObjectParams extends IRect {
   name?: string;
@@ -16,7 +16,7 @@ export abstract class EngineObject {
   height: number;
   x: number;
   y: number;
-  events: EngineDomEvents;
+  events: EngineObjectDomEvent;
   emitter: EventEmitter;
   sys: Engine;
   scene: EngineScene;
@@ -52,7 +52,7 @@ export abstract class EngineObject {
   }
 
   preInit() {
-    this.events = new EngineDomEvents(this);
+    this.events = new EngineObjectDomEvent(this);
     this.emitter = new EventEmitter();
   }
 
@@ -106,6 +106,7 @@ export abstract class EngineObject {
   }
 
   private register(): void {
+    console.log('REGS');
     // console.log('register', this);
     this.scene.registerObject(this);
   }
