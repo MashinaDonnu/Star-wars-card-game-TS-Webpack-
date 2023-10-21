@@ -24,6 +24,8 @@ export abstract class EngineObject {
   spriteName: string;
   layout = new ObjectLayout(this);
   isCursorEnter = false;
+  order = 0;
+  zIndex = 0;
 
   protected constructor(scene: EngineScene, params: IAbstractObjectParams) {
     const { width, height, x, y, name, spriteName } = params;
@@ -105,7 +107,7 @@ export abstract class EngineObject {
     const context = this.sys.context;
     const { font, size = 16, color, text, x, y } = config;
     if (context instanceof CanvasRenderingContext2D) {
-      context.font = `$${size}px ${font}`;
+      context.font = `${size}px ${font}`;
       context.fillStyle = color;
       context.fillText(text, x, y);
     }

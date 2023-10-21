@@ -1,6 +1,7 @@
 import { Engine } from '@engine';
 import { EngineImageLoaderStrategy } from '@engine/enums/engine-image-loader-strategy.enum';
 import { MenuObject } from '@modules/scenes/main-menu-scene/objects/menu.object';
+import { MenuItemObject } from '@modules/scenes/main-menu-scene/objects/menu-item.object';
 
 export class MainMenuScene extends Engine.Scene {
   private menu: MenuObject;
@@ -16,6 +17,24 @@ export class MainMenuScene extends Engine.Scene {
     this.themeAudio.volume = 0.3;
     // this.themeAudio.play();
     this.menu = new MenuObject(this);
+    this.initMenuItems();
+  }
+
+  initMenuItems(): void {
+    const itemsText = ['Play', 'Cards', 'Settings', 'Exit'];
+
+    let offset = 5;
+    for (let i = 0; i < itemsText.length; i++) {
+      const item = new MenuItemObject(this, itemsText[i], {
+        width: 300,
+        height: 60,
+        x: 30,
+        y: 60 + offset,
+        fill: '#23378c',
+        name: 'item' + i,
+      });
+      offset += 70;
+    }
   }
 
   preload(): void {

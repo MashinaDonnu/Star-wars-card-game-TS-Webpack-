@@ -10,7 +10,7 @@ export class PlaygroundCards {
   bottomCells: CardPlaygroundCellObject[] = [];
 
   constructor(private scene: PlayScene) {
-    this.cardsWrapperWidth = this.canvasData.canvas.width * 0.52;
+    this.cardsWrapperWidth = this.canvasData.canvas.width * 0.52 - 50;
     this.initCells();
   }
 
@@ -21,10 +21,10 @@ export class PlaygroundCards {
 
   initTopCells(): void {
     const offsetX = this.scene.canvasWidth / 2 - this.cardsWrapperWidth / 2;
-    const offsetY = 100;
+    const offsetY = 230;
     for (let i = 0; i < 7; i++) {
       const cardCell = new CardPlaygroundCellObject(this.scene, {
-        x: offsetX + 55 * i + 4,
+        x: offsetX + 90 * i + 4,
         y: offsetY,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
@@ -37,10 +37,10 @@ export class PlaygroundCards {
 
   initBottomCells(): void {
     const offsetX = this.scene.canvasWidth / 2 - this.cardsWrapperWidth / 2;
-    const offsetY = 170;
+    const offsetY = 360;
     for (let i = 0; i < 7; i++) {
       const cardCell = new CardPlaygroundCellObject(this.scene, {
-        x: offsetX + 55 * i + 4,
+        x: offsetX + 90 * i + 4,
         y: offsetY,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,

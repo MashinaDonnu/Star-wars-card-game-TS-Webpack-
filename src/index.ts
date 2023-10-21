@@ -14,15 +14,15 @@ function startGame() {
   const engine = new Engine({
     scenes: [],
     graphicEngine: EGraphicsEngine.Canvas,
-    width: 720,
-    height: 360,
+    width: 1280,
+    height: 720,
   });
 
   const game = new Game({
     engine,
     store: {},
-    // scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene, PlayLoadingScene, PlayIntroScene, PlayScene],
-    scenes: [PlayScene],
+    scenes: [PreviewScene, BootScene, MainMenuScene, SettingsScene, PlayLoadingScene, PlayIntroScene, PlayScene],
+    // scenes: [PlayScene],
   });
 
   const openModalBtn = <HTMLElement>document.querySelector('.modal');

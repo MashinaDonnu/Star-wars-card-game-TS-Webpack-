@@ -5,6 +5,7 @@ export class EngineTemplate {
   constructor(private engine: Engine) {}
 
   render(config: ITemplateObjectParams) {
+    console.log('CONFIG:', config.fill);
     const context = this.engine.context;
     if (context instanceof CanvasRenderingContext2D) {
       const { fill, width, height, x, y, radius = 0 } = config;

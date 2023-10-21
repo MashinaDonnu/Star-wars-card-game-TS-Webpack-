@@ -16,7 +16,7 @@ export interface IEngineSceneOptions {
 export abstract class EngineScene {
   readonly name: string;
   emitter: EventEmitter;
-  objects = new Set<EngineObject>();
+  objects: EngineObject[] = [];
   imageLoadStrategy: EngineImageLoaderStrategy = EngineImageLoaderStrategy.Default;
   spritesMap = new Map<string, ISpriteConfig>();
   templatesMap = new Map<string, ITemplateObjectParams>();
@@ -47,7 +47,7 @@ export abstract class EngineScene {
 
   destroy(): void {
     this.objects.forEach((object) => object.destroy());
-    this.objects.clear();
+    this.objects = [];
     this.spritesMap.clear();
     this.templatesMap.clear();
     this.destroyed = true;
@@ -62,7 +62,8 @@ export abstract class EngineScene {
   }
 
   registerObject(object: EngineObject): void {
-    this.objects.add(object);
+    object.order = this.objects.length + 1;
+    this.objects.push(object);
   }
 
   renderSceneSprite(name: string, config: ISpriteConfig): void {
@@ -74,7 +75,9 @@ export abstract class EngineScene {
   }
 
   renderSceneTemplate(name: string, config: ITemplateObjectParams): void {
-    this.templatesMap.set(name, config);
+    if (!this.spritesMap.has(name)) {
+      this.templatesMap.set(name, config);
+    }
     this.templates.render(config);
   }
 

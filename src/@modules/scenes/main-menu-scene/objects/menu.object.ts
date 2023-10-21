@@ -5,8 +5,8 @@ import { MenuItemObject } from '@modules/scenes/main-menu-scene/objects/menu-ite
 export class MenuObject extends Engine.Objects.Template {
   constructor(scene: EngineScene) {
     super(scene, {
-      width: 170,
-      height: 145,
+      width: 300,
+      height: 280,
       x: 30,
       y: 60,
       fill: '#2b2f40',
@@ -15,20 +15,5 @@ export class MenuObject extends Engine.Objects.Template {
     });
   }
 
-  init() {
-    const itemsText = ['Play', 'Cards', 'Settings', 'Exit'];
-
-    let offset = 5;
-    for (let i = 0; i < itemsText.length; i++) {
-      const item = new MenuItemObject(this.scene, this, itemsText[i], {
-        width: this.params.width,
-        height: 30,
-        x: this.x,
-        y: this.y + offset,
-        fill: '#23378c',
-        name: 'item' + i,
-      });
-      offset += 34;
-    }
-  }
+  init() {}
 }

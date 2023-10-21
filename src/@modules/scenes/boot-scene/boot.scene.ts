@@ -50,11 +50,12 @@ export class BootScene extends Engine.Scene {
     const context = this.sys.context;
     const canvas = context.canvas;
     const currentWidth = canvas.width;
+    const width = 700;
     const progressbarRect: IRect = {
-      width: 290,
-      height: 30,
-      x: currentWidth / 2 - 290 / 2,
-      y: 290,
+      width,
+      height: 50,
+      x: currentWidth / 2 - width / 2,
+      y: 600,
     };
     this.progressBar = new ProgressBarObject(this, progressbarRect);
   }

@@ -1,4 +1,3 @@
-import { EngineScene } from '@engine/scenes/engine-scene';
 import { HeroObject } from '@modules/scenes/play-scene/objects/hero.object';
 import { HeroObject2 } from '@modules/scenes/play-scene/objects/hero.object2';
 import { PlayScene } from '@modules/scenes/play-scene/play-scene';
@@ -23,10 +22,10 @@ export class Heroes {
 
   initTopHero(): void {
     this.topHero = new HeroObject2(this.scene, {
-      width: 50,
-      height: 65,
-      x: this.canvasWidth / 2 - this.scene.topHeroBlockWidth / 2 + 18,
-      y: 15,
+      width: 60,
+      height: 75,
+      x: this.canvasWidth / 2 - this.scene.topHeroBlockWidth / 2 + 50,
+      y: 135,
       spriteName: 'obiwan',
       name: 'Obi',
     });
@@ -36,7 +35,7 @@ export class Heroes {
     this.bottomHero = new HeroObject(this.scene, {
       width: 70,
       height: 80,
-      x: this.canvasWidth / 2 - this.scene.bottomHeroBlockWidth / 2 + 15,
+      x: this.canvasWidth / 2 - this.scene.bottomHeroBlockWidth / 2 + 45,
       y: this.canvasHeight - this.scene.bottomHeroBlockHeight - 30,
       spriteName: 'vader',
       name: 'Vader',

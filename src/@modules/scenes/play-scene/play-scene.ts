@@ -15,6 +15,7 @@ export class PlayScene extends AbstractScene {
   topHeroBlockHeight: number;
   bottomHeroBlockHeight: number;
   playgroundCards: PlaygroundCards;
+  draggingCard: CardObject;
 
   heroes: Heroes;
   constructor() {
@@ -34,10 +35,10 @@ export class PlayScene extends AbstractScene {
 
     // this.playgroundCards.initCards();
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 3; i++) {
       const card = new CardObject(this, {
-        x: 500,
-        y: 200,
+        x: 800 + i * 40,
+        y: 500,
         width: CARD_WIDTH,
         height: CARD_HEIGHT,
         name: 'card' + i,
@@ -49,21 +50,12 @@ export class PlayScene extends AbstractScene {
     this.events.mouse.mouseMove((e) => {
       const { mouseX, mouseY } = e;
       for (const card of this.cards) {
-        if (card.isDragging) {
+        if (card.isDragging && card === this.draggingCard) {
           card.x = mouseX - card.dragOffsetX;
           card.y = mouseY - card.dragOffsetY;
           if (context instanceof CanvasRenderingContext2D) {
             context.clearRect(0, 0, contextWidth, contextHeight);
           }
-          // this.scene.render();
-          // this.drawPlayersBlocks();
-          // this.cardPlaces();
-          // this.cardPlaces2();
-          // this.render();
-          //
-          // this.objects.forEach((obj) => {
-          //   obj.render();
-          // });
           this.sys.sceneRenderer.rerender(this);
         }
       }
@@ -89,10 +81,11 @@ export class PlayScene extends AbstractScene {
     });
 
     const heroesBlocksWidth = canvas.width * 0.12;
+
     this.topHeroBlockWidth = heroesBlocksWidth;
     this.bottomHeroBlockWidth = heroesBlocksWidth;
-    this.topHeroBlockHeight = 70;
-    this.bottomHeroBlockHeight = 80;
+    this.topHeroBlockHeight = 200;
+    this.bottomHeroBlockHeight = 210;
 
     new HeroesBlocks(this, {
       topHeroBlockWidth: heroesBlocksWidth,

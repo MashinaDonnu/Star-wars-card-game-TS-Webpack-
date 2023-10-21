@@ -9,7 +9,6 @@ export class MenuItemObject extends Engine.Objects.Template {
   private menuSelectAudio: HTMLAudioElement;
   constructor(
     scene: EngineScene,
-    private parent: TemplateObject,
     private text: string,
     private config: ITemplateObjectParams
   ) {
@@ -55,18 +54,21 @@ export class MenuItemObject extends Engine.Objects.Template {
       //   },
       // });
     });
+
+    // this.sys.sceneRenderer.rerender(this.scene);
   }
 
   private initText() {
-    const textWidth = this.sys.context.measureText(this.text);
+    console.log('TEXT:', this.text);
+    const textWidth = this.sys.context.measureText(this.text.trim());
 
     this.setText({
       color: '#fff',
       font: 'Arial',
       size: 24,
-      text: this.text,
+      text: this.text.trim(),
       x: Math.ceil(this.config.x + this.config.width / 2 - textWidth.width / 2),
-      y: Math.ceil(this.config.y + this.config.height / 2 + 8 / 2),
+      y: Math.ceil(this.config.y + this.config.height / 2 + 16 / 2),
     });
   }
 }

@@ -22,7 +22,7 @@ export class ProgressBarObject extends Engine.Objects.Template {
   }
 
   fillBar(): void {
-    const step = 230 / (this.sys.elemsInLoading + 1);
+    const step = 700 / (this.sys.elemsInLoading + 1);
     this.progress += step;
     this.partialFillBar();
     this.sys.emitter.on('load', () => {
