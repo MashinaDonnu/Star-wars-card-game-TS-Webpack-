@@ -64,6 +64,7 @@ export abstract class EngineScene {
   registerObject(object: EngineObject): void {
     object.order = this.objects.length + 1;
     this.objects.push(object);
+    // this.objects = this.objects.sort((a, b) => a.zIndex - b.zIndex);
   }
 
   renderSceneSprite(name: string, config: ISpriteConfig): void {

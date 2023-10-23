@@ -9,6 +9,7 @@ import { EngineObjectDomEvent } from '@engine/dom-events/object/engine-object-do
 export interface IAbstractObjectParams extends IRect {
   name?: string;
   spriteName?: string;
+  rotate?: number;
 }
 
 export abstract class EngineObject {
@@ -16,6 +17,7 @@ export abstract class EngineObject {
   height: number;
   x: number;
   y: number;
+  rotate: number;
   events: EngineObjectDomEvent;
   emitter: EventEmitter;
   sys: Engine;
@@ -28,7 +30,7 @@ export abstract class EngineObject {
   zIndex = 0;
 
   protected constructor(scene: EngineScene, params: IAbstractObjectParams) {
-    const { width, height, x, y, name, spriteName } = params;
+    const { width, height, x, y, name, spriteName, rotate } = params;
     this.scene = scene;
     this.width = width;
     this.height = height;
@@ -36,6 +38,7 @@ export abstract class EngineObject {
     this.y = y;
     this.name = name;
     this.spriteName = spriteName;
+    this.rotate = rotate;
     this.sys = Engine.sys;
 
     this.register();

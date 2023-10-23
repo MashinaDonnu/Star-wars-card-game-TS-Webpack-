@@ -35,18 +35,6 @@ export class PlayScene extends AbstractScene {
 
     // this.playgroundCards.initCards();
 
-    for (let i = 0; i < 3; i++) {
-      const card = new CardObject(this, {
-        x: 800 + i * 40,
-        y: 500,
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
-        name: 'card' + i,
-        spriteName: 'card',
-      });
-
-      this.cards.push(card);
-    }
     this.events.mouse.mouseMove((e) => {
       const { mouseX, mouseY } = e;
       for (const card of this.cards) {

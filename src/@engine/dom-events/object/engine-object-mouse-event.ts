@@ -5,6 +5,17 @@ import { IEngineDomMouseEvent } from '@engine/dom-events/types/engine-dom-mouse-
 import { EngineMouseEvent } from '@engine/dom-events/engine-mouse-event';
 import { getRectCoords } from '@engine/utils/helpers/get-rect-coords';
 
+export interface IMouseenterLeaveOptions {
+  oneObject: boolean;
+}
+
+const MOUSE_EVENTS_DATA = {
+  isEnabledOnceMouseenter: false,
+  isEnabledOnceMouseleave: false,
+  onceMouseenter: false,
+  onceMouseleave: false,
+};
+
 function isDisabled(fn: Function, engine: Engine) {
   return function (...args: any[]) {
     if (engine.disabledEvents) {
@@ -22,6 +33,10 @@ function mouseenter(fn: Function, object: EngineObject) {
       return;
     }
 
+    if (MOUSE_EVENTS_DATA.isEnabledOnceMouseenter && MOUSE_EVENTS_DATA.onceMouseenter) {
+      return;
+    }
+
     return fn(...args);
   };
 }
@@ -30,6 +45,14 @@ function mouseleave(fn: Function, object: EngineObject) {
   console.log('mouseleave');
   return function (...args: any[]) {
     if (!object.isCursorEnter) {
+      return;
+    }
+
+    // if (MOUSE_EVENTS_DATA.isEnabledOnceMouseleave && MOUSE_EVENTS_DATA.onceMouseenter) {
+    //   return;
+    // }
+
+    if (MOUSE_EVENTS_DATA.isEnabledOnceMouseenter && MOUSE_EVENTS_DATA.onceMouseenter) {
       return;
     }
 
@@ -44,11 +67,13 @@ export class EngineObjectMouseEvent extends EngineMouseEvent {
     this.object = object;
   }
 
-  mouseEnter(callback: (evt?: IEngineDomMouseEvent) => void): void {
+  mouseEnter(callback: (evt?: IEngineDomMouseEvent) => void, params?: IMouseenterLeaveOptions): void {
+    MOUSE_EVENTS_DATA.isEnabledOnceMouseenter = !!params?.oneObject;
     this.mouseEvent('mousemove', mouseenter(callback, this.object));
   }
 
-  mouseLeave(callback: (evt?: IEngineDomMouseEvent) => void): void {
+  mouseLeave(callback: (evt?: IEngineDomMouseEvent) => void, params?: IMouseenterLeaveOptions): void {
+    MOUSE_EVENTS_DATA.isEnabledOnceMouseleave = !!params?.oneObject;
     this.mouseEvent('mousemove', mouseleave(callback, this.object), false);
   }
 
@@ -56,16 +81,23 @@ export class EngineObjectMouseEvent extends EngineMouseEvent {
     const eventListenerCallback = (e: MouseEvent) => {
       const context = this.object.sys.context;
       const { mouseX, mouseY } = getRectCoords(e, context);
-      const isEntered = this.isEntered(mouseX, mouseY);
 
-      if (isEntered && forEnter) {
+      if (this.isEntered(mouseX, mouseY) && forEnter) {
         callback({ event: e, mouseX, mouseY });
         this.object.isCursorEnter = true;
+        if (MOUSE_EVENTS_DATA.isEnabledOnceMouseenter) {
+          MOUSE_EVENTS_DATA.onceMouseenter = true;
+        }
+        MOUSE_EVENTS_DATA.onceMouseleave = false;
       }
 
-      if (!isEntered && !forEnter) {
+      if (!this.isEntered(mouseX, mouseY) && !forEnter) {
         callback({ event: e, mouseX, mouseY });
         this.object.isCursorEnter = false;
+        if (MOUSE_EVENTS_DATA.isEnabledOnceMouseenter) {
+          MOUSE_EVENTS_DATA.onceMouseenter = false;
+        }
+        MOUSE_EVENTS_DATA.onceMouseleave = true;
       }
     };
 
@@ -78,6 +110,8 @@ export class EngineObjectMouseEvent extends EngineMouseEvent {
     const object = this.object;
     const { x, y } = object.getCoords();
     const { width, height } = object.getSize();
+    // console.log('isEntered', object.width, object.height, mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height);
+
     return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
   }
 }

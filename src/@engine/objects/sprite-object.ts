@@ -17,6 +17,7 @@ export class SpriteObject extends EngineObject {
         height: this.height,
         x: this.x,
         y: this.y,
+        rotate: this.rotate,
       });
     }
   }

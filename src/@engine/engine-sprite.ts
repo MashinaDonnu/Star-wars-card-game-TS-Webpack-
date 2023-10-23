@@ -9,6 +9,7 @@ export interface ISpriteConfig {
   y: number;
   isPrivate?: boolean;
   alpha?: number;
+  rotate?: number;
   // ....
 }
 
@@ -21,13 +22,17 @@ export class EngineSprite {
     const context = this.engine.context;
     const image = this.get(name, !!config.isPrivate);
 
-    const { x, y, width, height, alpha } = config;
+    const { x, y, width, height, alpha, rotate } = config;
 
     if (context instanceof CanvasRenderingContext2D) {
       if (alpha) {
         context.globalAlpha = alpha;
       } else {
         context.globalAlpha = 1;
+      }
+
+      if (rotate) {
+        context.rotate(rotate);
       }
 
       context.drawImage(image, x, y, width, height);

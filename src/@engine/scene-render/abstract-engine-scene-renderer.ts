@@ -64,7 +64,7 @@ export abstract class AbstractEngineSceneRenderer {
       });
   }
 
-  protected clearRect(): void {
+  clearRect(): void {
     const context = this.engine.context;
     const contextWidth = this.engine.config.width;
     const contextHeight = this.engine.config.height;
