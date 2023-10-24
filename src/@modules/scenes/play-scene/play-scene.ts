@@ -9,7 +9,7 @@ import { AbstractScene } from 'common/abstract.scene';
 import { CARD_HEIGHT, CARD_WIDTH } from '@modules/scenes/play-scene/const';
 
 export class PlayScene extends AbstractScene {
-  cards: CardObject[] = [];
+  cardsInHand: CardObject[] = [];
   topHeroBlockWidth: number;
   bottomHeroBlockWidth: number;
   topHeroBlockHeight: number;
@@ -37,7 +37,7 @@ export class PlayScene extends AbstractScene {
 
     this.events.mouse.mouseMove((e) => {
       const { mouseX, mouseY } = e;
-      for (const card of this.cards) {
+      for (const card of this.cardsInHand) {
         if (card.isDragging && card === this.draggingCard) {
           card.x = mouseX - card.dragOffsetX;
           card.y = mouseY - card.dragOffsetY;

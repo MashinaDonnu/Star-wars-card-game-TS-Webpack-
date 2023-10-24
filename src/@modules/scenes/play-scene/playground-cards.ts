@@ -82,7 +82,41 @@ export class PlaygroundCards {
 
       offset += cardWidth - intersection + 10;
 
-      this.scene.cards.push(card);
+      this.scene.cardsInHand.push(card);
+    }
+
+    console.log(this.scene.objects);
+  }
+
+  updateBottomCards(): void {
+    const cardWidth = CARD_WIDTH + 30;
+    const cardHeight = CARD_HEIGHT + 30;
+    const offsetX = this.scene.canvasWidth / 2 - this.cardsWrapperWidth / 2;
+    const offsetY = 580;
+    const cardsCount = this.scene.cardsInHand.length;
+    const cardsWidth = cardsCount * cardWidth;
+    // const intersection = cardsWidth * 0.05;
+    const intersection = 0;
+    let offset = 0;
+    for (let i = 0; i < this.scene.cardsInHand.length; i++) {
+      const card = this.scene.cardsInHand[i];
+      const x = offsetX + this.cardsWrapperWidth / 2 - (cardsWidth - intersection * cardsCount) / 2 + offset;
+      const y = offsetY;
+      const width = cardWidth;
+      const height = cardHeight;
+      card.x = x;
+      card.y = y;
+      card.width = width;
+      card.height = height;
+
+      card.originalRect = {
+        x,
+        y,
+        width,
+        height,
+      };
+
+      offset += cardWidth - intersection + 10;
     }
 
     console.log(this.scene.objects);
