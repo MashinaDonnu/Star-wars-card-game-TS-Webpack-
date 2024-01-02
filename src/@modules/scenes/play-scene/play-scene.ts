@@ -7,6 +7,7 @@ import { Heroes } from '@modules/scenes/play-scene/heroes';
 import { PlaygroundCards } from '@modules/scenes/play-scene/playground-cards';
 import { AbstractScene } from 'common/abstract.scene';
 import { CARD_HEIGHT, CARD_WIDTH } from '@modules/scenes/play-scene/const';
+import { AttackArrowObject } from '@modules/scenes/play-scene/objects/attack-arrow.object';
 
 export class PlayScene extends AbstractScene {
   cardsInHand: CardObject[] = [];
@@ -18,6 +19,7 @@ export class PlayScene extends AbstractScene {
   draggingCard: CardObject;
 
   heroes: Heroes;
+  attackArrow: AttackArrowObject;
   constructor() {
     super('Play');
   }
@@ -32,6 +34,7 @@ export class PlayScene extends AbstractScene {
 
     this.heroes = new Heroes(this);
     this.playgroundCards = new PlaygroundCards(this);
+    this.attackArrow = new AttackArrowObject(this);
 
     // this.playgroundCards.initCards();
 

@@ -137,9 +137,21 @@ export class CardObject extends Engine.Objects.Sprite {
   }
 
   initPlaygroundCardsListeners(): void {
-    this.events.mouse.mouseDown(() => {
+    this.playScene.events.mouse.mouseDown(({ event }) => {
       if (this.isOnPlayground) {
-        console.log('FFFFFFF');
+        this.playScene.attackArrow.start(event);
+      }
+    });
+
+    this.playScene.events.mouse.mouseMove(({ event }) => {
+      if (this.isOnPlayground) {
+        this.playScene.attackArrow.draw(event);
+      }
+    });
+
+    this.playScene.events.mouse.mouseUp(({ event }) => {
+      if (this.isOnPlayground) {
+        this.playScene.attackArrow.attack(event);
       }
     });
   }
